@@ -40,22 +40,20 @@
     @keyframes coinbob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
     .coin { animation: coinpop .34s cubic-bezier(.3,1.5,.5,1) both, coinbob 1.5s ease-in-out .34s infinite }
 @keyframes peelIn {
-      0% { transform: translate(0,0) rotate(0deg) }
-      28% { transform: translate(22px,-58px) rotate(-28deg) }
-      58% { transform: translate(72px,-166px) rotate(-76deg) }
-      72% { transform: translate(72px,-166px) rotate(-76deg) }
-      88% { transform: translate(18px,-52px) rotate(-24deg) }
-      100% { transform: translate(0,0) rotate(0deg) }
+      0% { transform: translateY(0) }
+      12% { transform: translateY(6px) }
+      56% { transform: translateY(-118px) }
+      72% { transform: translateY(-118px) }
+      100% { transform: translateY(0) }
     }
     @keyframes peelOut {
-      0% { transform: translate(0,0) rotate(0deg) }
-      24% { transform: translate(22px,-58px) rotate(-28deg) }
-      48% { transform: translate(72px,-166px) rotate(-76deg) }
-      62% { transform: translate(72px,-166px) rotate(-76deg) }
-      84% { transform: translate(18px,-52px) rotate(-24deg) }
-      100% { transform: translate(0,0) rotate(0deg) }
+      0% { transform: translateY(0) }
+      10% { transform: translateY(4px) }
+      46% { transform: translateY(-118px) }
+      64% { transform: translateY(-118px) }
+      100% { transform: translateY(0) }
     }
-    .peel { transform-origin: 31px 78px }
+    .peel { transform-origin: 50% 100% }
     .anim-in { animation: peelIn .95s cubic-bezier(.45,.05,.3,1) both }
     .anim-out { animation: peelOut .95s cubic-bezier(.45,.05,.3,1) both }
     @keyframes mouthflash { 0%,100% { opacity: 0 } 40% { opacity: .55 } }
@@ -384,9 +382,9 @@
   <div class="spill" style="position: absolute; left: 0; top: 210px; width: 300px; height: 180px; background: radial-gradient(58% 70% at 22% 30%, rgba(255,170,70,.3) 0%, rgba(0,0,0,0) 74%); pointer-events: none;"></div>
 
   <!-- ===== THE PEEL — stood on end at the far left ===== -->
-  <div onClick="{{onPeel}}" onPointerDown="{{onPeelDown}}" class="peel {{peelAnim}}" style="position: absolute; left: 8px; top: 204px; width: 62px; height: 186px; cursor: pointer; z-index: {{peelZ}};">
-    <div style="position: absolute; left: 24px; top: 150px; width: 14px; height: 32px; border-radius: 3px; background: linear-gradient(90deg, #C08E5C, #8A6242 48%, #5E4028); border: 3px solid #2A1B12;"></div>
-    <div style="position: absolute; left: 18px; top: 172px; width: 26px; height: 14px; border-radius: 5px; background: linear-gradient(180deg, #A9754E, #6F4A2E); border: 3px solid #2A1B12;"></div>
+  <div onClick="{{onPeel}}" onPointerDown="{{onPeelDown}}" class="peel {{peelAnim}}" style="position: absolute; left: 78px; top: 212px; width: 62px; height: 178px; cursor: pointer; z-index: {{peelZ}};">
+    <div style="position: absolute; left: 24px; top: 148px; width: 14px; height: 30px; border-radius: 3px; background: linear-gradient(90deg, #C08E5C, #8A6242 48%, #5E4028); border: 3px solid #2A1B12;"></div>
+    <div style="position: absolute; left: 18px; top: 166px; width: 26px; height: 14px; border-radius: 5px; background: linear-gradient(180deg, #A9754E, #6F4A2E); border: 3px solid #2A1B12;"></div>
     <div style="position: absolute; left: 0; top: 0; width: 62px; height: 156px; border-radius: 9px 9px 5px 5px; background: linear-gradient(90deg, #DCE0E4 0%, #B4B9BF 34%, #90959B 72%, #6E747A 100%); border: 3px solid #4E5359; box-shadow: {{peelGlow}};"></div>
     <sc-for list="{{peelViews}}" as="pv" hint-placeholder-count="3">
       <div style="position: absolute; left: {{pv.left}}; top: {{pv.top}}; width: {{pv.size}}; height: {{pv.size}}; border-radius: 50%; clip-path: {{pv.clip}}; background: {{pv.fill}}; border: {{pv.border}}; box-shadow: {{pv.shadow}};">
@@ -429,7 +427,7 @@
   </sc-for>
 
   <!-- ===== DOUGH BOWL ===== -->
-  <div onClick="{{onDough}}" onPointerDown="{{onDoughDown}}" style="position: absolute; left: 618px; top: 300px; width: 124px; height: 82px; cursor: pointer;">
+  <div onClick="{{onDough}}" onPointerDown="{{onDoughDown}}" style="position: absolute; left: 678px; top: 300px; width: 124px; height: 82px; cursor: pointer;">
     <div style="position: absolute; left: 6px; bottom: -6px; right: 6px; height: 14px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.34), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 10px 10px 48px 48px; background: linear-gradient(180deg, #B98252 0%, #8A6242 44%, #5E4028 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.3), inset 0 3px 0 rgba(255,225,180,.25); overflow: hidden;">
       <div style="position: absolute; left: 5px; top: 5px; right: 5px; height: 24px; border-radius: 6px; background: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.16));"></div>
@@ -444,7 +442,7 @@
   </div>
 
   <!-- ===== KHODRA BOX — six compartments, beside the dough ===== -->
-  <div style="position: absolute; left: 480px; top: 300px; width: 128px; height: 82px;">
+  <div style="position: absolute; left: 540px; top: 300px; width: 126px; height: 82px;">
     <div style="position: absolute; left: 6px; bottom: -5px; right: 6px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 7px; background: linear-gradient(180deg, #DCE0E4 0%, #B4B9BF 34%, #8A9096 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.6); padding: 5px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 4px;">
       <sc-for list="{{vegCells}}" as="vc" hint-placeholder-count="6">
@@ -460,7 +458,7 @@
   </div>
 
   <!-- ===== WORK BOARD ===== -->
-  <div onClick="{{onPrep}}" onPointerDown="{{onPrepDown}}" style="position: absolute; left: 336px; top: 300px; width: 134px; height: 82px; cursor: pointer;">
+  <div onClick="{{onPrep}}" onPointerDown="{{onPrepDown}}" style="position: absolute; left: 398px; top: 300px; width: 130px; height: 82px; cursor: pointer;">
     <div style="position: absolute; left: 6px; bottom: -6px; right: 6px; height: 13px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #D6BC94 0%, #B99B70 52%, #977B52 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.28); display: flex; align-items: center; justify-content: center; overflow: hidden;">
       <div style="position: absolute; inset: 0; opacity: .35; background: repeating-linear-gradient(88deg, rgba(90,60,30,.4) 0 1px, rgba(0,0,0,0) 1px 9px);"></div>
@@ -477,7 +475,7 @@
   </div>
 
   <!-- ===== PAPER ===== -->
-  <div style="position: absolute; left: 250px; top: 312px; width: 80px; height: 68px;">
+  <div style="position: absolute; left: 310px; top: 312px; width: 80px; height: 68px;">
     <div style="position: absolute; left: 3px; top: 5px; width: 76px; height: 62px; border-radius: 3px; background: #E4DAC4; border: 3px solid #2A1B12; transform: rotate(-4deg);"></div>
     <div style="position: absolute; left: 0; top: 0; width: 76px; height: 62px; border-radius: 3px; background: linear-gradient(180deg, #FDFBF4 0%, #EDE3CC 100%); border: 3px solid #2A1B12; box-shadow: 0 4px 0 rgba(0,0,0,.24);">
       <div style="position: absolute; inset: 5px; border: 2px dashed #C9B48A; border-radius: 2px;"></div>
@@ -488,7 +486,7 @@
   </div>
 
   <!-- ===== READY / WRAP / SERVE ===== -->
-  <div style="position: absolute; left: 82px; top: 300px; width: 160px; height: 82px;">
+  <div style="position: absolute; left: 152px; top: 300px; width: 148px; height: 82px;">
     <div style="position: absolute; left: 6px; bottom: -6px; right: 6px; height: 13px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #F4ECD9 0%, #DFD3B8 54%, #C6B896 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.28); display: flex; align-items: center; justify-content: center; gap: 8px;">
       <sc-for list="{{ready}}" as="rd" hint-placeholder-count="2">
@@ -528,7 +526,7 @@
   </div>
 
   <!-- ===== BIN ===== -->
-  <div onClick="{{onTrash}}" style="position: absolute; left: 766px; top: 294px; width: 64px; height: 88px; cursor: pointer;">
+  <div onClick="{{onTrash}}" style="position: absolute; left: 8px; top: 294px; width: 64px; height: 88px; cursor: pointer;">
     <div style="position: absolute; left: 2px; bottom: -5px; right: 2px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 6px 6px 11px 11px; background: linear-gradient(90deg, #9AA0A7 0%, #7A8087 42%, #5C6169 100%); border: 3px solid #3A3F45; box-shadow: 0 4px 0 rgba(0,0,0,.28);">
       <div style="position: absolute; left: 14px; top: 26px; width: 36px; height: 48px; border-radius: 4px; background: rgba(0,0,0,.38); box-shadow: inset 0 4px 8px rgba(0,0,0,.6);"></div>
@@ -663,8 +661,8 @@ class Component extends DCLogic {
 
   zones() {
     return {
-      board: [336, 300, 470, 382], peel: [4, 200, 74, 390], furn: [16, 30, 202, 202],
-      ready: [82, 300, 242, 382], paper: [250, 312, 330, 380], bin: [766, 294, 830, 382],
+      board: [398, 300, 528, 382], peel: [74, 208, 144, 390], furn: [16, 30, 202, 202],
+      ready: [152, 300, 300, 382], paper: [310, 312, 390, 380], bin: [4, 292, 76, 384],
       cust0: [218, 58, 336, 216], cust1: [336, 58, 454, 216], cust2: [454, 58, 572, 216]
     };
   }

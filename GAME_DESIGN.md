@@ -304,10 +304,12 @@ player can watch one band go green while the other has not, and learn the
 lesson without being told it. Batching by topping is the skill the game is
 quietly teaching, and the peel is what teaches it.
 
-**The peel stands on its end at the far left**, manakish stacked up the paddle
-rather than laid across it. Vertical, it takes a 62px column instead of 270px of
-counter, which is most of the bottom-left corner given back to the rest of the
-station — and it is how a peel is actually parked between loads.
+**The peel stands on its end directly beneath the furn's mouth**, manakish
+stacked up the paddle rather than laid across it. Vertical it takes a 62px
+column instead of 270px of counter, and parking it under the oven it feeds means
+the load goes in on a **straight vertical lift** — no swing, no rotation, the
+shortest honest path between the paddle and the deck. The bin takes the corner
+the peel gave up.
 
 **The peel is the verb.** One object, one finger: tap it to load the topped
 manousheh from the board, tap it again once there is nothing left to load and it
@@ -315,11 +317,10 @@ swings into the furn. It glows gold and reads **TAP TO SEND IN** the moment it i
 ready to go, so the second tap is never a guess. Tapping the furn still pulls
 them out.
 
-And it is a real swing, not a state change. The manakish sit **flat across the
-paddle** while it waits on the counter; on the tap the peel **rotates up to
-near-vertical**, pivoting on its head, and rises into the mouth with the fire
-flaring behind it — then comes back down the same way, **carrying the baked ones
-already browned** before they land on the board. Input is locked
+And it is a real move, not a state change. The peel dips a little, then **rises
+straight up** into the mouth with the fire flaring behind it, holds while the
+load transfers, and comes back down — **carrying the baked ones already browned**
+before they land on the board. Input is locked
 for those nine-tenths of a second, which is exactly the beat the action needs —
 you cannot spam the furn, and you can see what you pulled before you have to
 decide what to do with it.
