@@ -127,11 +127,28 @@
     </div>
   </div>
 
-  <div style="position: absolute; left: 566px; top: 72px; width: 132px; height: 102px; border-radius: 6px; background: linear-gradient(180deg, #34423A, #26312A); border: 5px solid #8A6242; box-shadow: 4px 5px 0 rgba(0,0,0,.3), inset 0 0 22px rgba(0,0,0,.5); padding: 8px 9px; display: flex; flex-direction: column; gap: 5px;">
-    <span style="font-size: 8px; font-weight: 700; color: #93AE8F; letter-spacing: .12em; text-transform: uppercase;">Next: gas furn</span>
-    <span style="font-size: 11.5px; font-weight: 700; color: #F4EDDD; line-height: 1.3;">{{hint}}</span>
-    <div style="margin-top: auto; height: 7px; background: rgba(0,0,0,.42); border-radius: 999px; overflow: hidden;">
-      <div style="width: {{unlockW}}; height: 100%; background: linear-gradient(90deg, #E0A339, #C2593C);"></div>
+  <div style="position: absolute; left: 560px; top: 62px; width: 142px; height: 128px; border-radius: 5px; background: linear-gradient(180deg, #33413A, #232E28); border: 6px solid #8A6242; box-shadow: 4px 6px 0 rgba(0,0,0,.34), inset 0 0 24px rgba(0,0,0,.55); padding: 6px 8px 7px; display: flex; flex-direction: column;">
+    <div style="text-align: center; border-bottom: 2px solid rgba(226,220,198,.35); padding-bottom: 3px; margin-bottom: 4px;">
+      <span style="font-size: 11px; font-weight: 800; color: #EFE9D6; letter-spacing: .04em;">المنيو</span>
+    </div>
+    <sc-for list="{{menu}}" as="m" hint-placeholder-count="4">
+      <div style="display: flex; align-items: center; gap: 5px; padding: 1.5px 0;">
+        <div style="width: 11px; height: 11px; border-radius: 50%; clip-path: {{m.clip}}; background: {{m.swatch}}; border: 1.5px solid rgba(226,220,198,.5); flex-shrink: 0;"></div>
+        <span style="font-size: 9.5px; font-weight: 700; color: #E8E2CE; white-space: nowrap;">{{m.name}}</span>
+        <div style="flex-grow: 1; height: 1px; background: repeating-linear-gradient(90deg, rgba(226,220,198,.42) 0 2px, rgba(0,0,0,0) 2px 5px);"></div>
+        <span class="dsp" style="font-size: 10.5px; font-weight: 800; color: #EBBB4E;">{{m.price}}</span>
+      </div>
+    </sc-for>
+    <div style="margin-top: auto; border-top: 2px solid rgba(226,220,198,.3); padding-top: 3px;">
+      <span style="font-size: 7.5px; font-weight: 800; color: #A8BCA4; letter-spacing: .09em;">قريباً · COMING SOON</span>
+      <sc-for list="{{soon}}" as="sn" hint-placeholder-count="3">
+        <div style="display: flex; align-items: center; gap: 4px; opacity: .58; margin-top: 1px;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; clip-path: {{sn.clip}}; background: {{sn.swatch}}; border: 1px solid rgba(226,220,198,.45); flex-shrink: 0;"></div>
+          <span style="font-size: 8px; font-weight: 700; color: #C6D0C2; white-space: nowrap;">{{sn.name}}</span>
+          <div style="flex-grow: 1;"></div>
+          <span style="font-size: 7.5px; font-weight: 800; color: #93AE8F; letter-spacing: .05em;">{{sn.when}}</span>
+        </div>
+      </sc-for>
     </div>
   </div>
 
@@ -375,6 +392,10 @@
     </div>
     <div style="position: absolute; left: {{drop.x}}; top: {{drop.y}}; width: {{drop.w}}; height: {{drop.h}}; border-radius: 12px; border: 3px dashed {{drop.color}}; background: {{drop.glow}}; pointer-events: none; z-index: 30;"></div>
   </sc-if>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 4px; text-align: center; pointer-events: none;">
+    <span style="display: inline-block; font-size: 11px; font-weight: 700; color: #F4EDDD; background: rgba(28,18,10,.62); border-radius: 999px; padding: 3px 14px; box-shadow: 0 2px 6px rgba(0,0,0,.35);">{{hint}}</span>
+  </div>
 
   <!-- ===== GRADE + VIGNETTE ===== -->
   <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(90% 76% at 42% 46%, rgba(255,214,150,.10) 0%, rgba(0,0,0,0) 52%), radial-gradient(115% 96% at 50% 50%, rgba(0,0,0,0) 52%, rgba(30,18,8,.42) 100%);"></div>
@@ -888,7 +909,7 @@ class Component extends DCLogic {
         : { size: '62px', fill: this.breadBg(0.05), surface: this.toppingBg(p.topping, 0.05), inner: 'inset 0 2px 5px rgba(0,0,0,.3)', shadow: '0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: this.recipes[p.topping].clip };
 
     const trays = [
-      { label: 'Pizza', w: '88px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '424px', opacity: '0.5', level: '0%', count: '—', badgeBg: '#6E747A', badgeInk: '#D9D4C8', onTap: () => this.setState({ hint: 'Mini pizza unlocks on day 6' }), onDown: () => {} },
+      { label: 'Pizza', w: '88px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '424px', opacity: '0.5', level: '0%', count: 'SOON', badgeBg: '#6E747A', badgeInk: '#EDE8DA', onTap: () => this.setState({ hint: 'Mini pizza — coming on day 6' }), onDown: () => {} },
       this.trayView('zaatar', 'Zaatar', '520px'),
       this.trayView('cheese', 'Cheese', '616px'),
       { label: 'Khodra', w: '88px', left: '712px', opacity: '1', level: '100%', count: '+4', badgeBg: '#4A7038', badgeInk: '#F4F0E2',
@@ -938,7 +959,18 @@ class Component extends DCLogic {
     return {
       coins: s.coins, day: s.day, timeText: timeText,
       timerInk: s.timeLeft < 15 ? '#FF7A5C' : '#8AECAE',
-      unlockW: '73%', hint: s.hint,
+      hint: s.hint,
+      menu: [
+        { name: 'Zaatar', price: this.recipes.zaatar.price, swatch: this.toppingBg('zaatar', 0.9), clip: 'none' },
+        { name: 'Jibneh', price: this.recipes.cheese.price, swatch: this.toppingBg('cheese', 0.9), clip: 'none' },
+        { name: 'Sbanekh', price: this.recipes.sbanekh.price, swatch: this.toppingBg('sbanekh', 0.9), clip: 'polygon(50% 2%, 98% 94%, 2% 94%)' },
+        { name: 'Khodra', price: '+4', swatch: 'linear-gradient(120deg, #C0392B 0 30%, #7FA84C 30% 55%, #2C3A18 55% 78%, #C9B84E 78% 100%)', clip: 'none' }
+      ],
+      soon: [
+        { name: 'Mini pizza', when: 'DAY 6', swatch: this.toppingBg('pizza', 0.9), clip: 'none' },
+        { name: 'Kishk', when: 'DAY 7', swatch: 'radial-gradient(closest-side, #C9B48A, #A8916A)', clip: 'none' },
+        { name: 'Lahm bi ajin', when: 'DAY 10', swatch: 'radial-gradient(closest-side, #B0654A, #8F3E27)', clip: 'none' }
+      ],
       customers: customers, slotViews: slotViews,
       sajLabel: sajLabel, sajColor: sajColor,
       trays: trays, prep: prep, ready: ready,

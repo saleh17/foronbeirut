@@ -67,6 +67,25 @@ same construction with a pale melted field and golden-brown bubbles. The splash
 and the serve moment use the full drawing: wavy crust, seventeen puffed domes,
 some three hundred sesame seeds.
 
+### The menu board
+
+The green board on the wall is the shop's menu, the way every furn in Beirut has
+one: المنيو across the top, then each item with its swatch, a dotted leader and
+a fixed price — Zaatar 8, Jibneh 14, Sbanekh 12, Khodra +4. The prices are read
+straight off the recipe table, so the board can never drift from what the game
+actually pays.
+
+Under a rule, a **قريباً / COMING SOON** block lists what the shop does not sell
+yet — mini pizza, kishk, lahm bi ajin — dimmed, each with the day it arrives.
+The locked tray on the counter carries a matching **SOON** badge. It costs
+nothing to show and it does the work an upgrade tree cannot: the player sees the
+whole menu they are working towards on day one, in the fiction, on a board on
+the wall.
+
+The playing hint moved to a small strip along the bottom of the screen — it is
+scaffolding for testing, not shop furniture, and it should not be occupying the
+best prop in the room.
+
 ### Khodra is an add-on, not a step
 
 One tray with five compartments — tomato, cucumber, olives, pickles, mint — and
