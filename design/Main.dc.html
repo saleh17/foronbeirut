@@ -93,22 +93,21 @@
     .squash { animation: squash .72s ease-out both }
 @keyframes rollup {
       0% { transform: scaleX(1) scaleY(1) }
-      24% { transform: scaleX(.94) scaleY(1.02) }
-      100% { transform: scaleX(.34) scaleY(1.16) }
+      20% { transform: scaleX(.9) scaleY(1.03) }
+      100% { transform: scaleX(.24) scaleY(1.22) }
     }
     .rollup { animation: rollup .85s cubic-bezier(.4,0,.35,1) both; transform-origin: 100% 50% }
     @keyframes curlkeep {
       0% { transform: scaleX(1) }
-      24% { transform: scaleX(1.06) }
-      100% { transform: scaleX(2.94) }
+      20% { transform: scaleX(1.11) }
+      100% { transform: scaleX(4.17) }
     }
     .curlkeep { animation: curlkeep .85s cubic-bezier(.4,0,.35,1) both; transform-origin: 0% 50% }
     @keyframes flapfold { 0% { transform: scaleY(1) } 40%, 100% { transform: scaleY(.05) } }
     .flapfold { animation: flapfold .85s cubic-bezier(.5,0,.3,1) both; transform-origin: 50% 100% }
     @keyframes spiralin { 0%, 52% { opacity: 0; transform: scale(.5) } 78% { opacity: 1; transform: scale(1.12) } 100% { opacity: 1; transform: scale(1) } }
     .spiralin { animation: spiralin .85s ease-out both }
-    @keyframes sleevein { 0%, 40% { opacity: 0 } 66%, 100% { opacity: 1 } }
-    .sleevein { animation: sleevein .85s ease-out both }
+
 @keyframes cupfill { 0% { height: 4% } 100% { height: 82% } }
     .cupfill { animation: cupfill 2s linear both }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
@@ -525,10 +524,9 @@
                   <div style="position: absolute; inset: 14%; border-radius: 50%; background: {{rd.surface}};"></div>
                 </div>
                 <div class="flapfold" style="position: absolute; left: 0; top: 0; width: 46px; height: 25px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, #FBF5E6, #E4DAC4); border: 2.5px solid #2A1B12;"></div>
-                <div class="curlkeep" style="position: absolute; left: -4px; top: 0; width: 12px; height: 46px; border-radius: 7px; background: linear-gradient(90deg, #2A1B12 0 14%, #C9B48A 34%, #FBF5E6 62%, #D8CBA8 100%); border: 2px solid #2A1B12;"></div>
+                <div class="curlkeep" style="position: absolute; left: -4px; top: 0; width: 12px; height: 46px; border-radius: 7px; background: linear-gradient(90deg, #2A1B12 0 10%, #C9B48A 30%, #FBF5E6 56%, #C9B48A 78%, #E9DFC6 100%); border: 2px solid #2A1B12;"></div>
               </div>
-              <div class="sleevein" style="position: absolute; right: 0; top: 14px; width: 22px; height: 22px; border-radius: 2px; background: linear-gradient(180deg, #FAF4E4, #DCCFB0); border: 2.5px solid #2A1B12; opacity: 0;"></div>
-              <div class="spiralin" style="position: absolute; right: 2px; top: -1px; width: 17px; height: 13px; border-radius: 50%; background: {{rd.surface}}; border: 2.5px solid #2A1B12; box-shadow: inset 0 0 0 2px rgba(253,251,244,.85); opacity: 0;"></div>
+              <div class="spiralin" style="position: absolute; right: 4px; top: -1px; width: 15px; height: 13px; border-radius: 50%; background: {{rd.surface}}; border: 2.5px solid #2A1B12; box-shadow: inset 0 0 0 2px rgba(253,251,244,.85); opacity: 0;"></div>
             </div>
           </sc-if>
           <sc-if value="{{rd.isBaked}}" hint-placeholder-val="{{true}}">
@@ -707,7 +705,7 @@ class Component extends DCLogic {
   zones() {
     return {
       board: [262, 300, 392, 382], peel: [74, 208, 144, 390], furn: [16, 30, 202, 202],
-      ready: [156, 296, 244, 384], bin: [4, 292, 74, 384], ayran: [420, 208, 540, 300],
+      ready: [156, 296, 244, 384], bin: [4, 292, 74, 384],
       cust0: [218, 58, 336, 216], cust1: [336, 58, 454, 216], cust2: [454, 58, 572, 216]
     };
   }
@@ -738,6 +736,7 @@ class Component extends DCLogic {
     if (kind.indexOf('ready:') === 0) {
       const rd = this.state.ready[Number(kind.split(':')[1])];
       if (rd) {
+        if (this.recipes[rd.topping].drink) return { bread: 'linear-gradient(180deg, #FDFCF7, #D9D5C4)', surface: 'transparent', clip: 'none', w: '34px' };
         const f = rd.q === 'raw' ? 0.45 : rd.q === 'perfect' ? 0.9 : rd.q === 'done' ? 0.98 : 1.05;
         return { bread: this.breadBg(f), surface: this.toppingBg(rd.topping, f), clip: this.recipes[rd.topping].clip, w: '48px' };
       }
@@ -770,7 +769,14 @@ class Component extends DCLogic {
     if (hit === 'bin') { this.trash(); return; }
     if (kind === 'dough') { if (hit === 'board') this.takeDough(); else this.setState({ hint: 'Dough goes on the board' }); return; }
     if (kind === 'zaatar' || kind === 'cheese') { if (hit === 'board') this.tapTopping(kind); else this.setState({ hint: 'Spread it on the board' }); return; }
-    if (kind.indexOf('ayran:') === 0) { const ci = Number(kind.split(':')[1]); if (hit === 'ready' || hit === 'cust0') { this.takeAyran(ci); if (hit === 'cust0') { const li = this.state.ready.length; setTimeout(() => this.tapReady(li), 0); } } else this.setState({ hint: 'Ayran goes on the bench or to a customer' }); return; }
+    if (kind.indexOf('ayran:') === 0) {
+      const ci = Number(kind.split(':')[1]);
+      if (hit !== 'cust0') { this.setState({ hint: 'Hand the ayran straight to the customer' }); return; }
+      const cust = this.state.queue[0];
+      if (!cust || cust.want !== 'ayran') { this.setState({ hint: cust ? 'They asked for ' + this.recipes[cust.want].label : 'Nobody waiting' }); return; }
+      this.serveAyran(ci);
+      return;
+    }
     if (kind.indexOf('veg:') === 0) { if (hit === 'ready') this.addVeg(kind.split(':')[1]); else this.setState({ hint: 'Khodra goes on a baked one' }); return; }
     if (kind === 'sbanekh') { this.takeFatayer(); if (hit === 'cust0') { const i = this.state.ready.length - 1; if (i >= 0) this.tapReady(i); } return; }
     if (kind === 'topped') { if (hit === 'peel') this.loadPeel(); else this.setState({ hint: 'Topped ones go on the peel' }); return; }
@@ -915,14 +921,20 @@ class Component extends DCLogic {
 
   cupCount() { return Math.max(1, Math.min(3, this.props.ayranCups || 1)); }
 
-  takeAyran(i) {
+  serveAyran(i) {
     const s = this.state;
     if (!s.cups[i]) { this.setState({ hint: 'That cup is still filling' }); return; }
-    if (s.ready.length >= 4) { this.setState({ hint: 'Counter is full — serve some' }); return; }
+    const cust = s.queue[0];
+    if (!cust) return;
     const cups = s.cups.slice();
     cups[i] = false;
-    const ready = s.ready.concat([{ id: s.nextId, topping: 'ayran', q: 'perfect', wrapped: true, veg: [] }]);
-    this.setState({ cups: cups, ready: ready, nextId: s.nextId + 1, hint: 'Cold ayran — hand it over' });
+    const amt = Math.max(1, Math.round(this.recipes.ayran.price * (0.8 + cust.pat * 0.4)));
+    const used = s.drops.map((d) => d.slot);
+    let free = 0;
+    while (used.indexOf(free) >= 0 && free < 3) free += 1;
+    const drops = s.drops.concat([{ id: s.nextId, amt: amt, life: 6, max: 6, slot: free % 3 }]);
+    const queue = s.queue.slice(1).concat([this.newCustomer()]);
+    this.setState({ cups: cups, drops: drops, queue: queue, nextId: s.nextId + 2, hint: 'Cold ayran — take the money' });
     setTimeout(() => {
       const cur = this.state.cups.slice();
       cur[i] = true;
@@ -1012,6 +1024,7 @@ class Component extends DCLogic {
   }
 
   toppingBg(topping, frac) {
+    if (topping === 'ayran') return 'linear-gradient(180deg, #FDFCF7 0%, #ECE9DC 60%, #D6D2C0 100%)';
     const seed = 'rgba(243,232,199,.9)';
     const sesame = [
       'radial-gradient(circle at 30% 26%, ' + seed + ' 0 3.6%, rgba(0,0,0,0) 4.4%)',
@@ -1090,7 +1103,10 @@ class Component extends DCLogic {
   dropOk(kind, hit) {
     if (hit === 'bin') return true;
     if (kind === 'dough' || kind === 'zaatar' || kind === 'cheese') return hit === 'board';
-    if (kind.indexOf('ayran:') === 0) return hit === 'ready' || hit === 'cust0';
+    if (kind.indexOf('ayran:') === 0) {
+      const c0 = this.state.queue[0];
+      return hit === 'cust0' && !!c0 && c0.want === 'ayran';
+    }
     if (kind.indexOf('veg:') === 0) return hit === 'ready';
     if (kind === 'sbanekh') return hit === 'ready' || hit === 'cust0';
     if (kind === 'topped') return hit === 'peel';

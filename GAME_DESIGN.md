@@ -157,6 +157,10 @@ They come back the cheapest possible way: **a drinks dispenser standing beside
 the sbanekh plate** — a boxy chrome machine with a blue عيران panel, a level
 window, a nozzle and a grated drip tray, and a cup underneath it.
 
+**A cup goes straight from the dispenser into a customer's hand** — it never
+touches the wrapping bench, because a drink is not wrapped. The customer lights
+green only if ayran is what they ordered.
+
 **Drag the cup out; it does not respond to a tap.** The dispenser is the one
 object on the counter that is drag-only, and deliberately so: taking a full cup
 is a lift, and a tap would let you empty it by accident while your hand is
@@ -376,8 +380,9 @@ plainly the surface you work on.
 Tap a baked one and the sheet folds over the top, then the whole thing **rolls
 away from you**: it tightens from one end while the **rolled leading edge stays
 round** and travels across — the trick that makes it read as rolling rather than
-squashing — a paper sleeve closes round the finished tube, and the **spiral
-cross-section** appears at the open end. Under a second.
+squashing — until it is a tube a quarter of its width, with the **spiral
+cross-section** showing at the open end. No band round the middle: a manousheh
+is rolled in its paper, not tied in it.
 
 Those animations are not decoration either — each one is the half-second of
 feedback that tells you the tap registered, and together they are most of what
