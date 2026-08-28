@@ -189,7 +189,112 @@ loose garnish on a baked disc.
 
 ---
 
-## 6. Character sheet
+## 6. Ingredients
+
+Every ingredient is drawn **three times**, and all three must be recognisable as
+the same thing:
+
+1. **in its container** — sitting on the counter, at rest, draining as it is used
+2. **in the hand** — the ghost that follows the finger while dragging, ~40 units
+3. **on the bread** — how it looks once applied, at 30 units and smaller
+
+If an ingredient is only legible in one of the three, it fails.
+
+### 6.1 Dough
+
+| | |
+|---|---|
+| **In the bowl** | Five rounds in a floured wooden bowl, 124 × 82, sitting at slightly different heights so the pile has depth. Flour dusted on the rim and the counter around it. Warm off-white `#FAEDD0` → `#DCC291`, soft and slack, not shiny |
+| **In the hand** | One ball, ~52 units, with the underside shadow that says it has weight |
+| **On the board** | Two states. **Ball**: domed, taut skin, a floured contact patch under it. **Flattened**: a disc 62 wide with a slightly wavy edge, thicker at the rim, floured, a few finger dimples |
+
+Also needed: a **flour puff** for the moment the ball lands, and the **rolling
+pin** — turned wood, darker handles, 88 × 18, seen from above.
+
+### 6.2 Zaatar
+
+The signature ingredient. Get it wrong and the whole game looks wrong.
+
+| | |
+|---|---|
+| **In the tray** | A gastronorm pan 96 × 50 of loose zaatar mixture bound in olive oil — **dark olive-brown, not green**. Coarse, uneven, oil pooling darker in the low spots, a spoon or ladle resting in it. Sesame visible even at this size |
+| **Drain states** | **Five levels**: full, ¾, ½, ¼, empty. The heap sinks and spreads, the oil ring stays on the metal, and empty means bare scratched steel with an oily residue — not a lighter version of full |
+| **In the hand** | A ladleful, ~40 units, the mixture mounded and glistening |
+| **On the bread** | An inset field that never touches the rim. Base `#6E6634`, darkening to `#2E2712` as it bakes. **Pale sesame seeds scattered individually**, **rust-red sumac flecks**, one off-centre **oil sheen**. Dry and aromatic when perfect; oily and bright when raw |
+
+### 6.3 Cheese — akkawi
+
+| | |
+|---|---|
+| **In the tray** | Shredded white cheese, loose curds catching light on their edges, slightly damp. `#FAF0CE` → `#DFC177`. Same five drain states |
+| **In the hand** | A handful of curds, still loose and separate |
+| **On the bread** | Raw: white, lumpy, distinct shreds. Baking: melting together, glossy. **Perfect**: fully melted, molten surface with **golden-brown blisters** and one or two darker spots. Burnt: leathery brown |
+
+### 6.4 Fatayer sbanekh
+
+Sold as a **set of four**, always plain, never with khodra.
+
+| | |
+|---|---|
+| **On the plate** | A ceramic oval 118 × 58, fatayer piled at angles — folded **triangles**, seams pinched along all three edges, egg-washed golden with a darker crease where the fold is. Count badge on the corner |
+| **In the hand** | One triangle, ~40 units |
+| **Served** | Four small triangles on a square of paper, arranged loosely rather than in a grid |
+
+The triangle is the **only non-circular item on the menu** — that shape is doing
+real work in the queue, so make it unmistakable.
+
+### 6.5 Mini pizza — locked until day 6
+
+Tomato base with melted cheese blobs and a scatter of oregano. Locked-state tray
+is an **empty dull pan** with a `SOON` badge — draw the ingredient anyway, it
+unlocks.
+
+### 6.6 Khodra — six compartments, drawn individually
+
+A steel box 126 × 82 divided **3 × 2**. Each compartment holds one thing, and
+each must be readable in a 37 × 33 cell **and** as a garnish 8 units across.
+
+| Compartment | Arabic | In the box | On the bread |
+|---|---|---|---|
+| Tomato | بندورة | Thick slices, seeds and pale core visible, wet | Red rounds, juice darkening the topping under them |
+| Cucumber | خيار | Slices, pale green centre, darker skin ring | Pale green rounds |
+| Olives | زيتون | Whole and halved, black and green mixed, oily | Dark ovals, high specular dot on each |
+| Pickles | كبيس | Ridged spears and rounds, yellow-green, brine sheen | Ridged yellow-green rounds |
+| Mint | نعنع | Loose leaves, bright, veined | Small bright leaves, some curled |
+| Labneh | لبنة | Smooth white, a spoon swirl, a pool of olive oil on top | A white smear with an oil gleam |
+
+**Top row** tomato, cucumber, olives; **bottom row** pickles, mint, labneh.
+Each compartment needs a full and a low state.
+
+### 6.7 Ayran
+
+| | |
+|---|---|
+| **In the machine** | A chrome dispenser 112 × 84 with a level window showing pale liquid, a nozzle and a grated drip tray. Blue **عيران** panel with a cup graphic |
+| **In the cup** | Tapered plastic cup 28 × 34. **Three fill levels** — empty, filling, full — plus the pour itself: a thin stream from the nozzle and a little foam on the surface |
+| **In the hand** | The full cup, ~34 units, with condensation |
+| **Served** | The cup handed over — it is **never wrapped** |
+
+### 6.8 Paper
+
+| | |
+|---|---|
+| **On the bench** | Three sheets stacked slightly askew on a square wooden block, top sheet showing a faint fold crease. Off-white, a little translucent, `#FDFBF4` → `#EDE3CC` |
+| **Mid-wrap** | The flap folded over the top; the sheet creased where it turns |
+| **Wrapped** | A tube of paper with the **spiral cross-section of bread and topping showing at the open end**, and the paper's own crease lines following the roll |
+
+Paper should look **thin and cheap** — the newsprint-ish sheet a real furn
+uses — not like gift wrap.
+
+### 6.9 Rule for all of them
+
+Each ingredient has **one identifying colour and one identifying texture**, and
+both survive to 8 units. If tomato and pickle are ever confusable on a finished
+manousheh, the drawing has failed no matter how good it looks at full size.
+
+---
+
+## 7. Character sheet
 
 Eight regulars cycle through the queue. **Each must be identifiable by
 silhouette alone at 56 units wide** — that is the test, not the face.
@@ -226,7 +331,7 @@ Also needed: **five to eight extra silhouettes** for later days, and the
 
 ---
 
-## 7. Animation
+## 8. Animation
 
 Prototype timings. Nothing may run long enough to delay the next input —
 **the peel is the one deliberate exception.**
@@ -255,13 +360,17 @@ characters so extra regulars can be added cheaply later.
 
 ---
 
-## 8. Priority
+## 9. Priority
 
 If the budget only reaches part of it, this is the order that buys the most:
 
 1. **The manousheh, all states** — it is on screen constantly and at every size
-2. **The furn** — hero prop, the light source, the tension
-3. **The eight characters**
-4. **Counter props** — peel, bowl, trays, khodra box, dispenser, bench
-5. **Wall dressing** — flag, menu, calendar, radio, door
-6. Splash and end-of-day screens
+2. **Zaatar and cheese**, in tray, in hand and on the bread — the two you touch
+   every few seconds
+3. **The furn** — hero prop, the light source, the tension
+4. **The eight characters**
+5. **Dough, paper and the six khodra**
+6. **Counter props** — peel, bowl, trays, khodra box, dispenser, bench
+7. **Sbanekh and ayran**
+8. **Wall dressing** — flag, menu, calendar, radio, door
+9. Splash and end-of-day screens
