@@ -39,6 +39,25 @@
 @keyframes coinpop { 0% { transform: translateY(-14px) scale(.5); opacity: 0 } 60% { transform: translateY(2px) scale(1.1); opacity: 1 } 100% { transform: translateY(0) scale(1); opacity: 1 } }
     @keyframes coinbob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
     .coin { animation: coinpop .34s cubic-bezier(.3,1.5,.5,1) both, coinbob 1.5s ease-in-out .34s infinite }
+@keyframes peelIn {
+      0% { transform: translate(0,0) rotate(0deg) }
+      18% { transform: translate(14px,-26px) rotate(-3deg) }
+      52% { transform: translate(66px,-118px) rotate(-9deg) }
+      66% { transform: translate(66px,-118px) rotate(-9deg) }
+      100% { transform: translate(0,0) rotate(0deg) }
+    }
+    @keyframes peelOut {
+      0% { transform: translate(0,0) rotate(0deg) }
+      16% { transform: translate(14px,-26px) rotate(-3deg) }
+      44% { transform: translate(66px,-118px) rotate(-9deg) }
+      58% { transform: translate(66px,-118px) rotate(-9deg) }
+      100% { transform: translate(0,0) rotate(0deg) }
+    }
+    .peel { transform-origin: 88% 50% }
+    .anim-in { animation: peelIn .95s cubic-bezier(.45,.05,.3,1) both }
+    .anim-out { animation: peelOut .95s cubic-bezier(.45,.05,.3,1) both }
+    @keyframes mouthflash { 0%,100% { opacity: 0 } 40% { opacity: .55 } }
+    .mouthflash { animation: mouthflash .95s ease-out both }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
     .beat { animation: hb 1.5s ease-in-out infinite; transform-origin: 50% 60% }
   </style>
@@ -93,6 +112,7 @@
     <div style="position: absolute; left: 24px; top: 28px; right: 24px; bottom: 28px; border-radius: 69px 69px 4px 4px; background: radial-gradient(72% 62% at 50% 110%, #FFB23C 0%, #E8801F 18%, #8A3A12 44%, #35190C 76%, #1C0C06 100%); border: 3px solid #1C0C06; box-shadow: inset 0 0 26px rgba(0,0,0,.8);"></div>
     <div class="ember" style="position: absolute; left: 42px; bottom: 34px; width: 102px; height: 30px; border-radius: 50%; background: radial-gradient(50% 100% at 50% 100%, #FFD98A 0%, #FF9E2C 36%, rgba(255,140,40,0) 76%);"></div>
     <div style="position: absolute; left: 24px; bottom: 28px; width: 138px; height: 13px; background: linear-gradient(180deg, #9DA2A8, #565B61); border: 2.5px solid #1C0C06; border-radius: 2px; box-shadow: 0 -3px 8px rgba(255,150,50,.5);"></div>
+    <div class="{{mouthFlash}}" style="position: absolute; left: 24px; top: 28px; right: 24px; bottom: 28px; border-radius: 69px 69px 4px 4px; background: radial-gradient(60% 60% at 50% 90%, rgba(255,214,140,.9), rgba(255,150,50,0) 70%); opacity: 0; pointer-events: none;"></div>
     <div class="h1" style="position: absolute; left: 62px; top: 22px; width: 26px; height: 30px; border-radius: 50%; background: radial-gradient(circle, rgba(255,225,190,.5), rgba(255,225,190,0) 70%);"></div>
     <div class="h2" style="position: absolute; left: 92px; top: 26px; width: 22px; height: 26px; border-radius: 50%; background: radial-gradient(circle, rgba(255,225,190,.45), rgba(255,225,190,0) 70%);"></div>
     <div class="h3" style="position: absolute; left: 118px; top: 20px; width: 24px; height: 28px; border-radius: 50%; background: radial-gradient(circle, rgba(255,225,190,.4), rgba(255,225,190,0) 70%);"></div>
@@ -279,17 +299,17 @@
   <div class="spill" style="position: absolute; left: 0; top: 210px; width: 300px; height: 180px; background: radial-gradient(58% 70% at 22% 30%, rgba(255,170,70,.3) 0%, rgba(0,0,0,0) 74%); pointer-events: none;"></div>
 
   <!-- ===== THE PEEL ===== -->
-  <div onClick="{{onPeel}}" onPointerDown="{{onPeelDown}}" style="position: absolute; left: 14px; top: 228px; width: 268px; height: 62px; cursor: pointer;">
+  <div onClick="{{onPeel}}" onPointerDown="{{onPeelDown}}" class="peel {{peelAnim}}" style="position: absolute; left: 14px; top: 228px; width: 268px; height: 62px; cursor: pointer; z-index: {{peelZ}};">
     <div style="position: absolute; left: 10px; bottom: -2px; width: 160px; height: 13px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
     <div style="position: absolute; left: 158px; top: 24px; width: 110px; height: 13px; border-radius: 3px; background: linear-gradient(180deg, #C08E5C, #8A6242 50%, #5E4028); border: 3px solid #2A1B12;"></div>
     <div style="position: absolute; left: 250px; top: 17px; width: 18px; height: 27px; border-radius: 4px; background: linear-gradient(180deg, #A9754E, #6F4A2E); border: 3px solid #2A1B12;"></div>
-    <div style="position: absolute; left: 0; top: 4px; width: 164px; height: 54px; border-radius: 10px 4px 4px 10px; background: linear-gradient(180deg, #DCE0E4 0%, #AEB3B9 40%, #83888E 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55);"></div>
+    <div style="position: absolute; left: 0; top: 4px; width: 164px; height: 54px; border-radius: 10px 4px 4px 10px; background: linear-gradient(180deg, #DCE0E4 0%, #AEB3B9 40%, #83888E 100%); border: 3px solid #4E5359; box-shadow: {{peelGlow}};"></div>
     <sc-for list="{{peelViews}}" as="pv" hint-placeholder-count="3">
       <div style="position: absolute; left: {{pv.left}}; top: {{pv.top}}; width: {{pv.size}}; height: {{pv.size}}; border-radius: 50%; clip-path: {{pv.clip}}; background: {{pv.fill}}; border: {{pv.border}}; box-shadow: {{pv.shadow}};">
         <div style="position: absolute; inset: 14%; border-radius: 50%; clip-path: {{pv.clip}}; background: {{pv.surface}}; box-shadow: {{pv.inner}};"></div>
       </div>
     </sc-for>
-    <span class="dsp" style="position: absolute; left: 0; bottom: -16px; width: 164px; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">{{peelLabel}}</span>
+    <span class="dsp" style="position: absolute; left: 0; bottom: -16px; width: 164px; text-align: center; font-size: 9px; font-weight: 800; color: {{peelInk}}; text-shadow: 0 1px 0 rgba(255,255,255,.8);">{{peelLabel}}</span>
   </div>
 
   <!-- ===== FATAYER PLATE — made this morning, no baking ===== -->
@@ -458,6 +478,7 @@ class Component extends DCLogic {
       peel: [],
       oven: null,
       fatayerStock: 6,
+      peelAnim: null,
       trays: { zaatar: 5, cheese: 5 },
       drag: null,
       ready: [],
@@ -497,7 +518,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() { this.timer = setInterval(() => this.tick(), 100); }
-  componentWillUnmount() { clearInterval(this.timer); }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.t1); clearTimeout(this.t2); }
 
   tick() {
     const s = this.state;
@@ -661,8 +682,19 @@ class Component extends DCLogic {
     return 'raw';
   }
 
+  peelTap() {
+    const s = this.state;
+    if (s.peelAnim) return;
+    if (s.oven) { this.setState({ hint: 'The peel is in the furn — pull it out' }); return; }
+    const p = s.prep;
+    if (p && p.stage === 'topped' && s.peel.length < this.peelMax()) { this.loadPeel(); return; }
+    if (s.peel.length) { this.tapOven(); return; }
+    this.setState({ hint: 'Top one on the board, then put it on the peel' });
+  }
+
   loadPeel() {
     const s = this.state;
+    if (s.peelAnim) return;
     if (s.oven) { this.setState({ hint: 'The peel is in the furn' }); return; }
     const p = s.prep;
     if (!p || p.stage !== 'topped') { this.setState({ hint: 'Nothing topped to load' }); return; }
@@ -674,18 +706,29 @@ class Component extends DCLogic {
 
   tapOven() {
     const s = this.state;
+    if (s.peelAnim) return;
     if (s.oven) {
       let id = s.nextId;
       const items = s.oven.items.map((it) => { const o = { id: id, topping: it.topping, q: this.quality(it.topping, s.oven.t), wrapped: false, veg: [] }; id += 1; return o; });
-      const ready = s.ready.concat(items).slice(-4);
-      const perfect = items.filter((x) => x.q === 'perfect').length;
-      const burnt = items.filter((x) => x.q === 'burnt').length;
-      const msg = burnt ? 'Burnt ones straight in the bin' : perfect === items.length ? 'All of them perfect — wrap them' : 'Out they come — wrap them';
-      this.setState({ oven: null, ready: ready, nextId: id, hint: msg });
+      this.setState({ peelAnim: 'anim-out', hint: 'Sliding them out…' });
+      this.t1 = setTimeout(() => {
+        this.setState({ oven: null, peel: items.map((x) => ({ topping: x.topping, q: x.q })) });
+      }, 420);
+      this.t2 = setTimeout(() => {
+        const perfect = items.filter((x) => x.q === 'perfect').length;
+        const burnt = items.filter((x) => x.q === 'burnt').length;
+        const msg = burnt ? 'Burnt ones straight in the bin' : perfect === items.length ? 'All of them perfect — wrap them' : 'Out they come — wrap them';
+        this.setState({ peel: [], peelAnim: null, ready: this.state.ready.concat(items).slice(-4), nextId: id, hint: msg });
+      }, 950);
       return;
     }
     if (!s.peel.length) { this.setState({ hint: 'Load the peel first' }); return; }
-    this.setState({ oven: { items: s.peel, t: 0 }, peel: [], hint: 'They share one bake — watch the bands' });
+    const load = s.peel;
+    this.setState({ peelAnim: 'anim-in', hint: 'Into the furn…' });
+    this.t1 = setTimeout(() => {
+      this.setState({ oven: { items: load, t: 0 }, peel: [], hint: 'They share one bake — watch the bands' });
+    }, 500);
+    this.t2 = setTimeout(() => this.setState({ peelAnim: null }), 950);
   }
 
   get vegKinds() {
@@ -957,19 +1000,27 @@ class Component extends DCLogic {
     const peelViews = [];
     for (let i = 0; i < n; i++) {
       const it = s.peel[i];
+      const bf = it && it.q ? (it.q === 'raw' ? 0.45 : it.q === 'perfect' ? 0.9 : it.q === 'done' ? 0.98 : 1.05) : 0.05;
       peelViews.push({
         left: pOrigin + i * (pSize + 5) + 'px',
         top: 4 + Math.round((54 - pSize) / 2) + 'px',
         size: pSize + 'px',
         clip: it ? this.recipes[it.topping].clip : 'none',
-        fill: it ? this.breadBg(0.05) : 'transparent',
-        surface: it ? this.toppingBg(it.topping, 0.05) : 'transparent',
+        fill: it ? this.breadBg(bf) : 'transparent',
+        surface: it ? this.toppingBg(it.topping, bf) : 'transparent',
         inner: it ? 'inset 0 2px 4px rgba(0,0,0,.28)' : 'none',
         border: it ? '2.5px solid #2A1B12' : '2px dashed rgba(42,27,18,.35)',
         shadow: it ? '0 2px 3px rgba(0,0,0,.3)' : 'none'
       });
     }
-    const peelLabel = s.oven ? 'IN THE FURN' : s.peel.length + '/' + n + ' ON THE PEEL';
+    const canLoad = s.prep && s.prep.stage === 'topped' && s.peel.length < n;
+    const peelLabel = s.peelAnim === 'anim-out' ? 'COMING OUT'
+      : s.peelAnim === 'anim-in' ? 'GOING IN'
+      : s.oven ? 'IN THE FURN'
+      : canLoad ? 'TAP TO LOAD  ' + s.peel.length + '/' + n
+      : s.peel.length ? 'TAP TO SEND IN  ' + s.peel.length + '/' + n
+      : '0/' + n + ' ON THE PEEL';
+    const peelReady = !s.peelAnim && !s.oven && s.peel.length && !canLoad;
 
     // this morning's tray of sbanekh
     const plateViews = [];
@@ -1097,7 +1148,7 @@ class Component extends DCLogic {
       plateViews: plateViews,
       fatayerStock: s.fatayerStock,
       plateOpacity: s.fatayerStock ? '1' : '0.45',
-      onPeel: () => this.loadPeel(),
+      onPeel: () => this.peelTap(),
       onOven: () => this.tapOven(),
       onFatayer: () => this.takeFatayer(),
       radioDial: s.radioOn ? '#8AECAE' : '#3E4A44',
@@ -1110,6 +1161,11 @@ class Component extends DCLogic {
       drag: s.drag ? { hx: (s.drag.x - parseInt(s.drag.w, 10) / 2) + 'px', hy: (s.drag.y - parseInt(s.drag.w, 10) / 2) + 'px', w: s.drag.w, bread: s.drag.bread, surface: s.drag.surface, clip: s.drag.clip } : { hx: '0px', hy: '0px', w: '0px', bread: 'none', surface: 'none', clip: 'none' },
       drop: dropZone,
       setCluster: setCluster,
+      peelAnim: s.peelAnim || '',
+      peelGlow: peelReady ? '0 0 0 3px rgba(235,187,78,.9), 0 0 20px rgba(235,187,78,.7), 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55)' : '0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55)',
+      peelZ: s.peelAnim ? '25' : '1',
+      peelInk: peelReady ? '#A8501F' : '#4A4038',
+      mouthFlash: s.peelAnim ? 'mouthflash' : '',
       vegCells: ['tomato', 'cucumber', 'olives', 'pickles', 'mint', 'labneh'].map((k) => ({
         fill: this.vegKinds[k].fill, label: this.vegKinds[k].label, ink: this.vegKinds[k].ink,
         onTap: () => this.addVeg(k), onDown: (e) => this.startDrag('veg:' + k, e)

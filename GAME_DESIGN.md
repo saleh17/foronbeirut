@@ -231,6 +231,7 @@ Keep it small — this is the data model.
 | Take dough    | tap the bowl — comes out flat       | wrong count                   |
 | Spread        | drag the ladle across the disc      | patchy coverage, lower rating |
 | Load the peel | tap the peel — holds 3              | peel full, or left half empty |
+| Send it in    | tap the peel again — it swings in   | sent half-loaded              |
 | Refill        | tap jeddo when a tray runs dry      | caught empty mid-rush         |
 | Bake          | slide the peel in, timing rings     | raw / perfect / burnt         |
 | Khodra        | drag the veg tray onto a baked one  | order asked for it and got none |
@@ -263,6 +264,19 @@ zaatar is dark. Each piece still shows its own ring inside the mouth, so the
 player can watch one band go green while the other has not, and learn the
 lesson without being told it. Batching by topping is the skill the game is
 quietly teaching, and the peel is what teaches it.
+
+**The peel is the verb.** One object, one finger: tap it to load the topped
+manousheh from the board, tap it again once there is nothing left to load and it
+swings into the furn. It glows gold and reads **TAP TO SEND IN** the moment it is
+ready to go, so the second tap is never a guess. Tapping the furn still pulls
+them out.
+
+And it is a real swing, not a state change: the peel lifts off the counter,
+tilts into the mouth, the fire flares behind it, and it comes back out **carrying
+the baked ones already browned** before they land on the board. Input is locked
+for those nine-tenths of a second, which is exactly the beat the action needs —
+you cannot spam the furn, and you can see what you pulled before you have to
+decide what to do with it.
 
 **Two capacities, both bought separately.** The peel is how many you can carry
 in; the deck is how many the furn holds. The batch is whichever is smaller, so
