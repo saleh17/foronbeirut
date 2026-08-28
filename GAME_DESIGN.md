@@ -347,10 +347,13 @@ busy left, and the reason running two toppings hard costs you something.
 
 **Every step you take is a step you can see.** The dough leaves the bowl as a
 **ball** and lands on the board; tapping the board sends a **rolling pin** across
-it and the ball squashes out into a disc under it. After the furn it is wrapped the way one actually is: the manousheh **folds in
-half** with a crease down the middle, a **sheet of paper swings up** from below
-and settles behind it, and a **paper band cinches** around the middle to hold
-it. Three beats in under a second.
+it and the ball squashes out into a disc under it. After the furn it is **rolled** the way one actually is. There is no separate
+paper station: the serving board *is* the wrapping bench, a stack of sheets laid
+on the wood, and a manousheh dropped on it lands on paper. Tap it and the sheet
+folds over the top, the whole thing **rolls tight** — squeezing narrow and
+turning as it goes — a sleeve closes round the middle, and the **rolled
+cross-section** appears at the open end. Under a second, and it reads as a wrap
+being made rather than a sprite being swapped.
 
 Those animations are not decoration either — each one is the half-second of
 feedback that tells you the tap registered, and together they are most of what

@@ -91,19 +91,19 @@
       100% { transform: scale(1) }
     }
     .squash { animation: squash .72s ease-out both }
-    @keyframes paperup {
-      0% { transform: translateY(30px) rotate(-36deg); opacity: 0 }
-      26% { opacity: 1 }
-      62% { transform: translateY(0) rotate(-11deg); opacity: 1 }
-      100% { transform: translateY(0) rotate(-11deg); opacity: 1 }
+@keyframes rollup {
+      0% { transform: translateX(0) scaleX(1) rotate(0deg) }
+      22% { transform: translateX(-1px) scaleX(.92) rotate(-2deg) }
+      58% { transform: translateX(3px) scaleX(.6) rotate(-8deg) }
+      100% { transform: translateX(5px) scaleX(.36) rotate(-13deg) }
     }
-    .paperup { animation: paperup .85s cubic-bezier(.4,.1,.3,1) both }
-    @keyframes foldhalf { 0%, 30% { transform: scaleX(1) } 60%, 100% { transform: scaleX(.44) } }
-    .foldhalf { animation: foldhalf .85s cubic-bezier(.5,0,.3,1) both; transform-origin: 50% 50% }
-    @keyframes creasein { 0%, 32% { opacity: 0 } 60%, 100% { opacity: .85 } }
-    .crease { animation: creasein .85s linear both }
-    @keyframes bandcinch { 0%, 56% { transform: scaleX(1.9); opacity: 0 } 70% { opacity: 1 } 100% { transform: scaleX(1); opacity: 1 } }
-    .bandcinch { animation: bandcinch .85s cubic-bezier(.4,.1,.3,1) both }
+    .rollup { animation: rollup .85s cubic-bezier(.42,0,.3,1) both; transform-origin: 50% 50% }
+    @keyframes flapfold { 0% { transform: scaleY(1) } 46%, 100% { transform: scaleY(.04) } }
+    .flapfold { animation: flapfold .85s cubic-bezier(.5,0,.3,1) both; transform-origin: 50% 100% }
+    @keyframes spiralin { 0%, 52% { opacity: 0; transform: scale(.5) } 78% { opacity: 1; transform: scale(1.12) } 100% { opacity: 1; transform: scale(1) } }
+    .spiralin { animation: spiralin .85s ease-out both }
+    @keyframes sleevein { 0%, 40% { opacity: 0 } 66%, 100% { opacity: 1 } }
+    .sleevein { animation: sleevein .85s ease-out both }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
     .beat { animation: hb 1.5s ease-in-out infinite; transform-origin: 50% 60% }
   </style>
@@ -474,21 +474,15 @@
     </div>
   </div>
 
-  <!-- ===== PAPER ===== -->
-  <div style="position: absolute; left: 310px; top: 312px; width: 80px; height: 68px;">
-    <div style="position: absolute; left: 3px; top: 5px; width: 76px; height: 62px; border-radius: 3px; background: #E4DAC4; border: 3px solid #2A1B12; transform: rotate(-4deg);"></div>
-    <div style="position: absolute; left: 0; top: 0; width: 76px; height: 62px; border-radius: 3px; background: linear-gradient(180deg, #FDFBF4 0%, #EDE3CC 100%); border: 3px solid #2A1B12; box-shadow: 0 4px 0 rgba(0,0,0,.24);">
-      <div style="position: absolute; inset: 5px; border: 2px dashed #C9B48A; border-radius: 2px;"></div>
-      <div style="position: absolute; left: 14px; top: 22px; right: 14px; height: 2px; background: #D8C8A4;"></div>
-      <div style="position: absolute; left: 14px; top: 32px; right: 22px; height: 2px; background: #D8C8A4;"></div>
-    </div>
-    <span class="dsp" style="position: absolute; left: 0; bottom: -18px; width: 76px; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">PAPER</span>
-  </div>
-
   <!-- ===== READY / WRAP / SERVE ===== -->
   <div style="position: absolute; left: 152px; top: 300px; width: 148px; height: 82px;">
     <div style="position: absolute; left: 6px; bottom: -6px; right: 6px; height: 13px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
-    <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #F4ECD9 0%, #DFD3B8 54%, #C6B896 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.28); display: flex; align-items: center; justify-content: center; gap: 8px;">
+    <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #C9AE86 0%, #A98D66 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.28); overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 8px;">
+      <div style="position: absolute; left: 5px; top: 7px; width: 132px; height: 62px; border-radius: 3px; background: #E4DAC4; border: 2px solid #2A1B12; transform: rotate(-2.5deg);"></div>
+      <div style="position: absolute; left: 8px; top: 5px; width: 132px; height: 62px; border-radius: 3px; background: #F0E7D2; border: 2px solid #2A1B12; transform: rotate(1.6deg);"></div>
+      <div style="position: absolute; left: 6px; top: 6px; width: 132px; height: 62px; border-radius: 3px; background: linear-gradient(180deg, #FDFBF4, #EDE3CC); border: 2px solid #2A1B12;">
+        <div style="position: absolute; inset: 5px; border: 1.5px dashed #CDB78E; border-radius: 2px;"></div>
+      </div>
       <sc-for list="{{ready}}" as="rd" hint-placeholder-count="2">
         <div onClick="{{rd.onTap}}" onPointerDown="{{rd.onDown}}" style="position: relative; width: 46px; height: 54px; cursor: pointer;">
           <sc-if value="{{rd.isSet}}" hint-placeholder-val="{{true}}">
@@ -505,12 +499,15 @@
           </sc-if>
           <sc-if value="{{rd.isWrapping}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 0; top: 2px; width: 46px; height: 50px; z-index: 3;">
-              <div class="paperup" style="position: absolute; left: 0; top: 0; width: 46px; height: 50px; border-radius: 4px; background: linear-gradient(104deg, #FDFBF4, #E9DFC6 58%, #FBF5E6); border: 2.5px solid #2A1B12; box-shadow: 0 3px 0 rgba(0,0,0,.2);"></div>
-              <div class="foldhalf" style="position: absolute; left: 4px; top: 6px; width: 38px; height: 38px; border-radius: 50%; background: {{rd.fill}}; border: 2.5px solid #2A1B12; overflow: hidden;">
-                <div style="position: absolute; inset: 14%; border-radius: 50%; background: {{rd.surface}};"></div>
-                <div class="crease" style="position: absolute; left: 50%; top: -2px; bottom: -2px; width: 3px; margin-left: -1.5px; background: rgba(42,27,18,.6); opacity: 0;"></div>
+              <div class="rollup" style="position: absolute; inset: 0;">
+                <div style="position: absolute; left: -2px; top: 0; width: 50px; height: 50px; border-radius: 4px; background: linear-gradient(104deg, #FDFBF4, #E9DFC6 58%, #FBF5E6); border: 2.5px solid #2A1B12;"></div>
+                <div style="position: absolute; left: 4px; top: 5px; width: 38px; height: 38px; border-radius: 50%; background: {{rd.fill}}; border: 2.5px solid #2A1B12; overflow: hidden;">
+                  <div style="position: absolute; inset: 14%; border-radius: 50%; background: {{rd.surface}};"></div>
+                </div>
+                <div class="flapfold" style="position: absolute; left: -2px; top: 0; width: 50px; height: 27px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, #FBF5E6, #E4DAC4); border: 2.5px solid #2A1B12;"></div>
+                <div class="sleevein" style="position: absolute; left: -3px; top: 15px; width: 52px; height: 20px; background: linear-gradient(180deg, #FAF4E4, #DCCFB0); border-top: 2.5px solid #2A1B12; border-bottom: 2.5px solid #2A1B12; opacity: 0;"></div>
               </div>
-              <div class="bandcinch" style="position: absolute; left: -2px; top: 17px; width: 50px; height: 16px; background: linear-gradient(180deg, #FAF4E4, #DCCFB0); border-top: 2.5px solid #2A1B12; border-bottom: 2.5px solid #2A1B12; opacity: 0;"></div>
+              <div class="spiralin" style="position: absolute; left: 13px; top: -2px; width: 21px; height: 15px; border-radius: 50%; background: {{rd.surface}}; border: 2.5px solid #2A1B12; box-shadow: inset 0 0 0 2px rgba(253,251,244,.8); opacity: 0;"></div>
             </div>
           </sc-if>
           <sc-if value="{{rd.isBaked}}" hint-placeholder-val="{{true}}">
@@ -521,7 +518,7 @@
           </sc-if>
         </div>
       </sc-for>
-      <span style="font-size: 10px; color: #A0906F; font-style: italic;">{{readyHint}}</span>
+      <span style="position: relative; font-size: 9.5px; color: #A0906F; font-style: italic;">{{readyHint}}</span>
     </div>
   </div>
 
@@ -662,7 +659,7 @@ class Component extends DCLogic {
   zones() {
     return {
       board: [398, 300, 528, 382], peel: [74, 208, 144, 390], furn: [16, 30, 202, 202],
-      ready: [152, 300, 300, 382], paper: [310, 312, 390, 380], bin: [4, 292, 76, 384],
+      ready: [152, 300, 300, 382], bin: [4, 292, 76, 384],
       cust0: [218, 58, 336, 216], cust1: [336, 58, 454, 216], cust2: [454, 58, 572, 216]
     };
   }
@@ -733,11 +730,11 @@ class Component extends DCLogic {
       const i = Number(kind.split(':')[1]);
       const rd = this.state.ready[i];
       if (!rd) return;
-      if (hit === 'paper' || hit === 'ready') {
+      if (hit === 'ready') {
         if (rd.wrapped) this.setState({ hint: 'That one is already wrapped' }); else this.tapReady(i);
       } else if (hit === 'cust0') {
         if (!rd.wrapped) this.setState({ hint: 'Roll it in paper first' }); else this.tapReady(i);
-      } else this.setState({ hint: 'Wrap it, then hand it over' });
+      } else this.setState({ hint: 'Wrap it on the bench, then hand it over' });
     }
   }
 
@@ -1034,7 +1031,7 @@ class Component extends DCLogic {
     if (kind.indexOf('ready:') === 0) {
       const rd = this.state.ready[Number(kind.split(':')[1])];
       if (!rd) return false;
-      if (hit === 'paper' || hit === 'ready') return !rd.wrapped;
+      if (hit === 'ready') return !rd.wrapped;
       if (hit === 'cust0') {
         const c = this.state.queue[0];
         return !!c && rd.wrapped && rd.topping === c.want;
@@ -1317,7 +1314,7 @@ class Component extends DCLogic {
       customers: customers, slotViews: slotViews,
       sajLabel: sajLabel, sajColor: sajColor,
       trays: trays, prep: prep, ready: ready,
-      readyHint: s.ready.length ? '' : 'nothing baked',
+      readyHint: s.ready.length ? '' : 'wrapping bench',
       drops: drops,
       peelViews: peelViews,
       peelLabel: peelLabel,
