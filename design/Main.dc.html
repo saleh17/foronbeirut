@@ -604,8 +604,13 @@ class Component extends DCLogic {
     if (kind === 'furn') { if (hit === 'ready' || hit === 'board' || hit === 'peel') this.tapOven(); else this.setState({ hint: 'Pull them out onto the counter' }); return; }
     if (kind.indexOf('ready:') === 0) {
       const i = Number(kind.split(':')[1]);
-      if (hit === 'paper' || hit === 'ready' || hit === 'cust0') this.tapReady(i);
-      else this.setState({ hint: 'Wrap it, then hand it over' });
+      const rd = this.state.ready[i];
+      if (!rd) return;
+      if (hit === 'paper' || hit === 'ready') {
+        if (rd.wrapped) this.setState({ hint: 'That one is already wrapped' }); else this.tapReady(i);
+      } else if (hit === 'cust0') {
+        if (!rd.wrapped) this.setState({ hint: 'Roll it in paper first' }); else this.tapReady(i);
+      } else this.setState({ hint: 'Wrap it, then hand it over' });
     }
   }
 
@@ -729,10 +734,12 @@ class Component extends DCLogic {
     }
     const cust = s.queue[0];
     if (!cust) return;
+    if (item.topping !== cust.want) {
+      this.setState({ hint: 'They asked for ' + this.recipes[cust.want].label + ', not ' + this.recipes[item.topping].label });
+      return;
+    }
     const r = this.recipe(item.topping);
     let mult = item.q === 'perfect' ? 1.25 : item.q === 'done' ? 1 : item.q === 'raw' ? 0.5 : 0.25;
-    const match = item.topping === cust.want;
-    if (!match) mult = mult * 0.4;
     const want = cust.veg || [];
     let missing = 0;
     for (let k = 0; k < want.length; k++) { if (item.veg.indexOf(want[k]) < 0) missing += 1; }
@@ -745,7 +752,7 @@ class Component extends DCLogic {
     let free = 0;
     while (used.indexOf(free) >= 0 && free < 3) free += 1;
     const drops = s.drops.concat([{ id: s.nextId, amt: amt, life: 6, max: 6, slot: free % 3 }]);
-    this.setState({ ready: ready, queue: queue, drops: drops, nextId: s.nextId + 2, hint: missing ? 'Missing ' + missing + ' of the khodra they asked for' : match ? 'Order matched — take the money' : 'Wrong topping, they paid less' });
+    this.setState({ ready: ready, queue: queue, drops: drops, nextId: s.nextId + 2, hint: missing ? 'Missing ' + missing + ' of the khodra they asked for' : 'Order matched — take the money' });
   }
 
   toggleRadio() {
@@ -869,7 +876,16 @@ class Component extends DCLogic {
     if (kind === 'topped') return hit === 'peel';
     if (kind === 'peel') return hit === 'furn';
     if (kind === 'furn') return hit === 'ready' || hit === 'board' || hit === 'peel';
-    if (kind.indexOf('ready:') === 0) return hit === 'paper' || hit === 'ready' || hit === 'cust0';
+    if (kind.indexOf('ready:') === 0) {
+      const rd = this.state.ready[Number(kind.split(':')[1])];
+      if (!rd) return false;
+      if (hit === 'paper' || hit === 'ready') return !rd.wrapped;
+      if (hit === 'cust0') {
+        const c = this.state.queue[0];
+        return !!c && rd.wrapped && rd.topping === c.want;
+      }
+      return false;
+    }
     return false;
   }
 

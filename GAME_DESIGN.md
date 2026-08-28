@@ -289,8 +289,16 @@ that taught nothing and got boring by day two. **Wrapping replaced it**: after
 the furn, the manousheh is rolled and wrapped in a sheet of paper the way a real
 one is handed over, and only then is it servable. Same tap count, a better tap.
 
-**Scoring:** accuracy (order match) x doneness (bake window) x speed
--> coins + tip, three stars per customer. That is the whole economy.
+**Scoring:** doneness (bake window) x speed x khodra completeness -> coins +
+tip, three stars per customer. That is the whole economy.
+
+**A customer will not take something they did not order.** Wrong item at the
+counter is refused outright, not accepted at reduced pay — accepting it makes
+the cheapest item on the menu a farming exploit, since anything that clears the
+queue is worth more than the coins it earns. Missing khodra is different: that
+is a quality miss, so it serves at a penalty. The drop target says which is
+which before you let go — the customer lights green only for a wrapped item they
+actually asked for, red otherwise.
 
 ### Zaatar vs cheese is not a skin
 
