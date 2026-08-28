@@ -43,6 +43,22 @@ on the **right**, with the topping trays under it and the dough bowl under those
 **Jeddo leans in from the archway on the right**, behind the counter. He is
 decor and personality, not a control.
 
+### Appetizers, not drinks
+
+**Drinks are cut.** Ayran, tea and juice each needed their own cooler, their own
+pour, their own serve — a whole second interaction grammar for one tap of value,
+and it made the busiest moment of the day worse.
+
+**Pastries replace them.** Fatayer sbanekh and mini pizza come out of the same
+bowl of dough, take a topping from the same tray row, bake in the same furn and
+get wrapped in the same paper. They cost almost nothing to add and they do more:
+they give the queue real variety, and each carries its own bake time, so a mixed
+order is a genuine juggling problem rather than a longer errand.
+
+The fatayer is **folded into a triangle**, which is worth honouring in the art —
+it is the one item on the menu that is not a disc, and that reads instantly in a
+queue of order cards.
+
 ### Two more mechanics worth taking
 
 - **The order card is a live checklist.** Each item on it gets a green check the
@@ -65,9 +81,9 @@ Keep it small — this is the data model.
 
     base:     dough
     topping:  zaatar | cheese (akkawi) | half-and-half | kishk | lahm bi ajin
+    pastry:   fatayer sbanekh | mini pizza (safiha)
     extras:   tomato, cucumber, mint, olives, labneh   (0..n)
-    fold:     rolled | flat
-    side:     ayran, tea, orange juice
+    fold:     rolled | flat | triangle (fatayer)
 
 ### Interaction map
 
@@ -160,7 +176,8 @@ It should read as the reward for mastery, not an early convenience.
 | Half and half           | day 4   |    18 | two spreads, split disc       |
 | Kishk                   | day 7   |    16 | needs topping-bar upgrade     |
 | Lahm bi ajin            | day 10  |    22 | meat prep step                |
-| Sides (ayran, tea, kaak)| day 3+  |   5-9 | one tap, pure margin          |
+| Fatayer sbanekh         | day 3   |    12 | folded into a triangle        |
+| Mini pizza (safiha)     | day 6   |    16 | shorter bake than cheese      |
 
 ### Ingredients and shop
 
@@ -288,7 +305,14 @@ bake) until phase 3, and make the day timer the only pressure source early —
 layering patience meters on top too soon makes it stressful rather than
 satisfying.
 
-## 5. Layout
+## 5. Splash
+
+The title screen is one image: a **manousheh dead centre**, lit from behind, on
+a sheet of wrapping paper, with the name over it and a single button under it.
+No shop, no counter, no menu — the thing the game is about, at the size of a
+poster. Everything else on that screen is a corner chip.
+
+## 6. Layout
 
 Landscape gives two thumbs, and the pipeline runs **right to left** across the
 counter — dough bowl, topping trays, furn, then paper and serve — the direction
@@ -307,7 +331,7 @@ along the path. One thing to watch in testing: the furn sits high on the right,
 which is the longest reach on the screen and the only tap with a deadline. If
 that tests badly, drop it lower behind the counter.
 
-## 6. Open decisions
+## 7. Open decisions
 
 - **Art.** The prototype's customers and ingredient icons are drawn
   placeholders.

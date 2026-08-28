@@ -9,69 +9,93 @@
 <helmet>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=Cairo:wght@600;700;800&display=swap">
   <style>
-    body { margin: 0; background: #2A211A; color: #2E2118; font-family: 'Cairo', 'Segoe UI', sans-serif; }
+    body { margin: 0; background: #17110C; color: #2E2118; font-family: 'Cairo', 'Segoe UI', sans-serif; }
     * { box-sizing: border-box; }
     a { color: #EBBB4E; } a:hover { color: #E0A339; }
     .dsp { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; }
-    @keyframes sway { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.4deg); } }
-    .sign { animation: sway 4.5s ease-in-out infinite; transform-origin: 50% 0; }
-    @keyframes steam { 0% { transform: translateY(6px) scaleX(0.9); opacity: 0.1; } 50% { opacity: 0.42; } 100% { transform: translateY(-30px) scaleX(1.15); opacity: 0; } }
-    .s1 { animation: steam 3.6s ease-out infinite; }
-    .s2 { animation: steam 3.6s ease-out 1.2s infinite; }
-    .s3 { animation: steam 3.6s ease-out 2.4s infinite; }
+    @keyframes spin { to { transform: rotate(360deg) } }
+    .rays { animation: spin 34s linear infinite }
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(-2deg) } 50% { transform: translateY(-7px) rotate(2deg) } }
+    .hero { animation: float 5s ease-in-out infinite }
+    @keyframes steam { 0% { transform: translateY(8px) scaleX(.85); opacity: 0 } 35% { opacity: .5 } 100% { transform: translateY(-34px) scaleX(1.25); opacity: 0 } }
+    .s1 { animation: steam 3.8s ease-out infinite }
+    .s2 { animation: steam 3.8s ease-out 1.3s infinite }
+    .s3 { animation: steam 3.8s ease-out 2.6s infinite }
+    @keyframes pulse { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
+    .cta { animation: pulse 2.2s ease-in-out infinite }
   </style>
 </helmet>
 
-<div style="position: relative; width: 844px; height: 390px; overflow: hidden; background: linear-gradient(180deg, #E5C98F 0%, #D9AE72 42%, #B98A5C 100%);">
+<div style="position: relative; width: 844px; height: 390px; overflow: hidden; background: #6E4A30;">
 
-  <div style="position: absolute; left: 0; top: 0; width: 844px; height: 390px; background: repeating-linear-gradient(180deg, #CFC3AE 0 46px, #B8A98F 46px 50px), repeating-linear-gradient(90deg, #CFC3AE 0 68px, #B8A98F 68px 72px); background-blend-mode: multiply; opacity: 0.96;"></div>
-  <div style="position: absolute; left: 0; top: 0; width: 844px; height: 390px; background: radial-gradient(70% 80% at 50% 40%, rgba(255,235,190,0.30) 0%, rgba(40,28,18,0.34) 100%);"></div>
+  <div style="position: absolute; inset: 0; background: repeating-linear-gradient(180deg, #C6B9A2 0 40px, #A99878 40px 44px), repeating-linear-gradient(90deg, #C6B9A2 0 58px, #A99878 58px 62px); background-blend-mode: multiply;"></div>
+  <div style="position: absolute; left: 0; top: 96px; width: 844px; height: 38px; background-color: #5F7F5C; background-image: linear-gradient(45deg, #47624A 25%, transparent 25%), linear-gradient(-45deg, #47624A 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #47624A 75%), linear-gradient(-45deg, transparent 75%, #47624A 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0; opacity: .55;"></div>
+  <div style="position: absolute; inset: 0; background: radial-gradient(62% 74% at 50% 54%, rgba(255,206,138,.36) 0%, rgba(60,36,18,.34) 58%, rgba(28,16,8,.72) 100%);"></div>
 
-  <div style="position: absolute; left: 62px; top: 96px; width: 360px; height: 294px; border-radius: 14px 14px 0 0; background: #3A2E24; box-shadow: inset 0 0 34px rgba(0,0,0,0.6);"></div>
-  <div style="position: absolute; left: 62px; top: 96px; width: 360px; height: 76px; background: repeating-linear-gradient(180deg, #8E939A 0 8px, #6A6F76 8px 12px); border-radius: 12px 12px 4px 4px; border-bottom: 5px solid #40454B;"></div>
-  <div style="position: absolute; left: 86px; top: 214px; width: 312px; height: 26px; background: linear-gradient(180deg, #F0E7D4, #D3C5A8); border: 4px solid #3A2E24; border-radius: 4px;"></div>
-  <div style="position: absolute; left: 86px; top: 240px; width: 312px; height: 150px; background: linear-gradient(180deg, #8A6242 0%, #6B4A31 100%); border-left: 4px solid #3A2E24; border-right: 4px solid #3A2E24;"></div>
+  <div class="rays" style="position: absolute; left: 262px; top: 22px; width: 320px; height: 320px; border-radius: 50%; background: conic-gradient(from 0deg, rgba(255,196,96,.26) 0deg 8deg, rgba(0,0,0,0) 8deg 30deg, rgba(255,196,96,.26) 30deg 38deg, rgba(0,0,0,0) 38deg 60deg, rgba(255,196,96,.26) 60deg 68deg, rgba(0,0,0,0) 68deg 90deg, rgba(255,196,96,.26) 90deg 98deg, rgba(0,0,0,0) 98deg 120deg, rgba(255,196,96,.26) 120deg 128deg, rgba(0,0,0,0) 128deg 150deg, rgba(255,196,96,.26) 150deg 158deg, rgba(0,0,0,0) 158deg 180deg, rgba(255,196,96,.26) 180deg 188deg, rgba(0,0,0,0) 188deg 210deg, rgba(255,196,96,.26) 210deg 218deg, rgba(0,0,0,0) 218deg 240deg, rgba(255,196,96,.26) 240deg 248deg, rgba(0,0,0,0) 248deg 270deg, rgba(255,196,96,.26) 270deg 278deg, rgba(0,0,0,0) 278deg 300deg, rgba(255,196,96,.26) 300deg 308deg, rgba(0,0,0,0) 308deg 330deg, rgba(255,196,96,.26) 330deg 338deg, rgba(0,0,0,0) 338deg 360deg); -webkit-mask-image: radial-gradient(closest-side, rgba(0,0,0,0) 40%, #000 50%, #000 94%, rgba(0,0,0,0) 100%); mask-image: radial-gradient(closest-side, rgba(0,0,0,0) 40%, #000 50%, #000 94%, rgba(0,0,0,0) 100%);"></div>
 
-  <div style="position: absolute; left: 146px; top: 116px; width: 192px; height: 108px;">
-    <div style="position: absolute; inset: 0; border-radius: 96px 96px 6px 6px; background: repeating-linear-gradient(180deg, #B5715A 0 17px, #9C5E49 17px 20px), repeating-linear-gradient(90deg, #B5715A 0 34px, #9C5E49 34px 37px); background-blend-mode: multiply; border: 4px solid #3A2E24;"></div>
-    <div style="position: absolute; left: 24px; top: 26px; right: 24px; bottom: 14px; border-radius: 72px 72px 4px 4px; background: radial-gradient(70% 62% at 50% 108%, #E8801F 0%, #8A3A12 34%, #3A1E10 74%, #241209 100%); border: 3px solid #2A1A12;"></div>
-    <div style="position: absolute; left: 56px; bottom: 24px; width: 80px; height: 20px; border-radius: 40px 40px 0 0; background: radial-gradient(60% 100% at 50% 100%, #5C7C36, #3C5522);"></div>
-    <svg class="s1" width="16" height="30" viewBox="0 0 18 34" style="position: absolute; left: 58px; top: -22px;" aria-hidden="true"><path d="M9 33c-7-7 7-10 0-17S9 6 9 1" stroke="#F0E4CC" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
-    <svg class="s2" width="16" height="30" viewBox="0 0 18 34" style="position: absolute; left: 88px; top: -28px;" aria-hidden="true"><path d="M9 33c-7-7 7-10 0-17S9 6 9 1" stroke="#F0E4CC" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
-    <svg class="s3" width="16" height="30" viewBox="0 0 18 34" style="position: absolute; left: 118px; top: -20px;" aria-hidden="true"><path d="M9 33c-7-7 7-10 0-17S9 6 9 1" stroke="#F0E4CC" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
-  </div>
+  <svg class="s1" width="20" height="40" viewBox="0 0 18 34" style="position: absolute; left: 372px; top: 78px;" aria-hidden="true"><path d="M9 33c-7-7 7-10 0-17S9 6 9 1" stroke="#FBEFD8" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
+  <svg class="s2" width="20" height="40" viewBox="0 0 18 34" style="position: absolute; left: 412px; top: 70px;" aria-hidden="true"><path d="M9 33c-7-7 7-10 0-17S9 6 9 1" stroke="#FBEFD8" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
+  <svg class="s3" width="20" height="40" viewBox="0 0 18 34" style="position: absolute; left: 452px; top: 80px;" aria-hidden="true"><path d="M9 33c-7-7 7-10 0-17S9 6 9 1" stroke="#FBEFD8" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
 
-  <div class="sign" style="position: absolute; left: 470px; top: 40px; width: 330px; height: 152px; border-radius: 10px; background: linear-gradient(180deg, #A9754E 0%, #7E5638 100%); border: 5px solid #3A2E24; box-shadow: 0 8px 0 rgba(0,0,0,0.32); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;">
-    <span style="font-size: 22px; font-weight: 800; color: #EBBB4E; text-shadow: 2px 2px 0 #3A2E24;">مناقيش بيروت</span>
-    <h1 class="dsp" style="margin: 0; font-size: 38px; font-weight: 800; color: #FBF3E3; line-height: 1; letter-spacing: -0.01em; text-shadow: 3px 3px 0 #3A2E24;">Manakich Beirut</h1>
-    <span style="font-size: 12px; font-weight: 700; color: #E3C79C; letter-spacing: 0.14em; text-transform: uppercase;">Zaatar &amp; cheese, all morning</span>
-  </div>
-  <div style="position: absolute; left: 552px; top: 20px; width: 10px; height: 24px; background: #6A6F76; border: 2px solid #3A2E24;"></div>
-  <div style="position: absolute; left: 710px; top: 20px; width: 10px; height: 24px; background: #6A6F76; border: 2px solid #3A2E24;"></div>
-
-  <div style="position: absolute; left: 470px; top: 218px; width: 330px; height: 74px; border-radius: 14px; background: linear-gradient(180deg, #D4643F 0%, #B04A2C 100%); border: 5px solid #3A2E24; box-shadow: 0 7px 0 #6E2C18; display: flex; align-items: center; justify-content: center; gap: 14px; cursor: pointer;">
-    <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FBF3E3" stroke="#3A2E24" stroke-width="2"></circle><path d="M10 8.2l6 3.8-6 3.8z" fill="#B04A2C"></path></svg>
-    <span class="dsp" style="font-size: 27px; font-weight: 800; color: #FBF3E3; text-shadow: 2px 2px 0 #3A2E24;">Open the saj</span>
-  </div>
-
-  <div style="position: absolute; left: 470px; top: 306px; width: 330px; display: flex; gap: 12px;">
-    <div style="flex-grow: 1; height: 62px; border-radius: 12px; background: linear-gradient(180deg, #F0E7D4, #DACDB2); border: 4px solid #3A2E24; box-shadow: 0 5px 0 rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8.5h16l-1.4 10.2a2 2 0 0 1-2 1.8H7.4a2 2 0 0 1-2-1.8z" stroke="#3A2E24" stroke-width="2.2" stroke-linejoin="round"></path><path d="M8.6 8.5V6.8a3.4 3.4 0 0 1 6.8 0v1.7" stroke="#C2593C" stroke-width="2.2" stroke-linecap="round"></path></svg>
-      <span class="dsp" style="font-size: 10px; font-weight: 800; color: #4A3524;">SHOP</span>
-    </div>
-    <div style="flex-grow: 1; height: 62px; border-radius: 12px; background: linear-gradient(180deg, #F0E7D4, #DACDB2); border: 4px solid #3A2E24; box-shadow: 0 5px 0 rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4.5h9a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z" stroke="#3A2E24" stroke-width="2.2" stroke-linejoin="round"></path><path d="M17 7.5h2v12H8" stroke="#5F7D3C" stroke-width="2.2" stroke-linejoin="round"></path></svg>
-      <span class="dsp" style="font-size: 10px; font-weight: 800; color: #4A3524;">RECIPES</span>
-    </div>
-    <div style="flex-grow: 1; height: 62px; border-radius: 12px; background: linear-gradient(180deg, #F0E7D4, #DACDB2); border: 4px solid #3A2E24; box-shadow: 0 5px 0 rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9.5h3.5L13 5.5v13L8.5 14.5H5z" stroke="#3A2E24" stroke-width="2.2" stroke-linejoin="round"></path><path d="M16.2 9.4a4 4 0 0 1 0 5.2" stroke="#B77C1F" stroke-width="2.2" stroke-linecap="round"></path></svg>
-      <span class="dsp" style="font-size: 10px; font-weight: 800; color: #4A3524;">SOUND</span>
+  <div class="hero" style="position: absolute; left: 314px; top: 106px; width: 216px; height: 202px;">
+    <div style="position: absolute; left: 12px; bottom: -4px; width: 192px; height: 26px; border-radius: 50%; background: radial-gradient(closest-side, rgba(20,10,4,.55), rgba(20,10,4,0));"></div>
+    <div style="position: absolute; left: 4px; top: 22px; width: 208px; height: 168px; border-radius: 6px; background: linear-gradient(102deg, #FDFBF4 0%, #E9DFC6 52%, #FBF5E6 100%); border: 3px solid #2A1B12; transform: rotate(-7deg); box-shadow: 0 8px 14px rgba(0,0,0,.35);"></div>
+    <div style="position: absolute; left: 14px; top: 14px; width: 188px; height: 174px; border-radius: 6px; background: linear-gradient(98deg, #FDFBF4 0%, #EFE5CD 60%, #FBF5E6 100%); border: 3px solid #2A1B12; transform: rotate(5deg); box-shadow: 0 6px 12px rgba(0,0,0,.28);"></div>
+    <div style="position: absolute; left: 20px; top: 14px; width: 176px; height: 176px; border-radius: 50%; background: radial-gradient(64% 74% at 42% 26%, #6B8F3E 0%, #4E6B2E 42%, #3C5522 74%, #2E4219 100%); border: 4px solid #2A1B12; box-shadow: inset 0 -12px 22px rgba(0,0,0,.45), inset 0 8px 16px rgba(255,220,150,.16), 0 0 0 9px #E4C489, 0 0 0 13px #2A1B12, 0 10px 22px rgba(0,0,0,.4);">
+      <div style="position: absolute; left: 26px; top: 22px; width: 62px; height: 26px; border-radius: 32px; background: rgba(250,228,178,.24); transform: rotate(-18deg);"></div>
+      <div style="position: absolute; left: 104px; top: 44px; width: 18px; height: 13px; border-radius: 50%; background: rgba(28,16,8,.34);"></div>
+      <div style="position: absolute; left: 44px; top: 96px; width: 26px; height: 12px; border-radius: 999px; background: rgba(28,16,8,.28); transform: rotate(14deg);"></div>
+      <div style="position: absolute; left: 92px; top: 108px; width: 15px; height: 11px; border-radius: 50%; background: rgba(250,228,178,.22);"></div>
+      <div style="position: absolute; left: 118px; top: 88px; width: 20px; height: 9px; border-radius: 999px; background: rgba(28,16,8,.3); transform: rotate(-22deg);"></div>
+      <div style="position: absolute; left: 60px; top: 58px; width: 11px; height: 8px; border-radius: 50%; background: rgba(250,228,178,.2);"></div>
+      <div style="position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(58% 44% at 34% 22%, rgba(255,240,200,.22) 0%, rgba(0,0,0,0) 62%);"></div>
     </div>
   </div>
 
-  <div style="position: absolute; left: 20px; top: 20px; display: flex; align-items: center; gap: 8px; background: rgba(58,46,36,0.72); border: 3px solid #3A2E24; border-radius: 999px; padding: 5px 14px 5px 7px;">
-    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#EBBB4E" stroke="#3A2E24" stroke-width="2"></circle><circle cx="12" cy="12" r="5.6" fill="none" stroke="#B77C1F" stroke-width="1.8"></circle></svg>
-    <span class="dsp" style="font-size: 18px; font-weight: 800; color: #FBF3E3;">1,240</span>
+  <div style="position: absolute; left: 0; right: 0; top: 20px; text-align: center;">
+    <div style="font-size: 19px; font-weight: 800; color: #EBBB4E; text-shadow: 2px 2px 0 #2A1B12; letter-spacing: .04em;">مناقيش بيروت</div>
+    <h1 class="dsp" style="margin: 2px 0 0; font-size: 46px; font-weight: 800; color: #FDF6E7; line-height: 1; letter-spacing: -0.02em; text-shadow: 0 4px 0 #B04A2C, 0 7px 0 #2A1B12, 0 10px 18px rgba(0,0,0,.5);">MANAKICH BEIRUT</h1>
+  </div>
+
+  <div class="cta" style="position: absolute; left: 282px; top: 312px; width: 280px; height: 64px; border-radius: 16px; background: linear-gradient(180deg, #E0724B 0%, #C2593C 48%, #A4462A 100%); border: 4px solid #2A1B12; box-shadow: 0 7px 0 #6E2C18, 0 12px 20px rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; gap: 13px; cursor: pointer;">
+    <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FDF6E7" stroke="#2A1B12" stroke-width="2"></circle><path d="M10 8.2l6 3.8-6 3.8z" fill="#C2593C"></path></svg>
+    <span class="dsp" style="font-size: 25px; font-weight: 800; color: #FDF6E7; text-shadow: 2px 2px 0 #2A1B12;">Open the furn</span>
+  </div>
+
+  <div style="position: absolute; left: 18px; top: 16px; display: flex; align-items: center; gap: 8px; background: rgba(28,16,8,.62); border: 3px solid #2A1B12; border-radius: 999px; padding: 5px 14px 5px 6px;">
+    <div style="position: relative; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 34% 30%, #F7D477, #E0A339 56%, #B77C1F 100%); border: 2.5px solid #2A1B12;"><div style="position: absolute; inset: 5px; border-radius: 50%; border: 2px solid rgba(140,86,20,.6);"></div></div>
+    <span class="dsp" style="font-size: 17px; font-weight: 800; color: #FDF6E7;">1,240</span>
+  </div>
+
+  <div style="position: absolute; right: 18px; top: 16px; display: flex; align-items: center; gap: 4px; background: rgba(28,16,8,.62); border: 3px solid #2A1B12; border-radius: 999px; padding: 6px 13px;">
+    <svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#EBBB4E" stroke="#2A1B12" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#EBBB4E" stroke="#2A1B12" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#6B5540" stroke="#2A1B12" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+    <span style="font-size: 10px; font-weight: 800; color: #D9C4A6; margin-left: 5px; letter-spacing: .1em;">DAY 3</span>
+  </div>
+
+  <div style="position: absolute; left: 18px; bottom: 16px; display: flex; gap: 10px;">
+    <div style="position: relative; width: 62px; height: 58px; border-radius: 13px; background: linear-gradient(180deg, #F4EDDD, #D8CDB4); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.4); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8.5h16l-1.4 10.2a2 2 0 0 1-2 1.8H7.4a2 2 0 0 1-2-1.8z" stroke="#2A1B12" stroke-width="2.2" stroke-linejoin="round"></path><path d="M8.6 8.5V6.8a3.4 3.4 0 0 1 6.8 0v1.7" stroke="#C2593C" stroke-width="2.2" stroke-linecap="round"></path></svg>
+      <span class="dsp" style="font-size: 8.5px; font-weight: 800; color: #4A3524;">SHOP</span>
+      <div style="position: absolute; top: -8px; right: -7px; min-width: 22px; height: 22px; border-radius: 999px; background: #C2593C; border: 2.5px solid #2A1B12; color: #FFF3E0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">2</div>
+    </div>
+    <div style="width: 62px; height: 58px; border-radius: 13px; background: linear-gradient(180deg, #F4EDDD, #D8CDB4); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.4); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4.5h9a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z" stroke="#2A1B12" stroke-width="2.2" stroke-linejoin="round"></path><path d="M17 7.5h2v12H8" stroke="#5F7D3C" stroke-width="2.2" stroke-linejoin="round"></path></svg>
+      <span class="dsp" style="font-size: 8.5px; font-weight: 800; color: #4A3524;">RECIPES</span>
+    </div>
+  </div>
+
+  <div style="position: absolute; right: 18px; bottom: 16px; display: flex; gap: 10px;">
+    <div style="width: 62px; height: 58px; border-radius: 13px; background: linear-gradient(180deg, #F4EDDD, #D8CDB4); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.4); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9.5h3.5L13 5.5v13L8.5 14.5H5z" stroke="#2A1B12" stroke-width="2.2" stroke-linejoin="round"></path><path d="M16.2 9.4a4 4 0 0 1 0 5.2" stroke="#B77C1F" stroke-width="2.2" stroke-linecap="round"></path></svg>
+      <span class="dsp" style="font-size: 8.5px; font-weight: 800; color: #4A3524;">SOUND</span>
+    </div>
+    <div style="width: 62px; height: 58px; border-radius: 13px; background: linear-gradient(180deg, #F4EDDD, #D8CDB4); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.4); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="#2A1B12" stroke-width="2.2"></circle><path d="M12 4v2.6M12 17.4V20M4 12h2.6M17.4 12H20M6.3 6.3l1.9 1.9M15.8 15.8l1.9 1.9M17.7 6.3l-1.9 1.9M8.2 15.8l-1.9 1.9" stroke="#2A1B12" stroke-width="2.2" stroke-linecap="round"></path></svg>
+      <span class="dsp" style="font-size: 8.5px; font-weight: 800; color: #4A3524;">SETTINGS</span>
+    </div>
   </div>
 
 </div>
