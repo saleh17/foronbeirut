@@ -1220,10 +1220,10 @@ class Component extends DCLogic {
     }
 
     const heat = s.peelAnim ? 2 : s.oven ? 1 : 0;
-    const flameDur = heat === 2 ? '0.42s' : heat === 1 ? '0.8s' : '1.5s';
-    const flameOuter = heat === 2 ? '#FF7A1E' : heat === 1 ? '#F2891C' : '#D9701A';
-    const flameInner = heat === 2 ? '#FFE07A' : heat === 1 ? '#FFCB58' : '#F5B845';
-    const tScale = heat === 2 ? 1.55 : heat === 1 ? 1.18 : 0.88;
+    const flameDur = heat === 2 ? '0.4s' : heat === 1 ? '0.68s' : '1.9s';
+    const flameOuter = heat === 2 ? '#FF7A1E' : heat === 1 ? '#FF8A16' : '#C0561A';
+    const flameInner = heat === 2 ? '#FFEFA8' : heat === 1 ? '#FFD65E' : '#E09A38';
+    const tScale = heat === 2 ? 1.75 : heat === 1 ? 1.38 : 0.52;
     const tongues = [];
     const jets = [];
     const stops = [0.05, 0.21, 0.37, 0.53, 0.69, 0.84];
@@ -1294,8 +1294,8 @@ class Component extends DCLogic {
       drag: s.drag ? { hx: (s.drag.x - parseInt(s.drag.w, 10) / 2) + 'px', hy: (s.drag.y - parseInt(s.drag.w, 10) / 2) + 'px', w: s.drag.w, bread: s.drag.bread, surface: s.drag.surface, clip: s.drag.clip } : { hx: '0px', hy: '0px', w: '0px', bread: 'none', surface: 'none', clip: 'none' },
       drop: dropZone,
       setCluster: setCluster,
-      spillA: heat === 2 ? '.62' : heat === 1 ? '.46' : '.3',
-      spillB: heat === 2 ? '.26' : heat === 1 ? '.18' : '.11',
+      spillA: heat === 2 ? '.66' : heat === 1 ? '.54' : '.22',
+      spillB: heat === 2 ? '.28' : heat === 1 ? '.22' : '.08',
       pinClass: s.rolling ? 'pin' : '',
       tongues: tongues, jets: jets, sparks: sparks, flameDur: flameDur, flameOuter: flameOuter, flameInner: flameInner,
       peelAnim: s.peelAnim || '',

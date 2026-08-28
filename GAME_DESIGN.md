@@ -54,11 +54,19 @@ the line never pulses as a block.
 Everything shrinks together with depth — pipe, holes, flames — and that is what
 sells the space: the manakish sit *in* a tunnel rather than on a flat panel.
 
-The fire is a state readout, not decoration: it burns low and slow on an empty
-deck, steps up while something is baking, and roars — brighter, faster, whiter —
-the moment the peel goes in or comes out, with the light spilling onto the wall
-and counter rising with it. A glance at the fire tells you whether the furn is
-working. It stands
+The fire is a state readout, not decoration, and the three states are far apart
+on purpose:
+
+| Furn | Flames |
+|---|---|
+| Empty | half height, slow, deep red-orange, the tunnel dim |
+| Baking | nearly triple that, quick, yellow, the whole left side lit |
+| Peel entering or leaving | taller again, whitest, fastest |
+
+The jump when the bread goes in is meant to be unmissable — you should catch it
+in the corner of your eye while your hands are on the other side of the counter.
+A glance at the fire tells you whether the furn is working without reading a
+label. It stands
 on the **right**, with the topping trays under it and the dough bowl under those.
 
 **Jeddo leans in from the archway on the right**, behind the counter. He is
