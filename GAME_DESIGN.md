@@ -54,8 +54,16 @@ the line never pulses as a block.
 Everything shrinks together with depth — pipe, holes, flames — and that is what
 sells the space. **The manakish lie flat on the deck**, foreshortened into
 ellipses with a contact shadow under each, inside the narrower floor rather than
-floating upright across the mouth. Their timing rings squash with them, which
-costs a little legibility and buys the whole illusion.
+floating upright across the mouth. Their timing rings squash with them, so the
+rings alone can no longer carry the timing — which is why the timing moved.
+
+**The bake timer is the deck lip.** The metal strip across the front of the
+mouth is the readout: a bar that fills as the load bakes, with a hatched green
+band marking each topping's perfect window and a bright head riding the front
+edge. A mixed load shows **two green bands**, which is the clearest possible
+statement of the problem — there is no single moment that satisfies both, and
+you can see it. Underneath it in words: FURN EMPTY, Baking, **Perfect — pull!**,
+Careful, Burnt.
 
 The fire is a state readout, not decoration, and the three states are far apart
 on purpose:
@@ -295,6 +303,11 @@ zaatar is dark. Each piece still shows its own ring inside the mouth, so the
 player can watch one band go green while the other has not, and learn the
 lesson without being told it. Batching by topping is the skill the game is
 quietly teaching, and the peel is what teaches it.
+
+**The peel stands on its end at the far left**, manakish stacked up the paddle
+rather than laid across it. Vertical, it takes a 62px column instead of 270px of
+counter, which is most of the bottom-left corner given back to the rest of the
+station — and it is how a peel is actually parked between loads.
 
 **The peel is the verb.** One object, one finger: tap it to load the topped
 manousheh from the board, tap it again once there is nothing left to load and it
