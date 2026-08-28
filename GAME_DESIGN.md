@@ -80,7 +80,11 @@ A glance at the fire tells you whether the furn is working without reading a
 label. It stands
 on the **right**, with the topping trays under it and the dough bowl under those.
 
-**The menu board hangs on the right wall**, where the eye lands after the queue.
+**The shop door stands at the right end of the back wall** — a stone frame, a
+glass-and-wood leaf standing open into the room, a brass bell over it, a مفتوح /
+OPEN card taped to the glass, and Beirut daylight pouring through onto the wall
+and counter. Customers walk in through it and back out through it, so the queue
+has somewhere to come *from*.
 
 ### Drawing a manousheh that looks like one
 
