@@ -53,10 +53,19 @@ khaki than to grass. On top of that field sit **sesame seeds** (pale, scattered,
 individually visible) and **flecks of sumac** (rust red), with an **oil sheen**
 catching the light off-centre.
 
+And the detail that makes it unmistakable, taken from a photo of the real thing:
+**the dough puffs up in golden domes that poke through the zaatar**, a ring of
+them around the inside of the rim and a few more scattered across the middle,
+each catching the light on its top-left. Without those it is a flat green
+circle; with them it is a manousheh. The edge is never a perfect circle either —
+it waves.
+
 So every manousheh in the game renders as two layers — bread underneath, topping
 field inset on top — and both brown independently as it bakes: the rim goes
 gold then blistered then charred, the zaatar darkens and dries. Cheese is the
-same construction with a pale melted field and golden-brown bubbles.
+same construction with a pale melted field and golden-brown bubbles. The splash
+and the serve moment use the full drawing: wavy crust, seventeen puffed domes,
+some three hundred sesame seeds.
 
 ### Sbanekh comes off a plate, not out of the furn
 
@@ -98,10 +107,19 @@ test:
 | **Ziad** | the delivery rider | open-face helmet, hi-vis vest, chin strap |
 | **Karim** | gym before work | gelled quiff, sunglasses on, gold chain, one earbud |
 | **Nour** | late for the office | hair in a bun, blazer over a white shirt, hoops |
+| **Hanna** | the painter | cap on backwards, paint-spattered whites, pencil behind the ear |
+| **Rita** | with the little one | the toddler on her shoulder, in yellow |
 
 Warm, not caricature: varied ages, skin tones and dress, each drawn with the
 same affection you would draw a neighbour. Later regulars can carry standing
 orders — Abou Elias always takes zaatar, and the player learns it.
+
+**They are alive, not stamps.** Tapered jaws rather than circles, a shadow down
+one side of every face lit from the furn, almond eyes with a lid line, brows
+that carry the expression, ears, necks, collars. They breathe on a slow idle,
+each offset from the next so the queue never moves in lockstep, and **they
+blink**. When patience drops they switch to a faster, forward-leaning idle — you
+feel the queue getting restless before you read a single meter.
 
 ### Sound: Fairuz, and the licensing problem
 
