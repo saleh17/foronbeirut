@@ -223,8 +223,11 @@ test:
 | **Hanna** | the painter | cap on backwards, paint-spattered whites, pencil behind the ear |
 | **Rita** | with the little one | the toddler on her shoulder, in yellow |
 
-Warm, not caricature: varied ages, skin tones and dress, each drawn with the
-same affection you would draw a neighbour. Later regulars can carry standing
+Each carries one small true detail rather than a costume: Abou Elias's blue
+**masbaha** hanging from his hand, the **cedar badge** on Yara's pinafore, Im
+Georges's thin **gold chain**, the **keffiyeh** round Hanna's neck. Warm, not
+caricature: varied ages, skin tones and dress, each drawn with the same
+affection you would draw a neighbour. Later regulars can carry standing
 orders — Abou Elias always takes zaatar, and the player learns it.
 
 **The queue is a queue, not a rack.** A new customer **walks in from the right**
