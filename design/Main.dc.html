@@ -21,8 +21,6 @@
     .h1 { animation: shim 2.6s ease-out infinite }
     .h2 { animation: shim 2.6s ease-out .9s infinite }
     .h3 { animation: shim 2.6s ease-out 1.8s infinite }
-    @keyframes lean { 0%,100% { transform: scaleX(-1) translateY(0) rotate(0deg) } 50% { transform: scaleX(-1) translateY(-3px) rotate(-1deg) } }
-    .jeddo { animation: lean 3.4s ease-in-out infinite; transform-origin: 50% 90% }
     @keyframes sheen { 0% { transform: translateX(-130%) skewX(-18deg) } 55%,100% { transform: translateX(320%) skewX(-18deg) } }
     .sheen { animation: sheen 3.4s ease-in-out infinite }
     @keyframes note { 0% { transform: translateY(6px) rotate(-8deg); opacity: 0 } 25% { opacity: .95 } 100% { transform: translateY(-46px) rotate(12deg); opacity: 0 } }
@@ -118,7 +116,7 @@
     @keyframes enterB { 0% { transform: translateX(260px); opacity: 0 } 22% { opacity: 1 } 78% { transform: translateX(-6px) } 100% { transform: translateX(0); opacity: 1 } }
     .enterA { animation: enterA .62s cubic-bezier(.25,.8,.35,1) both }
     .enterB { animation: enterB .62s cubic-bezier(.25,.8,.35,1) both }
-    @keyframes walkout { 0% { transform: translateX(0) translateY(0); opacity: 1 } 100% { transform: translateX(-250px) translateY(6px); opacity: 0 } }
+    @keyframes walkout { 0% { transform: translateX(0); opacity: 1 } 18% { opacity: 1 } 100% { transform: translateX(560px); opacity: 0 } }
     .walkout { animation: walkout .85s ease-in both }
     @keyframes waddle { 0%,100% { transform: rotate(-3deg) translateY(0) } 50% { transform: rotate(3deg) translateY(-3px) } }
     .waddle { animation: waddle .28s ease-in-out infinite }
@@ -163,7 +161,7 @@
   </div>
 
   <!-- hanging herbs -->
-  <div style="position: absolute; left: 566px; top: 0; width: 34px; height: 64px;">
+  <div style="position: absolute; left: 600px; top: 0; width: 34px; height: 64px;">
     <div style="position: absolute; left: 16px; top: 0; width: 2.5px; height: 18px; background: #2A1B12;"></div>
     <svg width="34" height="50" viewBox="0 0 34 50" style="position: absolute; top: 14px;" aria-hidden="true">
       <path d="M17 2v10M17 12c-7 2-11 9-10 20 5 1 9-4 10-12 1 8 5 13 10 12 1-11-3-18-10-20z" fill="#4E6B2E" stroke="#2A1B12" stroke-width="2.4" stroke-linejoin="round"></path>
@@ -256,7 +254,7 @@
     </div>
   </div>
 
-  <div style="position: absolute; left: 556px; top: 60px; width: 148px; height: 132px; border-radius: 5px; background: linear-gradient(180deg, #33413A, #232E28); border: 6px solid #8A6242; box-shadow: 4px 6px 0 rgba(0,0,0,.34), inset 0 0 24px rgba(0,0,0,.55); padding: 4px 7px 5px; display: flex; flex-direction: column; overflow: hidden;">
+  <div style="position: absolute; left: 676px; top: 62px; width: 152px; height: 150px; border-radius: 5px; background: linear-gradient(180deg, #33413A, #232E28); border: 6px solid #8A6242; box-shadow: 4px 6px 0 rgba(0,0,0,.34), inset 0 0 24px rgba(0,0,0,.55); padding: 4px 7px 5px; display: flex; flex-direction: column; overflow: hidden;">
     <div style="text-align: center; border-bottom: 2px solid rgba(226,220,198,.35); padding-bottom: 1px; margin-bottom: 2px; flex-shrink: 0;">
       <span style="font-size: 10px; font-weight: 800; color: #EFE9D6; letter-spacing: .04em; line-height: 1.1;">المنيو</span>
     </div>
@@ -353,7 +351,7 @@
   </sc-for>
 
   <sc-if value="{{leaving}}" hint-placeholder-val="{{true}}">
-    <div class="walkout" style="position: absolute; left: 214px; top: 96px; width: 70px; height: 120px; pointer-events: none; z-index: 12;">
+    <div class="walkout" style="position: absolute; left: 218px; top: 96px; width: 70px; height: 120px; pointer-events: none; z-index: 12;">
       <div class="waddle" style="width: 100%; height: 100%;">
         <svg width="70" height="120" viewBox="0 0 110 190" aria-hidden="true">
           <path d="M6 190c0-46 21-64 49-64s49 18 49 64z" fill="{{leaver.shirt}}" stroke="#2A1B12" stroke-width="3.6"></path>
@@ -366,44 +364,8 @@
     </div>
   </sc-if>
 
-  <!-- ===== RIGHT: JEDDO ===== -->
+  <!-- ===== RIGHT WALL ===== -->
   <div style="position: absolute; right: 0; top: 0; width: 144px; height: 390px; background: repeating-linear-gradient(180deg, #C6B9A2 0 40px, #A99878 40px 44px), repeating-linear-gradient(90deg, #C6B9A2 0 58px, #A99878 58px 62px); background-blend-mode: multiply; box-shadow: inset 16px 0 26px rgba(0,0,0,.26);"></div>
-  <div style="position: absolute; right: 14px; top: 58px; width: 104px; height: 214px; border-radius: 52px 52px 0 0; background: radial-gradient(80% 60% at 50% 90%, #4A382A 0%, #2A1B12 70%); box-shadow: inset 0 0 30px rgba(0,0,0,.7);"></div>
-
-  <div onClick="{{onJeddo}}" style="position: absolute; right: 10px; top: 78px; width: 112px; height: 194px; cursor: pointer; border-radius: 56px 56px 10px 10px; box-shadow: {{jeddoGlow}};"></div>
-  <div style="position: absolute; right: 48px; top: 66px; opacity: {{jeddoAlert}}; pointer-events: none;">
-    <div class="beat" style="width: 30px; height: 30px; border-radius: 50%; background: #EBBB4E; border: 3px solid #2A1B12; box-shadow: 0 3px 0 rgba(0,0,0,.35); display: flex; align-items: center; justify-content: center;">
-      <span class="dsp" style="font-size: 17px; font-weight: 800; color: #5B3B0C;">!</span>
-    </div>
-  </div>
-  <svg class="jeddo" width="112" height="166" viewBox="0 0 150 222" style="position: absolute; right: 6px; top: 92px; pointer-events: none;" aria-hidden="true">
-    <path d="M14 222c0-58 24-82 61-82s61 24 61 82z" fill="#EFE7D6" stroke="#2A1B12" stroke-width="3.6"></path>
-    <path d="M14 222c0-58 24-82 61-82 0 0-24 32-24 82z" fill="#DBD1BC"></path>
-    <path d="M40 148c10 26 60 26 70 0" stroke="#2A1B12" stroke-width="3.2" fill="none"></path>
-    <path d="M46 178h58v44H46z" fill="#C2593C" stroke="#2A1B12" stroke-width="3.4"></path>
-    <path d="M46 178h58v10H46z" fill="#9A4229"></path>
-    <path d="M58 140h34v16a17 12 0 0 1-34 0z" fill="#D3A87E" stroke="#2A1B12" stroke-width="3.2"></path>
-    <ellipse cx="75" cy="86" rx="45" ry="50" fill="#E9C69E" stroke="#2A1B12" stroke-width="3.6"></ellipse>
-    <path d="M30 62c8-32 26-44 45-44s37 12 45 44c-16-12-29-16-45-16s-29 4-45 16z" fill="#FBF7EC" stroke="#2A1B12" stroke-width="3.4" stroke-linejoin="round"></path>
-    <path d="M30 62c8-32 26-44 45-44 0 0-22 14-27 44-8 0-14 0-18 0z" fill="#E4DDCC"></path>
-    <path d="M26 70c-8 0-11 10-6 18s13 8 13 8M124 70c8 0 11 10 6 18s-13 8-13 8" fill="#E9C69E" stroke="#2A1B12" stroke-width="3.2"></path>
-    <path d="M40 66c7-7 19-8 26-3M84 63c7-5 19-4 26 3" stroke="#EFEAE0" stroke-width="7" stroke-linecap="round" fill="none"></path>
-    <path d="M40 66c7-7 19-8 26-3M84 63c7-5 19-4 26 3" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path>
-    <ellipse cx="57" cy="84" rx="10" ry="10" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.8"></ellipse>
-    <ellipse cx="93" cy="84" rx="10" ry="10" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.8"></ellipse>
-    <circle cx="59" cy="85" r="4.6" fill="#4A3020"></circle>
-    <circle cx="95" cy="85" r="4.6" fill="#4A3020"></circle>
-    <circle cx="57.2" cy="83" r="1.8" fill="#FFF"></circle>
-    <circle cx="93.2" cy="83" r="1.8" fill="#FFF"></circle>
-    <path d="M46 76c4-3 9-3 12-1M92 75c3-2 8-2 12 1" stroke="#2A1B12" stroke-width="2.4" stroke-linecap="round" fill="none"></path>
-    <ellipse cx="75" cy="103" rx="9" ry="8" fill="#DCA07C" stroke="#2A1B12" stroke-width="2.6"></ellipse>
-    <path d="M42 116c10-8 18 2 33 2s23-10 33-2c-4 16-16 24-33 24s-29-8-33-24z" fill="#FBF7EC" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path>
-    <path d="M56 124c10 6 28 6 38 0" stroke="#C6BEAC" stroke-width="2.6" fill="none"></path>
-    <ellipse cx="40" cy="98" rx="7" ry="5" fill="#DD9C82" opacity=".45"></ellipse>
-    <ellipse cx="110" cy="98" rx="7" ry="5" fill="#DD9C82" opacity=".45"></ellipse>
-    <path d="M14 200c14-10 24-10 34-2" stroke="#2A1B12" stroke-width="3.2" fill="none"></path>
-  </svg>
-  <div style="position: absolute; right: 16px; top: 246px; width: 94px; height: 22px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.34), rgba(0,0,0,0));"></div>
 
   <div style="position: absolute; right: 14px; top: 8px; display: flex; align-items: center; gap: 8px;">
     <span class="dsp" style="font-size: 25px; font-weight: 800; color: #FFF6E4; text-shadow: 2px 3px 0 #2A1B12, -1.5px -1.5px 0 #2A1B12, 1.5px -1.5px 0 #2A1B12, -1.5px 1.5px 0 #2A1B12;">{{coins}}</span>
@@ -659,6 +621,7 @@ class Component extends DCLogic {
       leaver: null,
       wrapping: null,
       trays: { zaatar: 5, cheese: 5 },
+      refilling: { zaatar: false, cheese: false },
       cups: [true, true, true],
       drag: null,
       ready: [],
@@ -840,24 +803,28 @@ class Component extends DCLogic {
     if (!p) { this.setState({ hint: 'Take dough from the bowl first' }); return; }
     if (p.stage === 'ball') { this.setState({ hint: 'Roll it flat first' }); return; }
     if (p.stage !== 'flat') { this.setState({ hint: 'That one is already topped' }); return; }
-    if ((s.trays[k] || 0) <= 0) {
-      this.setState({ hint: (k === 'zaatar' ? 'Zaatar' : 'Cheese') + ' tray is empty — ask jeddo' });
-      return;
-    }
+    if ((s.trays[k] || 0) <= 0) { this.refillTray(k); return; }
     const trays = { zaatar: s.trays.zaatar, cheese: s.trays.cheese };
     trays[k] = trays[k] - 1;
     const low = trays[k] === 0;
-    this.setState({ prep: { stage: 'topped', topping: k }, trays: trays, hint: low ? 'That was the last of it — ask jeddo' : 'Onto the peel with it' });
+    this.setState({ prep: { stage: 'topped', topping: k }, trays: trays, hint: low ? 'That was the last of it — tap the tray to refill' : 'Onto the peel with it' });
   }
 
-  askJeddo() {
+  refillTray(k) {
     const s = this.state;
-    const m = this.trayMax();
-    if (s.trays.zaatar >= m && s.trays.cheese >= m) {
-      this.setState({ hint: 'Jeddo: the trays are full, ya habibi' });
-      return;
-    }
-    this.setState({ trays: { zaatar: m, cheese: m }, hint: 'Jeddo tops up the trays' });
+    if (s.refilling[k]) return;
+    if (s.trays[k] >= this.trayMax()) { this.setState({ hint: 'That tray is still full' }); return; }
+    const refilling = { zaatar: s.refilling.zaatar, cheese: s.refilling.cheese };
+    refilling[k] = true;
+    this.setState({ refilling: refilling, hint: 'Topping up the ' + this.recipes[k].label.toLowerCase() + '…' });
+    setTimeout(() => {
+      const cur = this.state;
+      const tr = { zaatar: cur.trays.zaatar, cheese: cur.trays.cheese };
+      tr[k] = this.trayMax();
+      const rf = { zaatar: cur.refilling.zaatar, cheese: cur.refilling.cheese };
+      rf[k] = false;
+      this.setState({ trays: tr, refilling: rf, hint: 'Tray filled — back to it' });
+    }, 1300);
   }
 
   peelMax() {
@@ -1193,10 +1160,10 @@ class Component extends DCLogic {
       label: label, w: '96px', left: left, opacity: '1',
       fill: this.toppingBg(k, 0.05),
       level: (have ? Math.max(18, pct) : 0) + '%',
-      count: have,
-      badgeBg: have === 0 ? '#C2593C' : have <= 2 ? '#E0A339' : '#4A7038',
+      badgeBg: this.state.refilling[k] ? '#B77C1F' : have === 0 ? '#C2593C' : have <= 2 ? '#E0A339' : '#4A7038',
       badgeInk: have <= 2 && have > 0 ? '#5B3B0C' : '#F4F0E2',
-      onTap: () => this.tapTopping(k),
+      count: this.state.refilling[k] ? '···' : have,
+      onTap: () => (have <= 0 ? this.refillTray(k) : this.tapTopping(k)),
       onDown: (e) => this.startDrag(k, e)
     };
   }
@@ -1490,9 +1457,6 @@ class Component extends DCLogic {
       radioDial: s.radioOn ? '#8AECAE' : '#3E4A44',
       radioNotes: s.radioOn ? '1' : '0',
       onRadio: () => this.toggleRadio(),
-      jeddoAlert: (s.trays.zaatar <= 0 || s.trays.cheese <= 0) ? '1' : '0',
-      jeddoGlow: (s.trays.zaatar <= 0 || s.trays.cheese <= 0) ? '0 0 0 3px rgba(235,187,78,.85), 0 0 26px rgba(235,187,78,.6)' : 'none',
-      onJeddo: () => this.askJeddo(),
       dragging: !!s.drag,
       drag: s.drag ? { hx: (s.drag.x - parseInt(s.drag.w, 10) / 2) + 'px', hy: (s.drag.y - parseInt(s.drag.w, 10) / 2) + 'px', w: s.drag.w, bread: s.drag.bread, surface: s.drag.surface, clip: s.drag.clip } : { hx: '0px', hy: '0px', w: '0px', bread: 'none', surface: 'none', clip: 'none' },
       drop: dropZone,

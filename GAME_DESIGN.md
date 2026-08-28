@@ -80,8 +80,7 @@ A glance at the fire tells you whether the furn is working without reading a
 label. It stands
 on the **right**, with the topping trays under it and the dough bowl under those.
 
-**Jeddo leans in from the archway on the right**, behind the counter. He is
-decor and personality, not a control.
+**The menu board hangs on the right wall**, where the eye lands after the queue.
 
 ### Drawing a manousheh that looks like one
 
@@ -226,8 +225,8 @@ orders — Abou Elias always takes zaatar, and the player learns it.
 
 **The queue is a queue, not a rack.** A new customer **walks in from the right**
 and settles into the back of the line; when the one at the counter is served the
-whole line **steps up** into the space, and the served customer **turns and walks
-out to the left**, seen from behind, waddling as they go. Nobody teleports.
+whole line **steps up** into the space, and the served customer **walks back out
+to the right the way they came**, seen from behind, waddling as they go. Nobody teleports.
 
 **They are alive, not stamps.** Tapered jaws rather than circles, a shadow down
 one side of every face lit from the furn, almond eyes with a lid line, brows
@@ -377,20 +376,16 @@ in; the deck is how many the furn holds. The batch is whichever is smaller, so
 buying one without the other does nothing — and the station says so ("buy more
 deck, the peel has room"). Two upgrades, 500 and 650, each 2 -> 3 -> 4.
 
-### Jeddo fills the trays
+### The trays run out
 
 The zaatar and cheese trays hold **five manakish each**, and they visibly drain:
 the topping level drops in the tray and a badge counts down, green to amber to
-red. Empty, the tray is bare metal and the topping cannot be spread at all.
+red. Empty, the tray is bare metal and nothing can be spread at all.
 
-**Jeddo refills them, but only when asked.** Tap him and both trays go back to
-five. He glows and a "!" pops over his head the moment one runs dry, so it is
-never a mystery — but it is a tap, and it is a tap you have to spend during the
-rush.
-
-This is what he is for. Standing in the archway as decor was a waste of the best
-character in the scene; now he is the reason you look right when your hands are
-busy left, and the reason running two toppings hard costs you something.
+**Tap an empty tray and it refills over 1.3 seconds** — the badge goes to `···`
+and the level climbs back. It is not free: it is a second and a bit you do not
+have, spent at the moment the queue is longest, which is the whole reason
+running both toppings hard has a cost.
 
 **Every step you take is a step you can see.** The dough leaves the bowl as a
 **ball** and lands on the board; tapping the board sends a **rolling pin** across
