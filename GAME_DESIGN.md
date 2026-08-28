@@ -175,9 +175,18 @@ setting than a menu toggle ever would.
 
 ### Two more mechanics worth taking
 
-- **The order card is a live checklist.** Each item on it gets a green check the
-  moment it is satisfied, so the player reads progress off the customer rather
-  than off a HUD.
+- **The order card is a live checklist**, and it has to be legible in a glance
+  taken between two other actions. So it is a proper ticket, not a row of
+  swatches: a **NOW / NEXT / AFTER** tag so the queue order is never in doubt, a
+  30px picture of the item, its **name in words** under it, the khodra block
+  only when khodra was asked for, and **what it pays** at the bottom. The front
+  one is bordered in terracotta with a gold halo — you always know who you are
+  serving.
+
+  Each requirement takes a **filled green tick** the moment something on the
+  counter satisfies it, so progress is read off the customer rather than a HUD,
+  and an unmet requirement is faint rather than absent — the difference between
+  "not yet" and "not asked for" has to be visible.
 - **Patience is a heart, not a bar.** One icon per customer that drains in
   colour. Cheaper to read at a glance mid-rush than a meter.
 
