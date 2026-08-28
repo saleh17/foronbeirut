@@ -52,7 +52,10 @@ every one — twelve jets in strict formation, each licking on its own offset so
 the line never pulses as a block.
 
 Everything shrinks together with depth — pipe, holes, flames — and that is what
-sells the space: the manakish sit *in* a tunnel rather than on a flat panel.
+sells the space. **The manakish lie flat on the deck**, foreshortened into
+ellipses with a contact shadow under each, inside the narrower floor rather than
+floating upright across the mouth. Their timing rings squash with them, which
+costs a little legibility and buys the whole illusion.
 
 The fire is a state readout, not decoration, and the three states are far apart
 on purpose:
@@ -330,8 +333,10 @@ busy left, and the reason running two toppings hard costs you something.
 
 **Every step you take is a step you can see.** The dough leaves the bowl as a
 **ball** and lands on the board; tapping the board sends a **rolling pin** across
-it and the ball squashes out into a disc under it. After the furn, the paper
-**visibly folds around** the manousheh before it becomes a wrapped roll.
+it and the ball squashes out into a disc under it. After the furn it is wrapped the way one actually is: the manousheh **folds in
+half** with a crease down the middle, a **sheet of paper swings up** from below
+and settles behind it, and a **paper band cinches** around the middle to hold
+it. Three beats in under a second.
 
 Those animations are not decoration either — each one is the half-second of
 feedback that tells you the tap registered, and together they are most of what

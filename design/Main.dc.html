@@ -93,13 +93,19 @@
       100% { transform: scale(1) }
     }
     .squash { animation: squash .72s ease-out both }
-    @keyframes wrapfold {
-      0% { transform: rotate(-26deg) scale(1.55); opacity: 0 }
-      22% { transform: rotate(-16deg) scale(1.32); opacity: 1 }
-      62% { transform: rotate(8deg) scale(1.04); opacity: 1 }
-      100% { transform: rotate(-13deg) scale(.92); opacity: 1 }
+    @keyframes paperup {
+      0% { transform: translateY(30px) rotate(-36deg); opacity: 0 }
+      26% { opacity: 1 }
+      62% { transform: translateY(0) rotate(-11deg); opacity: 1 }
+      100% { transform: translateY(0) rotate(-11deg); opacity: 1 }
     }
-    .wrapfold { animation: wrapfold .6s cubic-bezier(.4,.1,.3,1) both }
+    .paperup { animation: paperup .85s cubic-bezier(.4,.1,.3,1) both }
+    @keyframes foldhalf { 0%, 30% { transform: scaleX(1) } 60%, 100% { transform: scaleX(.44) } }
+    .foldhalf { animation: foldhalf .85s cubic-bezier(.5,0,.3,1) both; transform-origin: 50% 50% }
+    @keyframes creasein { 0%, 32% { opacity: 0 } 60%, 100% { opacity: .85 } }
+    .crease { animation: creasein .85s linear both }
+    @keyframes bandcinch { 0%, 56% { transform: scaleX(1.9); opacity: 0 } 70% { opacity: 1 } 100% { transform: scaleX(1); opacity: 1 } }
+    .bandcinch { animation: bandcinch .85s cubic-bezier(.4,.1,.3,1) both }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
     .beat { animation: hb 1.5s ease-in-out infinite; transform-origin: 50% 60% }
   </style>
@@ -191,7 +197,8 @@
     <div class="h3" style="position: absolute; left: 118px; top: 20px; width: 24px; height: 28px; border-radius: 50%; background: radial-gradient(circle, rgba(255,225,190,.4), rgba(255,225,190,0) 70%);"></div>
 
     <sc-for list="{{slotViews}}" as="s" hint-placeholder-count="2">
-      <div style="position: absolute; left: {{s.left}}; bottom: 34px; width: {{s.size}}; height: {{s.size}};">
+      <div style="position: absolute; left: {{s.left}}; bottom: {{s.bottom}}; width: {{s.size}}; height: {{s.size}}; transform: scaleY(.56); transform-origin: 50% 100%;">
+        <div style="position: absolute; left: 6%; bottom: -7%; right: 6%; height: 22%; border-radius: 50%; background: radial-gradient(closest-side, rgba(30,14,4,.55), rgba(30,14,4,0));"></div>
         <div style="position: absolute; inset: 0; border-radius: 50%; background: {{s.arc}};"></div>
         <div style="position: absolute; inset: 4px; border-radius: 50%; background: #2E1810;"></div>
         <div style="position: absolute; inset: 5px; border-radius: 50%; background: {{s.ring}};"></div>
@@ -495,7 +502,14 @@
             <div style="position: absolute; left: 30px; top: 8px; width: 9px; height: 9px; background: #FDFBF4; border: 2.5px solid #2A1B12; transform: rotate(32deg);"></div>
           </sc-if>
           <sc-if value="{{rd.isWrapping}}" hint-placeholder-val="{{true}}">
-            <div class="wrapfold" style="position: absolute; left: 1px; top: 3px; width: 44px; height: 46px; border-radius: 5px; background: linear-gradient(104deg, #FDFBF4, #E9DFC6 58%, #FBF5E6); border: 2.5px solid #2A1B12; box-shadow: 0 3px 0 rgba(0,0,0,.22); z-index: 2;"></div>
+            <div style="position: absolute; left: 0; top: 2px; width: 46px; height: 50px; z-index: 3;">
+              <div class="paperup" style="position: absolute; left: 0; top: 0; width: 46px; height: 50px; border-radius: 4px; background: linear-gradient(104deg, #FDFBF4, #E9DFC6 58%, #FBF5E6); border: 2.5px solid #2A1B12; box-shadow: 0 3px 0 rgba(0,0,0,.2);"></div>
+              <div class="foldhalf" style="position: absolute; left: 4px; top: 6px; width: 38px; height: 38px; border-radius: 50%; background: {{rd.fill}}; border: 2.5px solid #2A1B12; overflow: hidden;">
+                <div style="position: absolute; inset: 14%; border-radius: 50%; background: {{rd.surface}};"></div>
+                <div class="crease" style="position: absolute; left: 50%; top: -2px; bottom: -2px; width: 3px; margin-left: -1.5px; background: rgba(42,27,18,.6); opacity: 0;"></div>
+              </div>
+              <div class="bandcinch" style="position: absolute; left: -2px; top: 17px; width: 50px; height: 16px; background: linear-gradient(180deg, #FAF4E4, #DCCFB0); border-top: 2.5px solid #2A1B12; border-bottom: 2.5px solid #2A1B12; opacity: 0;"></div>
+            </div>
           </sc-if>
           <sc-if value="{{rd.isBaked}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 3px; top: 7px; width: 40px; height: 40px; border-radius: 50%; clip-path: {{rd.clip}}; background: {{rd.fill}}; border: 3px solid {{rd.edge}}; box-shadow: 0 3px 0 rgba(0,0,0,.22);">
@@ -868,7 +882,7 @@ class Component extends DCLogic {
       this.t4 = setTimeout(() => {
         const cur = this.state.ready.map((x) => (x.id === item.id ? { id: x.id, topping: x.topping, q: x.q, wrapped: true, veg: x.veg } : x));
         this.setState({ ready: cur, wrapping: null, hint: 'Wrapped — hand it over' });
-      }, 600);
+      }, 850);
       return;
     }
     const cust = s.queue[0];
@@ -1048,15 +1062,19 @@ class Component extends DCLogic {
     const s = this.state;
     const n = this.peelMax();
     // the furn interior: whatever the peel carried in, sharing one bake
-    const size = Math.min(54, Math.floor((138 - 6 * (n - 1)) / n));
-    const originX = 24 + Math.round((138 - (size * n + 6 * (n - 1))) / 2);
+    // the deck of the tunnel, in perspective: narrower than the mouth
+    const deckW = 120;
+    const deckX = 33;
+    const size = Math.min(46, Math.floor((deckW - 5 * (n - 1)) / n));
+    const originX = deckX + Math.round((deckW - (size * n + 5 * (n - 1))) / 2);
+    const deckBottom = '36px';
     const slotViews = [];
     let sajLabel = 'Furn — empty', sajColor = '#7A4A2A';
     if (!s.oven) {
       sajLabel = s.peel.length ? 'Slide the peel in' : 'Furn — empty';
       for (let i = 0; i < n; i++) {
         slotViews.push({
-          left: originX + i * (size + 6) + 'px', size: size + 'px',
+          left: originX + i * (size + 5) + 'px', size: size + 'px', bottom: deckBottom,
           arc: 'transparent', ring: 'rgba(255,215,170,.08)', bread: 'transparent', top: 'transparent',
           discBorder: '2px dashed rgba(255,210,160,.3)', discShadow: 'none', clip: 'none'
         });
@@ -1076,7 +1094,7 @@ class Component extends DCLogic {
         else if (q === 'burnt') { col = '#6F4B2C'; rank = 4; }
         if (rank > worst) worst = rank;
         slotViews.push({
-          left: originX + i * (size + 6) + 'px', size: size + 'px',
+          left: originX + i * (size + 5) + 'px', size: size + 'px', bottom: deckBottom,
           arc: 'conic-gradient(from -90deg, rgba(0,0,0,0) 0deg ' + pStart + 'deg, #B5D086 ' + pStart + 'deg ' + pEnd + 'deg, rgba(0,0,0,0) ' + pEnd + 'deg 360deg)',
           ring: 'conic-gradient(from -90deg, ' + col + ' 0deg ' + deg + 'deg, rgba(255,215,170,.14) ' + deg + 'deg 360deg)',
           bread: this.breadBg(Math.min(1.06, tt / r.total)),
