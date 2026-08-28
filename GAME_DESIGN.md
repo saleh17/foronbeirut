@@ -153,10 +153,16 @@ second thing to run to jeddo for would turn a bonus into a chore.
 ### Ayran is back, as a cup that refills
 
 Drinks came out of the game once because pouring one needed its own grammar.
-They come back the cheapest possible way: **a dispenser with one cup under the
-tap.** Tap the cup and it goes to the bench ready to serve; the cup then
-**refills on its own over two seconds**, the ayran visibly rising back up the
-glass, and it cannot be taken again until it is full.
+They come back the cheapest possible way: **a drinks dispenser standing beside
+the sbanekh plate** — a boxy chrome machine with a blue عيران panel, a level
+window, a nozzle and a grated drip tray, and a cup underneath it.
+
+**Drag the cup out; it does not respond to a tap.** The dispenser is the one
+object on the counter that is drag-only, and deliberately so: taking a full cup
+is a lift, and a tap would let you empty it by accident while your hand is
+somewhere else. The cup then **refills on its own over two seconds**, the ayran
+visibly rising back up the glass, and it cannot be taken again until it is
+full.
 
 That one detail is the whole mechanic. A single cup means ayran orders
 **serialise** — two in a row and you are waiting on the pour — so the cups

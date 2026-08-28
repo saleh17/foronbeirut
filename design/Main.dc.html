@@ -553,29 +553,34 @@
     <div style="position: absolute; left: -5px; top: -9px; width: 74px; height: 16px; border-radius: 5px; background: linear-gradient(180deg, #B4BAC1, #878D94); border: 3px solid #3A3F45;"></div>
   </div>
 
-  <!-- ===== AYRAN STATION ===== -->
-  <div style="position: absolute; left: 698px; top: 288px; width: 108px; height: 96px;">
-    <div style="position: absolute; left: 8px; bottom: -4px; right: 8px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
-    <div style="position: absolute; left: 20px; top: 0; width: 68px; height: 44px; border-radius: 7px 7px 4px 4px; background: linear-gradient(90deg, #6E747A 0%, #C6CACE 34%, #E4E7EA 48%, #9DA2A8 72%, #5E6268 100%); border: 3px solid #3A3F45; box-shadow: 0 3px 0 rgba(0,0,0,.28);"></div>
-    <div style="position: absolute; left: 30px; top: -6px; width: 48px; height: 10px; border-radius: 4px; background: linear-gradient(180deg, #D2D6DA, #7E848A); border: 2.5px solid #3A3F45;"></div>
-    <div style="position: absolute; left: 34px; top: 8px; width: 40px; height: 16px; border-radius: 3px; background: linear-gradient(180deg, rgba(250,248,240,.92), rgba(226,222,206,.8)); border: 2px solid #3A3F45;"></div>
-    <div style="position: absolute; left: 48px; top: 42px; width: 12px; height: 9px; border-radius: 0 0 4px 4px; background: #5E6268; border: 2.5px solid #3A3F45; border-top: 0;"></div>
+  <!-- ===== AYRAN DISPENSER — drag a cup out ===== -->
+  <div style="position: absolute; left: 424px; top: 212px; width: 112px; height: 84px;">
+    <div style="position: absolute; left: 8px; bottom: -3px; right: 8px; height: 11px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.34), rgba(0,0,0,0));"></div>
+    <div style="position: absolute; left: 0; top: 0; width: 112px; height: 50px; border-radius: 10px 10px 3px 3px; background: linear-gradient(180deg, #E8EBEE 0%, #C2C7CC 42%, #9AA0A6 100%); border: 3px solid #3A3F45; box-shadow: 0 3px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.75);"></div>
+    <div style="position: absolute; left: 7px; top: 6px; width: 98px; height: 25px; border-radius: 4px; background: linear-gradient(180deg, #2F6FA8, #1F4E7C); border: 2.5px solid #2A1B12; display: flex; align-items: center; justify-content: center; gap: 5px;">
+      <div style="width: 13px; height: 15px; border-radius: 2px 2px 5px 5px; background: #FDFCF7; border: 2px solid #2A1B12;"></div>
+      <span style="font-size: 11px; font-weight: 800; color: #F2F6FA;">عيران</span>
+    </div>
+    <div style="position: absolute; left: 12px; top: 34px; width: 30px; height: 10px; border-radius: 2px; background: linear-gradient(180deg, rgba(253,252,247,.9), rgba(214,210,196,.85)); border: 2px solid #3A3F45;"></div>
+    <div style="position: absolute; right: 12px; top: 34px; width: 18px; height: 10px; border-radius: 3px; background: linear-gradient(180deg, #7E848A, #4A5056); border: 2px solid #3A3F45;"></div>
+    <div style="position: absolute; left: 48px; top: 46px; width: 16px; height: 12px; border-radius: 0 0 5px 5px; background: linear-gradient(180deg, #9AA0A6, #5E6268); border: 2.5px solid #3A3F45; border-top: 0;"></div>
+    <div style="position: absolute; left: 20px; top: 74px; width: 72px; height: 8px; border-radius: 2px; background: repeating-linear-gradient(90deg, #7E848A 0 3px, #4A5056 3px 5px); border: 2px solid #3A3F45;"></div>
     <sc-for list="{{cups}}" as="cp" hint-placeholder-count="1">
-      <div onClick="{{cp.onTap}}" onPointerDown="{{cp.onDown}}" style="position: absolute; left: {{cp.x}}; top: 54px; width: 28px; height: 36px; cursor: pointer;">
-        <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); background: rgba(250,250,248,.5); border: 0;"></div>
-        <div style="position: absolute; inset: 0; overflow: hidden; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%);">
-          <div class="{{cp.anim}}" style="position: absolute; left: 0; right: 0; bottom: 0; height: {{cp.level}}; background: linear-gradient(180deg, #FDFCF7 0%, #ECE9DC 60%, #D9D5C4 100%);"></div>
+      <div onPointerDown="{{cp.onDown}}" style="position: absolute; left: {{cp.x}}; top: 44px; width: 28px; height: 34px; cursor: grab;">
+        <div style="position: absolute; inset: 0; clip-path: polygon(9% 0, 91% 0, 79% 100%, 21% 100%); background: rgba(252,252,250,.45);"></div>
+        <div style="position: absolute; inset: 0; overflow: hidden; clip-path: polygon(9% 0, 91% 0, 79% 100%, 21% 100%);">
+          <div class="{{cp.anim}}" style="position: absolute; left: 0; right: 0; bottom: 0; height: {{cp.level}}; background: linear-gradient(180deg, #FDFCF7 0%, #ECE9DC 60%, #D6D2C0 100%);"></div>
         </div>
-        <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); box-shadow: inset 0 0 0 2.5px #2A1B12;"></div>
-        <div style="position: absolute; left: 2px; top: 0; width: 24px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.55); border: 2px solid #2A1B12;"></div>
+        <div style="position: absolute; inset: 0; clip-path: polygon(9% 0, 91% 0, 79% 100%, 21% 100%); box-shadow: inset 0 0 0 2.5px #2A1B12;"></div>
+        <div style="position: absolute; left: 2px; top: -1px; width: 24px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.6); border: 2px solid #2A1B12;"></div>
       </div>
     </sc-for>
-    <span class="dsp" style="position: absolute; left: 0; bottom: -14px; width: 108px; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">AYRAN</span>
+    <span class="dsp" style="position: absolute; left: 0; bottom: -15px; width: 112px; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">DRAG A CUP</span>
   </div>
 
   <!-- ===== COIN DROPS ===== -->
   <sc-for list="{{drops}}" as="d" hint-placeholder-count="1">
-    <div onClick="{{d.onTap}}" class="coin" style="position: absolute; left: {{d.left}}; top: 194px; width: 58px; height: 58px; cursor: pointer; z-index: 20;">
+    <div onClick="{{d.onTap}}" class="coin" style="position: absolute; left: {{d.left}}; top: 186px; width: 58px; height: 58px; cursor: pointer; z-index: 20;">
       <div style="position: absolute; left: 7px; bottom: -3px; right: 7px; height: 11px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.4), rgba(0,0,0,0));"></div>
       <div style="position: absolute; inset: 0; border-radius: 50%; background: {{d.ring}};"></div>
       <div style="position: absolute; inset: 6px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 34% 28%, #F7D477, #E0A339 54%, #B77C1F 100%); border: 3px solid #2A1B12; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 14px rgba(235,187,78,.6);">
@@ -702,7 +707,7 @@ class Component extends DCLogic {
   zones() {
     return {
       board: [262, 300, 392, 382], peel: [74, 208, 144, 390], furn: [16, 30, 202, 202],
-      ready: [156, 296, 244, 384], bin: [4, 292, 74, 384], ayran: [696, 286, 806, 386],
+      ready: [156, 296, 244, 384], bin: [4, 292, 74, 384], ayran: [420, 208, 540, 300],
       cust0: [218, 58, 336, 216], cust1: [336, 58, 454, 216], cust2: [454, 58, 572, 216]
     };
   }
@@ -1258,9 +1263,9 @@ class Component extends DCLogic {
           : { size: '62px', fill: this.breadBg(0.05), surface: this.toppingBg(p.topping, 0.05), inner: 'inset 0 2px 5px rgba(0,0,0,.3)', shadow: '0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: this.recipes[p.topping].clip, scale: '1', anim: '' };
 
     const trays = [
-      { label: 'Pizza', w: '96px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '448px', opacity: '0.5', level: '0%', count: 'SOON', badgeBg: '#6E747A', badgeInk: '#EDE8DA', onTap: () => this.setState({ hint: 'Mini pizza — coming on day 6' }), onDown: () => {} },
-      this.trayView('zaatar', 'Zaatar', '552px'),
-      this.trayView('cheese', 'Cheese', '656px')
+      { label: 'Pizza', w: '96px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '548px', opacity: '0.5', level: '0%', count: 'SOON', badgeBg: '#6E747A', badgeInk: '#EDE8DA', onTap: () => this.setState({ hint: 'Mini pizza — coming on day 6' }), onDown: () => {} },
+      this.trayView('zaatar', 'Zaatar', '648px'),
+      this.trayView('cheese', 'Cheese', '748px')
     ];
 
     const ready = s.ready.map((rd, i) => ({
@@ -1360,7 +1365,7 @@ class Component extends DCLogic {
 
     const nc = this.cupCount();
     const cupW = 28, cupGap = 6;
-    const cupX0 = Math.round((108 - (cupW * nc + cupGap * (nc - 1))) / 2);
+    const cupX0 = Math.round((112 - (cupW * nc + cupGap * (nc - 1))) / 2);
     const cups = [];
     for (let i = 0; i < nc; i++) {
       const full = s.cups[i];
@@ -1368,8 +1373,7 @@ class Component extends DCLogic {
         x: (cupX0 + i * (cupW + cupGap)) + 'px',
         level: full ? '82%' : '4%',
         anim: full ? '' : 'cupfill',
-        onTap: () => this.takeAyran(i),
-        onDown: (e) => { if (s.cups[i]) this.startDrag('ayran:' + i, e); }
+        onDown: (e) => { if (s.cups[i]) this.startDrag('ayran:' + i, e); else this.setState({ hint: 'That cup is still filling' }); }
       });
     }
 
