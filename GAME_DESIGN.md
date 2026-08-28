@@ -39,12 +39,21 @@ The shop *is* the UI —
 Anything drawn as a rounded card on a flat background is wrong for this game.
 
 **The oven is a furn, not a saj** — the arched brick mouth a real manakish shop
-bakes in, with embers at the back and a metal deck the pieces sit on. **Flames
-lick up both inner walls** and sparks drift off them, and the fire is a state
-readout, not decoration: it sits low and slow with an empty deck, steps up while
-something is baking, and roars — brighter, faster, wider — the moment the peel
-goes in or comes out, with the light spilling onto the wall and counter rising
-with it. A glance at the fire tells you whether the furn is working. It stands
+bakes in. **You can see inside it**: the mouth is a lit tunnel in perspective —
+a fire-brick floor scorched with soot, brick walls in courses running back on
+both sides, a low ceiling, and the far wall glowing orange. Nothing in there is
+black.
+
+**Two gas burner lines run the length of it**, one along the foot of each wall,
+converging toward the back like a road in a tunnel. That is what a real furn
+looks like and it does something no flickering blob could: it gives the interior
+depth, so the manakish sit *in* a space rather than on a flat panel.
+
+The fire is a state readout, not decoration: it burns low and slow on an empty
+deck, steps up while something is baking, and roars — brighter, faster, whiter —
+the moment the peel goes in or comes out, with the light spilling onto the wall
+and counter rising with it. A glance at the fire tells you whether the furn is
+working. It stands
 on the **right**, with the topping trays under it and the dough bowl under those.
 
 **Jeddo leans in from the archway on the right**, behind the counter. He is
@@ -233,7 +242,8 @@ Keep it small — this is the data model.
 
 | Step          | Gesture                             | Fail state                    |
 |---------------|-------------------------------------|-------------------------------|
-| Take dough    | tap the bowl — comes out flat       | wrong count                   |
+| Take dough    | tap the bowl — a ball lands on the board | wrong count              |
+| Roll it out   | tap the board — the pin rolls across | too thin, too thick          |
 | Spread        | drag the ladle across the disc      | patchy coverage, lower rating |
 | Load the peel | tap the peel — holds 3              | peel full, or left half empty |
 | Send it in    | tap the peel again — it swings in   | sent half-loaded              |
@@ -305,10 +315,14 @@ This is what he is for. Standing in the archway as decor was a waste of the best
 character in the scene; now he is the reason you look right when your hands are
 busy left, and the reason running two toppings hard costs you something.
 
-**Dough comes out of the bowl already flattened.** Pressing it out was a tap
-that taught nothing and got boring by day two. **Wrapping replaced it**: after
-the furn, the manousheh is rolled and wrapped in a sheet of paper the way a real
-one is handed over, and only then is it servable. Same tap count, a better tap.
+**Every step you take is a step you can see.** The dough leaves the bowl as a
+**ball** and lands on the board; tapping the board sends a **rolling pin** across
+it and the ball squashes out into a disc under it. After the furn, the paper
+**visibly folds around** the manousheh before it becomes a wrapped roll.
+
+Those animations are not decoration either — each one is the half-second of
+feedback that tells you the tap registered, and together they are most of what
+separates "a cooking game" from "a series of buttons".
 
 **Scoring:** doneness (bake window) x speed x khodra completeness -> coins +
 tip, three stars per customer. That is the whole economy.

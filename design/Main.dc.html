@@ -60,20 +60,38 @@
     .anim-out { animation: peelOut .95s cubic-bezier(.45,.05,.3,1) both }
     @keyframes mouthflash { 0%,100% { opacity: 0 } 40% { opacity: .55 } }
     .mouthflash { animation: mouthflash .95s ease-out both }
-@keyframes lick {
-      0%, 100% { transform: scaleY(1) scaleX(1) translateY(0); opacity: .88 }
-      22% { transform: scaleY(1.28) scaleX(.86) translateY(-2px); opacity: 1 }
-      45% { transform: scaleY(.88) scaleX(1.12) translateY(1px); opacity: .74 }
-      68% { transform: scaleY(1.18) scaleX(.94) translateY(-1px); opacity: .96 }
-      84% { transform: scaleY(.96) scaleX(1.06) translateY(0); opacity: .82 }
-    }
-    .lick { transform-origin: 50% 100%; animation-name: lick; animation-iteration-count: infinite; animation-timing-function: ease-in-out }
+@keyframes burnpulse { 0%,100% { opacity: .82; transform: scaleY(1) } 28% { opacity: 1; transform: scaleY(1.06) } 54% { opacity: .74; transform: scaleY(.96) } 76% { opacity: .95; transform: scaleY(1.03) } }
+    .burn { transform-origin: 50% 100%; animation-name: burnpulse; animation-iteration-count: infinite; animation-timing-function: ease-in-out }
+    .burn2 { transform-origin: 50% 100%; animation-name: burnpulse; animation-iteration-count: infinite; animation-timing-function: ease-in-out; animation-delay: .3s }
     @keyframes sparkup {
       0% { transform: translateY(0) scale(1); opacity: 0 }
       18% { opacity: .95 }
       100% { transform: translateY(-58px) scale(.3); opacity: 0 }
     }
     .spark { animation: sparkup 1.9s linear infinite }
+@keyframes rollpin {
+      0% { transform: translateX(-52px) rotate(0deg); opacity: 0 }
+      14% { opacity: 1 }
+      50% { transform: translateX(0) rotate(200deg); opacity: 1 }
+      86% { opacity: 1 }
+      100% { transform: translateX(52px) rotate(400deg); opacity: 0 }
+    }
+    .pin { animation: rollpin .72s ease-in-out both }
+    @keyframes squash {
+      0% { transform: scale(.52) }
+      30% { transform: scale(.68, .56) }
+      58% { transform: scale(1.08, .9) }
+      78% { transform: scale(.97, 1.02) }
+      100% { transform: scale(1) }
+    }
+    .squash { animation: squash .72s ease-out both }
+    @keyframes wrapfold {
+      0% { transform: rotate(-26deg) scale(1.55); opacity: 0 }
+      22% { transform: rotate(-16deg) scale(1.32); opacity: 1 }
+      62% { transform: rotate(8deg) scale(1.04); opacity: 1 }
+      100% { transform: rotate(-13deg) scale(.92); opacity: 1 }
+    }
+    .wrapfold { animation: wrapfold .6s cubic-bezier(.4,.1,.3,1) both }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
     .beat { animation: hb 1.5s ease-in-out infinite; transform-origin: 50% 60% }
   </style>
@@ -125,21 +143,22 @@
   <div onClick="{{onOven}}" onPointerDown="{{onOvenDown}}" style="position: absolute; left: 16px; top: 30px; width: 186px; height: 172px; cursor: pointer;">
     <div style="position: absolute; inset: 0; border-radius: 93px 93px 7px 7px; background: repeating-linear-gradient(180deg, #BE7A5E 0 16px, #9E5C44 16px 19px), repeating-linear-gradient(90deg, #BE7A5E 0 32px, #9E5C44 32px 35px); background-blend-mode: multiply; border: 4px solid #2A1B12; box-shadow: inset 0 7px 13px rgba(255,220,180,.2), inset 0 -10px 16px rgba(0,0,0,.3), 0 6px 12px rgba(0,0,0,.32);"></div>
     <div style="position: absolute; left: -6px; top: 84px; width: 198px; height: 11px; border-radius: 3px; background: linear-gradient(180deg, #D9C7A6, #A98F6C); border: 3px solid #2A1B12;"></div>
-    <div style="position: absolute; left: 24px; top: 28px; right: 24px; bottom: 28px; border-radius: 69px 69px 4px 4px; background: radial-gradient(72% 62% at 50% 110%, #FFB23C 0%, #E8801F 18%, #8A3A12 44%, #35190C 76%, #1C0C06 100%); border: 3px solid #1C0C06; box-shadow: inset 0 0 26px rgba(0,0,0,.8);"></div>
-    <div class="ember" style="position: absolute; left: 42px; bottom: 34px; width: 102px; height: 30px; border-radius: 50%; background: radial-gradient(50% 100% at 50% 100%, #FFD98A 0%, #FF9E2C 36%, rgba(255,140,40,0) 76%);"></div>
-    <div style="position: absolute; left: 24px; right: 24px; bottom: 34px; height: 0; pointer-events: none;">
-      <sc-for list="{{flames}}" as="fl" hint-placeholder-count="6">
-        <div style="position: absolute; left: {{fl.x}}; bottom: 0; width: {{fl.w}}; height: {{fl.h}}; transform: scaleY({{flameScale}}); transform-origin: 50% 100%;">
-          <div class="lick" style="width: 100%; height: 100%; animation-duration: {{flameDur}}; animation-delay: {{fl.delay}};">
-            <svg width="100%" height="100%" viewBox="0 0 30 70" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M15 70C6 70 1 62 1 53c0-12 9-18 9-30 0-7-2-11-2-11 12 4 17 12 17 21 0 5-2 8-2 11 0 3 2 5 4 3 2-2 2-5 2-7 5 5 6 10 6 17 0 9-6 13-14 13z" fill="{{flameOuter}}" opacity=".9"></path>
-              <path d="M15 70c-5 0-8-5-8-11 0-8 6-12 6-20 0-5-1-7-1-7 8 3 11 8 11 14 0 3-1 5-1 7 0 2 1 3 3 2 1-1 1-3 1-5 3 3 4 7 4 11 0 6-4 9-9 9z" fill="{{flameInner}}"></path>
-            </svg>
-          </div>
-        </div>
-      </sc-for>
+    <div style="position: absolute; left: 24px; top: 28px; right: 24px; bottom: 28px; border-radius: 69px 69px 4px 4px; overflow: hidden; border: 3px solid #1C0C06; background: #6E3A22;">
+      <div style="position: absolute; inset: 0; clip-path: polygon(0% 0%, 30.4% 17%, 69.6% 17%, 100% 0%); background: linear-gradient(180deg, #5A2C18, #3E1D0F);"></div>
+      <div style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 30.4% 50%, 30.4% 17%, 0% 0%); background: repeating-linear-gradient(114deg, #B4744C 0 9px, #9C5F3C 9px 11px), linear-gradient(90deg, #C98055, #7E3F22); background-blend-mode: multiply;"></div>
+      <div style="position: absolute; inset: 0; clip-path: polygon(100% 100%, 69.6% 50%, 69.6% 17%, 100% 0%); background: repeating-linear-gradient(66deg, #A96A45 0 9px, #8E5535 9px 11px), linear-gradient(270deg, #BE7549, #6E3418); background-blend-mode: multiply;"></div>
+      <div style="position: absolute; inset: 0; clip-path: polygon(30.4% 17%, 69.6% 17%, 69.6% 50%, 30.4% 50%); background: radial-gradient(70% 90% at 50% 100%, #FFB23C 0%, #D9631A 34%, #8A3A12 70%, #5A2410 100%);"></div>
+      <div style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 100% 100%, 69.6% 50%, 30.4% 50%); background: radial-gradient(60% 120% at 50% 108%, #E8B97E 0%, #CE9256 30%, #A9683A 62%, #7E4726 100%);"></div>
+      <div style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 100% 100%, 69.6% 50%, 30.4% 50%); background: radial-gradient(circle at 30% 78%, rgba(40,22,10,.45) 0 9%, rgba(0,0,0,0) 10%), radial-gradient(circle at 68% 86%, rgba(40,22,10,.4) 0 7%, rgba(0,0,0,0) 8%), radial-gradient(circle at 52% 64%, rgba(40,22,10,.35) 0 6%, rgba(0,0,0,0) 7%);"></div>
+
+      <div class="burn" style="position: absolute; inset: 0; clip-path: polygon(3% 99%, 12% 99%, 32.6% 52%, 30.2% 52%); background: linear-gradient(0deg, {{flameOuter}} 0%, {{flameInner}} 46%, #FFF0BE 100%); filter: blur(.4px); animation-duration: {{flameDur}};"></div>
+      <div class="burn2" style="position: absolute; inset: 0; clip-path: polygon(97% 99%, 88% 99%, 67.4% 52%, 69.8% 52%); background: linear-gradient(0deg, {{flameOuter}} 0%, {{flameInner}} 46%, #FFF0BE 100%); filter: blur(.4px); animation-duration: {{flameDur}};"></div>
+      <div class="burn" style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 17% 100%, 34% 52%, 29% 52%); background: linear-gradient(0deg, rgba(255,150,40,.5), rgba(255,214,140,.16) 60%, rgba(0,0,0,0)); filter: blur(3px); animation-duration: {{flameDur}};"></div>
+      <div class="burn2" style="position: absolute; inset: 0; clip-path: polygon(100% 100%, 83% 100%, 66% 52%, 71% 52%); background: linear-gradient(0deg, rgba(255,150,40,.5), rgba(255,214,140,.16) 60%, rgba(0,0,0,0)); filter: blur(3px); animation-duration: {{flameDur}};"></div>
+
+      <div style="position: absolute; inset: 0; background: radial-gradient(46% 40% at 50% 46%, rgba(255,186,90,{{spillA}}) 0%, rgba(0,0,0,0) 72%); pointer-events: none;"></div>
       <sc-for list="{{sparks}}" as="sp" hint-placeholder-count="4">
-        <div class="spark" style="position: absolute; left: {{sp.x}}; bottom: {{sp.b}}; width: {{sp.s}}; height: {{sp.s}}; border-radius: 50%; background: {{flameInner}}; box-shadow: 0 0 6px {{flameOuter}}; animation-delay: {{sp.delay}};"></div>
+        <div class="spark" style="position: absolute; left: {{sp.x}}; bottom: {{sp.b}}; width: {{sp.s}}; height: {{sp.s}}; border-radius: 50%; background: #FFE9A8; box-shadow: 0 0 6px {{flameOuter}}; animation-delay: {{sp.delay}};"></div>
       </sc-for>
     </div>
     <div style="position: absolute; left: 24px; bottom: 28px; width: 138px; height: 13px; background: linear-gradient(180deg, #9DA2A8, #565B61); border: 2.5px solid #1C0C06; border-radius: 2px; box-shadow: 0 -3px 8px rgba(255,150,50,.5);"></div>
@@ -412,8 +431,13 @@
     <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #D6BC94 0%, #B99B70 52%, #977B52 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.28); display: flex; align-items: center; justify-content: center; overflow: hidden;">
       <div style="position: absolute; inset: 0; opacity: .35; background: repeating-linear-gradient(88deg, rgba(90,60,30,.4) 0 1px, rgba(0,0,0,0) 1px 9px);"></div>
       <div style="position: absolute; left: 12px; top: 8px; width: 26px; height: 6px; border-radius: 50%; background: rgba(255,248,232,.5);"></div>
-      <div style="position: relative; width: {{prep.size}}; height: {{prep.size}}; border-radius: 50%; clip-path: {{prep.clip}}; background: {{prep.fill}}; box-shadow: {{prep.shadow}}; border: {{prep.border}};">
+      <div class="{{prep.anim}}" style="position: relative; width: {{prep.size}}; height: {{prep.size}}; border-radius: 50%; clip-path: {{prep.clip}}; background: {{prep.fill}}; box-shadow: {{prep.shadow}}; border: {{prep.border}}; transform: scale({{prep.scale}});">
         <div style="position: absolute; inset: 14%; border-radius: 50%; clip-path: {{prep.clip}}; background: {{prep.surface}}; box-shadow: {{prep.inner}};"></div>
+      </div>
+      <div class="{{pinClass}}" style="position: absolute; left: 50%; top: 14px; width: 88px; height: 18px; margin-left: -44px; opacity: 0; pointer-events: none;">
+        <div style="position: absolute; left: 14px; top: 0; width: 60px; height: 18px; border-radius: 9px; background: linear-gradient(180deg, #F2DAA8 0%, #C79C62 55%, #8E6B3C 100%); border: 2.5px solid #2A1B12; box-shadow: inset 0 3px 0 rgba(255,246,220,.5);"></div>
+        <div style="position: absolute; left: 0; top: 6px; width: 15px; height: 7px; border-radius: 4px; background: #8A6242; border: 2px solid #2A1B12;"></div>
+        <div style="position: absolute; right: 0; top: 6px; width: 15px; height: 7px; border-radius: 4px; background: #8A6242; border: 2px solid #2A1B12;"></div>
       </div>
     </div>
   </div>
@@ -446,6 +470,9 @@
             <div style="position: absolute; left: 6px; top: 25px; width: 34px; height: 12px; background: linear-gradient(180deg, #E8D6B0, #D2BC90); border: 2.5px solid #2A1B12; transform: rotate(-13deg);"></div>
             <div style="position: absolute; left: 13px; top: 1px; width: 20px; height: 17px; border-radius: 50%; background: {{rd.surface}}; border: 2.5px solid #2A1B12; transform: rotate(-13deg); box-shadow: inset 0 -2px 3px rgba(0,0,0,.35);"></div>
             <div style="position: absolute; left: 30px; top: 8px; width: 9px; height: 9px; background: #FDFBF4; border: 2.5px solid #2A1B12; transform: rotate(32deg);"></div>
+          </sc-if>
+          <sc-if value="{{rd.isWrapping}}" hint-placeholder-val="{{true}}">
+            <div class="wrapfold" style="position: absolute; left: 1px; top: 3px; width: 44px; height: 46px; border-radius: 5px; background: linear-gradient(104deg, #FDFBF4, #E9DFC6 58%, #FBF5E6); border: 2.5px solid #2A1B12; box-shadow: 0 3px 0 rgba(0,0,0,.22); z-index: 2;"></div>
           </sc-if>
           <sc-if value="{{rd.isBaked}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 3px; top: 7px; width: 40px; height: 40px; border-radius: 50%; clip-path: {{rd.clip}}; background: {{rd.fill}}; border: 3px solid {{rd.edge}}; box-shadow: 0 3px 0 rgba(0,0,0,.22);">
@@ -510,6 +537,8 @@ class Component extends DCLogic {
       oven: null,
       fatayerStock: 6,
       peelAnim: null,
+      rolling: false,
+      wrapping: null,
       trays: { zaatar: 5, cheese: 5 },
       drag: null,
       ready: [],
@@ -549,7 +578,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() { this.timer = setInterval(() => this.tick(), 100); }
-  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.t1); clearTimeout(this.t2); }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.t1); clearTimeout(this.t2); clearTimeout(this.t3); clearTimeout(this.t4); }
 
   tick() {
     const s = this.state;
@@ -572,12 +601,19 @@ class Component extends DCLogic {
 
   takeDough() {
     if (this.state.prep) { this.setState({ hint: 'One on the board already' }); return; }
-    this.setState({ prep: { stage: 'flat', topping: null }, hint: 'Spread zaatar or cheese' });
+    this.setState({ prep: { stage: 'ball', topping: null }, hint: 'Tap the board to roll it out' });
   }
 
   tapPrep() {
-    const p = this.state.prep;
+    const s = this.state;
+    const p = s.prep;
+    if (s.rolling) return;
     if (!p) { this.setState({ hint: 'Take dough from the bowl' }); return; }
+    if (p.stage === 'ball') {
+      this.setState({ rolling: true, hint: 'Rolling it out…' });
+      this.t3 = setTimeout(() => this.setState({ rolling: false, prep: { stage: 'flat', topping: null }, hint: 'Spread zaatar or cheese' }), 720);
+      return;
+    }
     if (p.stage === 'flat') { this.setState({ hint: 'It needs a topping first' }); return; }
     this.setState({ hint: 'Onto the peel with it' });
   }
@@ -669,7 +705,9 @@ class Component extends DCLogic {
   tapTopping(k) {
     const s = this.state;
     const p = s.prep;
+    if (s.rolling) return;
     if (!p) { this.setState({ hint: 'Take dough from the bowl first' }); return; }
+    if (p.stage === 'ball') { this.setState({ hint: 'Roll it flat first' }); return; }
     if (p.stage !== 'flat') { this.setState({ hint: 'That one is already topped' }); return; }
     if ((s.trays[k] || 0) <= 0) {
       this.setState({ hint: (k === 'zaatar' ? 'Zaatar' : 'Cheese') + ' tray is empty — ask jeddo' });
@@ -802,8 +840,12 @@ class Component extends DCLogic {
     const item = s.ready[i];
     if (!item) return;
     if (!item.wrapped) {
-      const ready = s.ready.map((x, j) => (j === i ? { id: x.id, topping: x.topping, q: x.q, wrapped: true, veg: x.veg } : x));
-      this.setState({ ready: ready, hint: 'Wrapped — hand it over' });
+      if (s.wrapping !== null) return;
+      this.setState({ wrapping: item.id, hint: 'Rolling it in the paper…' });
+      this.t4 = setTimeout(() => {
+        const cur = this.state.ready.map((x) => (x.id === item.id ? { id: x.id, topping: x.topping, q: x.q, wrapped: true, veg: x.veg } : x));
+        this.setState({ ready: cur, wrapping: null, hint: 'Wrapped — hand it over' });
+      }, 600);
       return;
     }
     const cust = s.queue[0];
@@ -1103,10 +1145,12 @@ class Component extends DCLogic {
 
     const p = s.prep;
     const prep = !p
-      ? { size: '0px', fill: 'transparent', surface: 'transparent', inner: 'none', shadow: 'none', border: '0 solid transparent', clip: 'none' }
-      : p.stage === 'flat'
-        ? { size: '62px', fill: this.breadBg(0.05), surface: 'transparent', inner: 'none', shadow: '0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: 'none' }
-        : { size: '62px', fill: this.breadBg(0.05), surface: this.toppingBg(p.topping, 0.05), inner: 'inset 0 2px 5px rgba(0,0,0,.3)', shadow: '0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: this.recipes[p.topping].clip };
+      ? { size: '0px', fill: 'transparent', surface: 'transparent', inner: 'none', shadow: 'none', border: '0 solid transparent', clip: 'none', scale: '1', anim: '' }
+      : p.stage === 'ball'
+        ? { size: '62px', fill: 'radial-gradient(circle at 34% 26%, #FCF0D6, #E4CE9E 60%, #C9AE78 100%)', surface: 'transparent', inner: 'none', shadow: 'inset 0 -7px 11px rgba(120,85,40,.38), 0 4px 6px rgba(0,0,0,.32)', border: '3px solid #2A1B12', clip: 'none', scale: s.rolling ? '1' : '0.52', anim: s.rolling ? 'squash' : '' }
+        : p.stage === 'flat'
+          ? { size: '62px', fill: this.breadBg(0.05), surface: 'transparent', inner: 'none', shadow: '0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: 'none', scale: '1', anim: '' }
+          : { size: '62px', fill: this.breadBg(0.05), surface: this.toppingBg(p.topping, 0.05), inner: 'inset 0 2px 5px rgba(0,0,0,.3)', shadow: '0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: this.recipes[p.topping].clip, scale: '1', anim: '' };
 
     const trays = [
       { label: 'Pizza', w: '96px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '448px', opacity: '0.5', level: '0%', count: 'SOON', badgeBg: '#6E747A', badgeInk: '#EDE8DA', onTap: () => this.setState({ hint: 'Mini pizza — coming on day 6' }), onDown: () => {} },
@@ -1116,6 +1160,7 @@ class Component extends DCLogic {
 
     const ready = s.ready.map((rd, i) => ({
       isSet: !!this.recipes[rd.topping].set,
+      isWrapping: s.wrapping === rd.id,
       isWrapped: rd.wrapped && !this.recipes[rd.topping].set,
       isBaked: !rd.wrapped && !this.recipes[rd.topping].set,
       veg: this.vegOverlay(rd.veg),
@@ -1152,23 +1197,14 @@ class Component extends DCLogic {
     }
 
     const heat = s.peelAnim ? 2 : s.oven ? 1 : 0;
-    const flameScale = heat === 2 ? '1.42' : heat === 1 ? '1.06' : '0.68';
     const flameDur = heat === 2 ? '0.42s' : heat === 1 ? '0.8s' : '1.5s';
     const flameOuter = heat === 2 ? '#FF7A1E' : heat === 1 ? '#F2891C' : '#D9701A';
     const flameInner = heat === 2 ? '#FFE07A' : heat === 1 ? '#FFCB58' : '#F5B845';
-    const flames = [
-      { x: '-6px', w: '26px', h: '62px', delay: '0s' },
-      { x: '10px', w: '20px', h: '46px', delay: '.35s' },
-      { x: '26px', w: '16px', h: '34px', delay: '.7s' },
-      { x: '96px', w: '16px', h: '36px', delay: '.5s' },
-      { x: '110px', w: '20px', h: '48px', delay: '.15s' },
-      { x: '122px', w: '26px', h: '64px', delay: '.85s' }
-    ];
     const sparks = [
-      { x: '8px', b: '30px', s: '3px', delay: '0s' },
-      { x: '30px', b: '22px', s: '2px', delay: '.6s' },
-      { x: '104px', b: '26px', s: '2.5px', delay: '1.1s' },
-      { x: '126px', b: '34px', s: '3px', delay: '1.6s' }
+      { x: '14px', b: '14px', s: '3px', delay: '0s' },
+      { x: '38px', b: '30px', s: '2px', delay: '.6s' },
+      { x: '98px', b: '32px', s: '2.5px', delay: '1.1s' },
+      { x: '120px', b: '16px', s: '3px', delay: '1.6s' }
     ];
 
     const secs = Math.floor(s.timeLeft);
@@ -1214,7 +1250,8 @@ class Component extends DCLogic {
       setCluster: setCluster,
       spillA: heat === 2 ? '.62' : heat === 1 ? '.46' : '.3',
       spillB: heat === 2 ? '.26' : heat === 1 ? '.18' : '.11',
-      flames: flames, sparks: sparks, flameScale: flameScale, flameDur: flameDur, flameOuter: flameOuter, flameInner: flameInner,
+      pinClass: s.rolling ? 'pin' : '',
+      sparks: sparks, flameDur: flameDur, flameOuter: flameOuter, flameInner: flameInner,
       peelAnim: s.peelAnim || '',
       peelGlow: peelReady ? '0 0 0 3px rgba(235,187,78,.9), 0 0 20px rgba(235,187,78,.7), 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55)' : '0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55)',
       peelZ: s.peelAnim ? '25' : '1',
