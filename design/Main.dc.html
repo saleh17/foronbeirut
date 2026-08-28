@@ -109,6 +109,8 @@
     .spiralin { animation: spiralin .85s ease-out both }
     @keyframes sleevein { 0%, 40% { opacity: 0 } 66%, 100% { opacity: 1 } }
     .sleevein { animation: sleevein .85s ease-out both }
+@keyframes cupfill { 0% { height: 4% } 100% { height: 82% } }
+    .cupfill { animation: cupfill 2s linear both }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
     .beat { animation: hb 1.5s ease-in-out infinite; transform-origin: 50% 60% }
   </style>
@@ -296,6 +298,12 @@
       <div style="width: 58px; border-radius: 9px; background: linear-gradient(180deg, #FDF8ED, #EFE6D2); border: {{c.cardBorder}}; box-shadow: {{c.cardShadow}}; padding: 4px 4px 5px; display: flex; flex-direction: column; align-items: center; gap: 2px;">
         <span style="font-size: 7px; font-weight: 800; letter-spacing: .1em; color: {{c.tagInk}}; background: {{c.tagBg}}; border-radius: 999px; padding: 1px 7px;">{{c.tag}}</span>
         <div style="position: relative; margin-top: 1px; width: 34px; height: 32px;">
+          <sc-if value="{{c.isCup}}" hint-placeholder-val="{{true}}">
+            <div style="position: absolute; left: 7px; top: 0; width: 22px; height: 30px;">
+              <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); background: linear-gradient(180deg, #FDFCF7, #D9D5C4);"></div>
+              <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); box-shadow: inset 0 0 0 2px #2A1B12;"></div>
+            </div>
+          </sc-if>
           <sc-if value="{{c.isSet}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 1px; top: 0; width: 16px; height: 15px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: {{c.surface}}; border: 2px solid #2A1B12; transform: rotate(-7deg);"></div>
             <div style="position: absolute; left: 17px; top: 0; width: 16px; height: 15px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: {{c.surface}}; border: 2px solid #2A1B12; transform: rotate(7deg);"></div>
@@ -490,6 +498,13 @@
       </div>
       <sc-for list="{{ready}}" as="rd" hint-placeholder-count="2">
         <div onClick="{{rd.onTap}}" onPointerDown="{{rd.onDown}}" style="position: relative; width: 46px; height: 54px; cursor: pointer;">
+          <sc-if value="{{rd.isCup}}" hint-placeholder-val="{{true}}">
+            <div style="position: absolute; left: 8px; top: 6px; width: 30px; height: 40px;">
+              <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); background: linear-gradient(180deg, #FDFCF7 0%, #ECE9DC 62%, #D2CEBC 100%);"></div>
+              <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); box-shadow: inset 0 0 0 2.5px #2A1B12;"></div>
+              <div style="position: absolute; left: 2px; top: 0; width: 26px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.6); border: 2px solid #2A1B12;"></div>
+            </div>
+          </sc-if>
           <sc-if value="{{rd.isSet}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 1px; top: 4px; width: 44px; height: 46px; border-radius: 4px; background: linear-gradient(104deg, #FDFBF4, #E9DFC6 60%, #FBF5E6); border: 2.5px solid #2A1B12; transform: rotate(-5deg); box-shadow: 0 3px 0 rgba(0,0,0,.2);"></div>
             <sc-for list="{{setCluster}}" as="sc" hint-placeholder-count="4">
@@ -529,13 +544,33 @@
   </div>
 
   <!-- ===== BIN ===== -->
-  <div onClick="{{onTrash}}" style="position: absolute; left: 706px; top: 294px; width: 64px; height: 88px; cursor: pointer;">
+  <div onClick="{{onTrash}}" style="position: absolute; left: 8px; top: 294px; width: 62px; height: 88px; cursor: pointer;">
     <div style="position: absolute; left: 2px; bottom: -5px; right: 2px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 6px 6px 11px 11px; background: linear-gradient(90deg, #9AA0A7 0%, #7A8087 42%, #5C6169 100%); border: 3px solid #3A3F45; box-shadow: 0 4px 0 rgba(0,0,0,.28);">
       <div style="position: absolute; left: 14px; top: 26px; width: 36px; height: 48px; border-radius: 4px; background: rgba(0,0,0,.38); box-shadow: inset 0 4px 8px rgba(0,0,0,.6);"></div>
       <div style="position: absolute; left: 6px; top: 24px; width: 4px; height: 54px; background: rgba(255,255,255,.22); border-radius: 2px;"></div>
     </div>
     <div style="position: absolute; left: -5px; top: -9px; width: 74px; height: 16px; border-radius: 5px; background: linear-gradient(180deg, #B4BAC1, #878D94); border: 3px solid #3A3F45;"></div>
+  </div>
+
+  <!-- ===== AYRAN STATION ===== -->
+  <div style="position: absolute; left: 698px; top: 288px; width: 108px; height: 96px;">
+    <div style="position: absolute; left: 8px; bottom: -4px; right: 8px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
+    <div style="position: absolute; left: 20px; top: 0; width: 68px; height: 44px; border-radius: 7px 7px 4px 4px; background: linear-gradient(90deg, #6E747A 0%, #C6CACE 34%, #E4E7EA 48%, #9DA2A8 72%, #5E6268 100%); border: 3px solid #3A3F45; box-shadow: 0 3px 0 rgba(0,0,0,.28);"></div>
+    <div style="position: absolute; left: 30px; top: -6px; width: 48px; height: 10px; border-radius: 4px; background: linear-gradient(180deg, #D2D6DA, #7E848A); border: 2.5px solid #3A3F45;"></div>
+    <div style="position: absolute; left: 34px; top: 8px; width: 40px; height: 16px; border-radius: 3px; background: linear-gradient(180deg, rgba(250,248,240,.92), rgba(226,222,206,.8)); border: 2px solid #3A3F45;"></div>
+    <div style="position: absolute; left: 48px; top: 42px; width: 12px; height: 9px; border-radius: 0 0 4px 4px; background: #5E6268; border: 2.5px solid #3A3F45; border-top: 0;"></div>
+    <sc-for list="{{cups}}" as="cp" hint-placeholder-count="1">
+      <div onClick="{{cp.onTap}}" onPointerDown="{{cp.onDown}}" style="position: absolute; left: {{cp.x}}; top: 54px; width: 28px; height: 36px; cursor: pointer;">
+        <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); background: rgba(250,250,248,.5); border: 0;"></div>
+        <div style="position: absolute; inset: 0; overflow: hidden; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%);">
+          <div class="{{cp.anim}}" style="position: absolute; left: 0; right: 0; bottom: 0; height: {{cp.level}}; background: linear-gradient(180deg, #FDFCF7 0%, #ECE9DC 60%, #D9D5C4 100%);"></div>
+        </div>
+        <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); box-shadow: inset 0 0 0 2.5px #2A1B12;"></div>
+        <div style="position: absolute; left: 2px; top: 0; width: 24px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.55); border: 2px solid #2A1B12;"></div>
+      </div>
+    </sc-for>
+    <span class="dsp" style="position: absolute; left: 0; bottom: -14px; width: 108px; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">AYRAN</span>
   </div>
 
   <!-- ===== COIN DROPS ===== -->
@@ -568,7 +603,7 @@
 </div>
 </x-dc>
 
-<script data-dc-script data-props='{"ovenLevel":{"editor":"enum","options":["Clay saj","Gas furn","Stone furn","Pro deck"],"default":"Clay saj","section":"Upgrades"},"peelSlots":{"editor":"int","min":1,"max":4,"default":1,"section":"Upgrades"},"furnSlots":{"editor":"int","min":1,"max":4,"default":1,"section":"Upgrades"},"$preview":{"width":844,"height":390}}'>
+<script data-dc-script data-props='{"ovenLevel":{"editor":"enum","options":["Clay saj","Gas furn","Stone furn","Pro deck"],"default":"Clay saj","section":"Upgrades"},"ayranCups":{"editor":"int","min":1,"max":3,"default":1,"section":"Upgrades"},"peelSlots":{"editor":"int","min":1,"max":4,"default":1,"section":"Upgrades"},"furnSlots":{"editor":"int","min":1,"max":4,"default":1,"section":"Upgrades"},"$preview":{"width":844,"height":390}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -582,6 +617,7 @@ class Component extends DCLogic {
       rolling: false,
       wrapping: null,
       trays: { zaatar: 5, cheese: 5 },
+      cups: [true, true, true],
       drag: null,
       ready: [],
       drops: [{ id: 1, amt: 14, life: 5.2, max: 6, slot: 0 }],
@@ -601,7 +637,8 @@ class Component extends DCLogic {
       zaatar: { bake: 6, perfect: 1.4, grace: 0.8, price: 8, label: 'Zaatar', disc: '#4E6B2E', dark: '#3C5522', clip: 'none' },
       cheese: { bake: 7.5, perfect: 1.5, grace: 1.1, price: 14, label: 'Cheese', disc: '#EFD79B', dark: '#D9B45E', clip: 'none' },
       sbanekh: { bake: 7, perfect: 1.3, grace: 0.9, price: 12, label: 'Sbanekh', set: true, noVeg: true, disc: '#4A7038', dark: '#335024', clip: 'polygon(50% 2%, 98% 94%, 2% 94%)' },
-      pizza: { bake: 6.6, perfect: 1.35, grace: 0.9, price: 16, label: 'Mini pizza', disc: '#D4643F', dark: '#A8452D', clip: 'none' }
+      pizza: { bake: 6.6, perfect: 1.35, grace: 0.9, price: 16, label: 'Mini pizza', disc: '#D4643F', dark: '#A8452D', clip: 'none' },
+      ayran: { bake: 1, perfect: 1, grace: 1, price: 6, label: 'Ayran', drink: true, noVeg: true, disc: '#F2EFE4', dark: '#D9D5C4', clip: 'none' }
     };
   }
 
@@ -633,7 +670,7 @@ class Component extends DCLogic {
   newCustomer() {
     const names = ['Abou Elias', 'Yara', 'Im Georges', 'Ziad', 'Karim', 'Nour', 'Hanna', 'Rita'];
     const id = this.state.nextId + 1;
-    const pool = ['zaatar', 'cheese', 'sbanekh', 'zaatar', 'cheese'];
+    const pool = ['zaatar', 'cheese', 'sbanekh', 'zaatar', 'ayran', 'cheese'];
     const w = pool[id % pool.length];
     const all = ['tomato', 'cucumber', 'olives', 'pickles', 'mint', 'labneh'];
     let veg = [];
@@ -665,7 +702,7 @@ class Component extends DCLogic {
   zones() {
     return {
       board: [262, 300, 392, 382], peel: [74, 208, 144, 390], furn: [16, 30, 202, 202],
-      ready: [156, 296, 244, 384], bin: [702, 292, 774, 384],
+      ready: [156, 296, 244, 384], bin: [4, 292, 74, 384], ayran: [696, 286, 806, 386],
       cust0: [218, 58, 336, 216], cust1: [336, 58, 454, 216], cust2: [454, 58, 572, 216]
     };
   }
@@ -682,6 +719,7 @@ class Component extends DCLogic {
 
   dragArt(kind) {
     if (kind === 'dough') return { bread: this.breadBg(0.05), surface: 'transparent', clip: 'none', w: '52px' };
+    if (kind.indexOf('ayran:') === 0) return { bread: 'linear-gradient(180deg, #FDFCF7, #D9D5C4)', surface: 'transparent', clip: 'none', w: '34px' };
     if (kind.indexOf('veg:') === 0) { const vk = this.vegKinds[kind.split(':')[1]]; return { bread: 'rgba(0,0,0,0)', surface: vk.fill, clip: 'none', w: '38px' }; }
     if (kind === 'zaatar' || kind === 'cheese' || kind === 'sbanekh') {
       return { bread: 'rgba(0,0,0,0)', surface: this.toppingBg(kind, 0.05), clip: kind === 'sbanekh' ? 'polygon(50% 2%, 98% 94%, 2% 94%)' : 'none', w: '44px' };
@@ -727,6 +765,7 @@ class Component extends DCLogic {
     if (hit === 'bin') { this.trash(); return; }
     if (kind === 'dough') { if (hit === 'board') this.takeDough(); else this.setState({ hint: 'Dough goes on the board' }); return; }
     if (kind === 'zaatar' || kind === 'cheese') { if (hit === 'board') this.tapTopping(kind); else this.setState({ hint: 'Spread it on the board' }); return; }
+    if (kind.indexOf('ayran:') === 0) { const ci = Number(kind.split(':')[1]); if (hit === 'ready' || hit === 'cust0') { this.takeAyran(ci); if (hit === 'cust0') { const li = this.state.ready.length; setTimeout(() => this.tapReady(li), 0); } } else this.setState({ hint: 'Ayran goes on the bench or to a customer' }); return; }
     if (kind.indexOf('veg:') === 0) { if (hit === 'ready') this.addVeg(kind.split(':')[1]); else this.setState({ hint: 'Khodra goes on a baked one' }); return; }
     if (kind === 'sbanekh') { this.takeFatayer(); if (hit === 'cust0') { const i = this.state.ready.length - 1; if (i >= 0) this.tapReady(i); } return; }
     if (kind === 'topped') { if (hit === 'peel') this.loadPeel(); else this.setState({ hint: 'Topped ones go on the peel' }); return; }
@@ -867,6 +906,23 @@ class Component extends DCLogic {
     if (s.ready[idx].veg.indexOf(k) >= 0) { this.setState({ hint: this.vegKinds[k].short + ' is already on it' }); return; }
     const ready = s.ready.map((x, j) => (j === idx ? { id: x.id, topping: x.topping, q: x.q, wrapped: x.wrapped, veg: x.veg.concat([k]) } : x));
     this.setState({ ready: ready, hint: this.vegKinds[k].short + ' on — what else did they ask for?' });
+  }
+
+  cupCount() { return Math.max(1, Math.min(3, this.props.ayranCups || 1)); }
+
+  takeAyran(i) {
+    const s = this.state;
+    if (!s.cups[i]) { this.setState({ hint: 'That cup is still filling' }); return; }
+    if (s.ready.length >= 4) { this.setState({ hint: 'Counter is full — serve some' }); return; }
+    const cups = s.cups.slice();
+    cups[i] = false;
+    const ready = s.ready.concat([{ id: s.nextId, topping: 'ayran', q: 'perfect', wrapped: true, veg: [] }]);
+    this.setState({ cups: cups, ready: ready, nextId: s.nextId + 1, hint: 'Cold ayran — hand it over' });
+    setTimeout(() => {
+      const cur = this.state.cups.slice();
+      cur[i] = true;
+      this.setState({ cups: cur });
+    }, 2000);
   }
 
   takeFatayer() {
@@ -1029,6 +1085,7 @@ class Component extends DCLogic {
   dropOk(kind, hit) {
     if (hit === 'bin') return true;
     if (kind === 'dough' || kind === 'zaatar' || kind === 'cheese') return hit === 'board';
+    if (kind.indexOf('ayran:') === 0) return hit === 'ready' || hit === 'cust0';
     if (kind.indexOf('veg:') === 0) return hit === 'ready';
     if (kind === 'sbanekh') return hit === 'ready' || hit === 'cust0';
     if (kind === 'topped') return hit === 'peel';
@@ -1174,9 +1231,10 @@ class Component extends DCLogic {
         sideColor: 'linear-gradient(120deg, #C0392B 0 30%, #7FA84C 30% 55%, #2C3A18 55% 78%, #C9B84E 78% 100%)',
         sideOpacity: c.veg ? '1' : '0.18',
         heart: c.pat > 0.55 ? '#D4643F' : c.pat > 0.28 ? '#E0A339' : '#8F8C88',
-        wantLabel: c.want === 'cheese' ? 'JIBNEH' : c.want === 'sbanekh' ? 'SBANEKH ×4' : 'ZAATAR',
-        isSet: !!this.recipes[c.want].set,
-        isDisc: !this.recipes[c.want].set,
+        wantLabel: c.want === 'cheese' ? 'JIBNEH' : c.want === 'sbanekh' ? 'SBANEKH ×4' : c.want === 'ayran' ? 'AYRAN' : 'ZAATAR',
+        isCup: !!this.recipes[c.want].drink,
+        isSet: !!this.recipes[c.want].set && !this.recipes[c.want].drink,
+        isDisc: !this.recipes[c.want].set && !this.recipes[c.want].drink,
         veg: wantVeg.length > 0,
         vegList: wantVeg.map((k) => ({ fill: this.vegKinds[k].fill, label: this.vegKinds[k].label, check: on.indexOf(k) >= 0 ? '1' : '0.12' })),
         price: price,
@@ -1206,10 +1264,11 @@ class Component extends DCLogic {
     ];
 
     const ready = s.ready.map((rd, i) => ({
-      isSet: !!this.recipes[rd.topping].set,
+      isCup: !!this.recipes[rd.topping].drink,
+      isSet: !!this.recipes[rd.topping].set && !this.recipes[rd.topping].drink,
       isWrapping: s.wrapping === rd.id,
-      isWrapped: rd.wrapped && !this.recipes[rd.topping].set,
-      isBaked: !rd.wrapped && !this.recipes[rd.topping].set,
+      isWrapped: rd.wrapped && !this.recipes[rd.topping].set && !this.recipes[rd.topping].drink,
+      isBaked: !rd.wrapped && !this.recipes[rd.topping].set && !this.recipes[rd.topping].drink,
       veg: this.vegOverlay(rd.veg),
       clip: this.recipes[rd.topping].clip,
       fill: this.breadBg(rd.q === 'raw' ? 0.45 : rd.q === 'perfect' ? 0.9 : rd.q === 'done' ? 0.98 : 1.05),
@@ -1299,6 +1358,21 @@ class Component extends DCLogic {
       bakeText = s.peel.length ? 'SEND THE PEEL IN' : 'FURN EMPTY';
     }
 
+    const nc = this.cupCount();
+    const cupW = 28, cupGap = 6;
+    const cupX0 = Math.round((108 - (cupW * nc + cupGap * (nc - 1))) / 2);
+    const cups = [];
+    for (let i = 0; i < nc; i++) {
+      const full = s.cups[i];
+      cups.push({
+        x: (cupX0 + i * (cupW + cupGap)) + 'px',
+        level: full ? '82%' : '4%',
+        anim: full ? '' : 'cupfill',
+        onTap: () => this.takeAyran(i),
+        onDown: (e) => { if (s.cups[i]) this.startDrag('ayran:' + i, e); }
+      });
+    }
+
     const secs = Math.floor(s.timeLeft);
     const timeText = Math.floor(secs / 60) + ':' + (secs % 60 < 10 ? '0' : '') + (secs % 60);
 
@@ -1310,6 +1384,7 @@ class Component extends DCLogic {
         { name: 'Zaatar', price: this.recipes.zaatar.price, swatch: this.toppingBg('zaatar', 0.9), clip: 'none' },
         { name: 'Jibneh', price: this.recipes.cheese.price, swatch: this.toppingBg('cheese', 0.9), clip: 'none' },
         { name: 'Sbanekh ×4', price: this.recipes.sbanekh.price, swatch: this.toppingBg('sbanekh', 0.9), clip: 'polygon(50% 2%, 98% 94%, 2% 94%)' },
+        { name: 'Ayran', price: this.recipes.ayran.price, swatch: 'linear-gradient(180deg, #FDFCF7, #D9D5C4)', clip: 'none' },
         { name: 'Khodra', price: '+2', swatch: 'linear-gradient(120deg, #C0392B 0 30%, #7FA84C 30% 55%, #2C3A18 55% 78%, #C9B84E 78% 100%)', clip: 'none' }
       ],
       soon: [
@@ -1343,6 +1418,7 @@ class Component extends DCLogic {
       spillA: heat === 2 ? '.66' : heat === 1 ? '.54' : '.22',
       spillB: heat === 2 ? '.28' : heat === 1 ? '.22' : '.08',
       pinClass: s.rolling ? 'pin' : '',
+      cups: cups,
       bakeBands: bakeBands, bakeFill: bakeFill, bakeColor: bakeColor, deckBg: deckBg, bakeText: bakeText, bakeHeadOp: bakeHeadOp,
       tongues: tongues, jets: jets, sparks: sparks, flameDur: flameDur, flameOuter: flameOuter, flameInner: flameInner,
       peelAnim: s.peelAnim || '',

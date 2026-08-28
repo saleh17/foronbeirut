@@ -150,6 +150,21 @@ they pay 30% less; put it on someone who did not ask and nobody minds.
 The tray does not run out. Zaatar and cheese already carry the scarcity, and a
 second thing to run to jeddo for would turn a bonus into a chore.
 
+### Ayran is back, as a cup that refills
+
+Drinks came out of the game once because pouring one needed its own grammar.
+They come back the cheapest possible way: **a dispenser with one cup under the
+tap.** Tap the cup and it goes to the bench ready to serve; the cup then
+**refills on its own over two seconds**, the ayran visibly rising back up the
+glass, and it cannot be taken again until it is full.
+
+That one detail is the whole mechanic. A single cup means ayran orders
+**serialise** — two in a row and you are waiting on the pour — so the cups
+themselves become an upgrade: **a second cup 400, a third after that**, and each
+one buys you a parallel pour rather than a faster one. It is the clearest
+upgrade in the tree, because the player has already felt exactly what they are
+buying.
+
 ### Sbanekh comes off a plate, not out of the furn
 
 **Drinks are cut.** Ayran, tea and juice each needed their own cooler, their own
@@ -431,6 +446,7 @@ Bake time -50%, forgiveness +29%. The upgrade always feels like a gift.
 | Wide ladle     | spread in one stroke, not three      | 3             | 400/1,100/2,800 |
 | Prep buffer    | pre-flattened discs in a rack        | 3             | 900/2,400/6,000 |
 | Serving tray   | batch-serve three customers          | 2             | 1,600/4,200     |
+| Ayran cups     | serialised pours — pour in parallel  | 1>2>3         | 400/1,100       |
 | Tip jar        | auto-collects coins after 2s         | 2             | 7,000/15,000    |
 
 **Sell the tip jar last and expensive.** Manual coin collection is the best
@@ -447,6 +463,7 @@ It should read as the reward for mastery, not an early convenience.
 | Kishk                   | day 7   |    16 | needs topping-bar upgrade     |
 | Lahm bi ajin            | day 10  |    22 | meat prep step                |
 | Fatayer sbanekh ×4      | day 3   |    12 | a set of four off the plate, plain |
+| Ayran                   | start   |     6 | one cup, refills in two seconds |
 | Mini pizza (safiha)     | day 6   |    16 | shorter bake than cheese      |
 
 ### Ingredients and shop
