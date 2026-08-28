@@ -88,9 +88,11 @@ best prop in the room.
 
 ### Khodra is an add-on, not a step
 
-One tray with five compartments — tomato, cucumber, olives, pickles, mint — and
-it goes **on the baked manousheh, before the paper**, exactly where it goes in
-life. It is never required: it adds **+4 coins** to anything it touches, and
+A **six-compartment box, 3x2**, sitting on the counter right beside the dough
+bowl — tomato, cucumber, olives, pickles, mint, and labneh in the sixth cell.
+It goes **on the baked manousheh, before the paper**, exactly where it goes in
+life, and it sits beside the dough because those are the two things the right
+hand reaches for without looking. It is never required: it adds **+4 coins** to anything it touches, and
 roughly a third of customers ask for it. Serve one of those without khodra and
 they pay 30% less; put it on someone who did not ask and nobody minds.
 
@@ -195,7 +197,7 @@ Keep it small — this is the data model.
     base:     dough
     topping:  zaatar | cheese (akkawi) | half-and-half | kishk | lahm bi ajin
     pastry:   fatayer sbanekh | mini pizza (safiha)
-    khodra:   tomato, cucumber, olives, pickles, mint  (one add-on, +4)
+    khodra:   tomato, cucumber, olives, pickles, mint, labneh  (add-on, +4)
     fold:     rolled | flat | triangle (fatayer)
 
 ### Interaction map

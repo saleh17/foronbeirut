@@ -283,7 +283,7 @@
   </div>
 
   <!-- ===== TOPPING TRAYS ===== -->
-  <sc-for list="{{trays}}" as="t" hint-placeholder-count="4">
+  <sc-for list="{{trays}}" as="t" hint-placeholder-count="3">
     <div onClick="{{t.onTap}}" onPointerDown="{{t.onDown}}" style="position: absolute; left: {{t.left}}; top: 234px; width: {{t.w}}; height: 50px; cursor: pointer; opacity: {{t.opacity}};">
       <div style="position: absolute; left: 4px; bottom: -7px; right: 4px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
       <div style="position: absolute; inset: 0; border-radius: 7px; background: linear-gradient(180deg, #DCE0E4 0%, #B4B9BF 38%, #8A9096 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6); padding: 5px;">
@@ -314,6 +314,23 @@
       <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 22px; background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.34));"></div>
     </div>
     <span class="dsp" style="position: absolute; left: 0; bottom: 5px; width: 100%; text-align: center; font-size: 9px; font-weight: 800; color: #F7E9CE; text-shadow: 0 1px 2px rgba(0,0,0,.7);">DOUGH</span>
+  </div>
+
+  <!-- ===== KHODRA BOX — six compartments, beside the dough ===== -->
+  <div onClick="{{onVeg}}" onPointerDown="{{onVegDown}}" style="position: absolute; left: 456px; top: 300px; width: 128px; height: 82px; cursor: pointer;">
+    <div style="position: absolute; left: 6px; bottom: -5px; right: 6px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
+    <div style="position: absolute; inset: 0; border-radius: 7px; background: linear-gradient(180deg, #DCE0E4 0%, #B4B9BF 34%, #8A9096 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.6); padding: 5px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 4px;">
+      <div style="border-radius: 3px; background: radial-gradient(circle at 26% 24%, #E05B42 0 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 68% 40%, #C0392B 0 24%, rgba(0,0,0,0) 25%), radial-gradient(circle at 40% 74%, #D14A34 0 22%, rgba(0,0,0,0) 23%), linear-gradient(180deg, #8E2A1E, #6E2016); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
+      <div style="border-radius: 3px; background: radial-gradient(circle at 30% 30%, #C7E39A 0 12%, #8FBE5A 13% 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 66% 62%, #C7E39A 0 12%, #8FBE5A 13% 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 32% 74%, #C7E39A 0 10%, #8FBE5A 11% 19%, rgba(0,0,0,0) 20%), linear-gradient(180deg, #4E7A2E, #38601F); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
+      <div style="border-radius: 3px; background: radial-gradient(circle at 28% 28%, #6B7A46 0 20%, rgba(0,0,0,0) 21%), radial-gradient(circle at 66% 46%, #55632F 0 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 40% 76%, #4A5828 0 20%, rgba(0,0,0,0) 21%), linear-gradient(180deg, #38431E, #262E14); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
+      <div style="border-radius: 3px; background: repeating-linear-gradient(74deg, rgba(0,0,0,.22) 0 2px, rgba(0,0,0,0) 2px 6px), radial-gradient(circle at 34% 34%, #DCCE62 0 26%, rgba(0,0,0,0) 27%), linear-gradient(180deg, #A8A038, #7E7826); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
+      <div style="border-radius: 3px; background: radial-gradient(ellipse 34% 22% at 32% 32%, #7FD066 0 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 32% 20% at 68% 56%, #6BBF52 0 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 30% 20% at 38% 74%, #8EDC74 0 100%, rgba(0,0,0,0) 100%), linear-gradient(180deg, #2F6B2A, #1F4A1C); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
+      <div style="border-radius: 3px; background: radial-gradient(circle at 34% 30%, rgba(255,255,255,.6) 0 26%, rgba(0,0,0,0) 27%), radial-gradient(circle at 62% 64%, rgba(120,150,60,.5) 0 12%, rgba(0,0,0,0) 13%), linear-gradient(180deg, #F6F1E2, #DED7C2); box-shadow: inset 0 2px 5px rgba(0,0,0,.4);"></div>
+    </div>
+    <div style="position: absolute; right: -7px; top: -8px; min-width: 22px; height: 20px; padding: 0 6px; border-radius: 999px; background: #4A7038; border: 2.5px solid #2A1B12; display: flex; align-items: center; justify-content: center;">
+      <span class="dsp" style="font-size: 10px; font-weight: 800; color: #F4F0E2;">+4</span>
+    </div>
+    <span class="dsp" style="position: absolute; left: 0; bottom: -17px; width: 100%; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">KHODRA</span>
   </div>
 
   <!-- ===== WORK BOARD ===== -->
@@ -795,7 +812,7 @@ class Component extends DCLogic {
     const m = this.trayMax();
     const pct = Math.round((have / m) * 100);
     return {
-      label: label, w: '88px', left: left, opacity: '1',
+      label: label, w: '96px', left: left, opacity: '1',
       fill: this.toppingBg(k, 0.05),
       level: (have ? Math.max(18, pct) : 0) + '%',
       count: have,
@@ -909,12 +926,9 @@ class Component extends DCLogic {
         : { size: '62px', fill: this.breadBg(0.05), surface: this.toppingBg(p.topping, 0.05), inner: 'inset 0 2px 5px rgba(0,0,0,.3)', shadow: '0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: this.recipes[p.topping].clip };
 
     const trays = [
-      { label: 'Pizza', w: '88px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '424px', opacity: '0.5', level: '0%', count: 'SOON', badgeBg: '#6E747A', badgeInk: '#EDE8DA', onTap: () => this.setState({ hint: 'Mini pizza — coming on day 6' }), onDown: () => {} },
-      this.trayView('zaatar', 'Zaatar', '520px'),
-      this.trayView('cheese', 'Cheese', '616px'),
-      { label: 'Khodra', w: '88px', left: '712px', opacity: '1', level: '100%', count: '+4', badgeBg: '#4A7038', badgeInk: '#F4F0E2',
-        fill: 'linear-gradient(90deg, #C0392B 0 19%, #2E4A1C 19% 20%, #7FA84C 20% 39%, #2E4A1C 39% 40%, #2C3A18 40% 59%, #2E4A1C 59% 60%, #C9B84E 60% 79%, #2E4A1C 79% 80%, #4E8C42 80% 100%)',
-        onTap: () => this.addVeg(), onDown: (e) => this.startDrag('veg', e) }
+      { label: 'Pizza', w: '96px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '448px', opacity: '0.5', level: '0%', count: 'SOON', badgeBg: '#6E747A', badgeInk: '#EDE8DA', onTap: () => this.setState({ hint: 'Mini pizza — coming on day 6' }), onDown: () => {} },
+      this.trayView('zaatar', 'Zaatar', '552px'),
+      this.trayView('cheese', 'Cheese', '656px')
     ];
 
     const ready = s.ready.map((rd, i) => ({
@@ -996,6 +1010,8 @@ class Component extends DCLogic {
       onMove: (e) => this.moveDrag(e),
       onUp: () => this.endDrag(),
       onDoughDown: (e) => this.startDrag('dough', e),
+      onVeg: () => this.addVeg(),
+      onVegDown: (e) => this.startDrag('veg', e),
       onFatayerDown: (e) => this.startDrag('sbanekh', e),
       onPrepDown: (e) => { if (s.prep && s.prep.stage === 'topped') this.startDrag('topped', e); },
       onPeelDown: (e) => { if (s.peel.length && !s.oven) this.startDrag('peel', e); },
