@@ -39,7 +39,12 @@ The shop *is* the UI —
 Anything drawn as a rounded card on a flat background is wrong for this game.
 
 **The oven is a furn, not a saj** — the arched brick mouth a real manakish shop
-bakes in, with embers at the back and a metal deck the pieces sit on. It stands
+bakes in, with embers at the back and a metal deck the pieces sit on. **Flames
+lick up both inner walls** and sparks drift off them, and the fire is a state
+readout, not decoration: it sits low and slow with an empty deck, steps up while
+something is baking, and roars — brighter, faster, wider — the moment the peel
+goes in or comes out, with the light spilling onto the wall and counter rising
+with it. A glance at the fire tells you whether the furn is working. It stands
 on the **right**, with the topping trays under it and the dough bowl under those.
 
 **Jeddo leans in from the archway on the right**, behind the counter. He is
