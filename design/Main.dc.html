@@ -1,0 +1,440 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=Cairo:wght@400;600;700&display=swap">
+  <style>
+    body { margin: 0; background: #EFE2CB; color: #2E2118; font-family: 'Cairo', 'Segoe UI', sans-serif; }
+    * { box-sizing: border-box; }
+    a { color: #C2593C; } a:hover { color: #9A4229; }
+    .dsp { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; }
+    .cap { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
+  </style>
+</helmet>
+
+<div style="width: 390px; height: 844px; padding: 16px 14px 0; display: flex; flex-direction: column; gap: 9px; background: radial-gradient(130% 55% at 50% 0%, #F9F0E1 0%, #EFE2CB 55%, #E5D3B5 100%); overflow: hidden;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+    <div style="display: flex; align-items: center; gap: 7px; background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 999px; padding: 5px 13px 5px 6px; box-shadow: 0 2px 0 #DCC49C;">
+      <svg width="21" height="21" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="#EBBB4E" stroke="#B77C1F" stroke-width="1.6"></circle><circle cx="12" cy="12" r="5.6" fill="none" stroke="#B77C1F" stroke-width="1.4" opacity="0.75"></circle><circle cx="12" cy="12" r="1.7" fill="#B77C1F"></circle></svg>
+      <span class="dsp" style="font-weight: 800; font-size: 17px; line-height: 1;">{{coins}}</span>
+    </div>
+    <div class="cap" style="font-size: 11px; font-weight: 700; color: #8A7050; padding: 0 2px;">Day {{day}}</div>
+    <div style="display: flex; align-items: center; gap: 6px; background: {{timerBg}}; border: 1.5px solid {{timerBorder}}; border-radius: 999px; padding: 5px 12px; box-shadow: 0 2px 0 #DCC49C;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="{{timerInk}}" stroke-width="2"></circle><path d="M12 7.6V12l3 1.8" stroke="{{timerInk}}" stroke-width="2" stroke-linecap="round"></path></svg>
+      <span class="dsp" style="font-weight: 800; font-size: 15px; line-height: 1; color: {{timerInk}};">{{timeText}}</span>
+    </div>
+  </div>
+
+  <div style="height: 6px; background: #E1CFAC; border-radius: 999px; overflow: hidden;">
+    <div style="width: {{timeBarW}}; height: 100%; background: linear-gradient(90deg, #6E9440, #E0A339 55%, #C2593C); border-radius: 999px;"></div>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 10px; background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 14px; padding: 7px 10px; box-shadow: 0 2px 0 #DCC49C;">
+    <div style="width: 34px; height: 34px; border-radius: 10px; background: #F3E3C4; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 13.5a8.5 8.5 0 0 1 17 0" stroke="#B77C1F" stroke-width="2" stroke-linecap="round"></path><path d="M2.5 13.5h19" stroke="#B77C1F" stroke-width="2" stroke-linecap="round"></path><path d="M6.5 18.5h11" stroke="#C2593C" stroke-width="2" stroke-linecap="round"></path><path d="M9 6.5c0-1 1-1.4 1-2.4M13 6c0-1 1-1.4 1-2.4" stroke="#B08A5A" stroke-width="1.6" stroke-linecap="round"></path></svg>
+    </div>
+    <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 5px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;">
+        <span style="font-size: 12.5px; font-weight: 700;">Next: Gas furn <span style="color: #8A7050; font-weight: 600;">— bake 13% faster</span></span>
+        <span class="dsp" style="font-size: 11px; font-weight: 700; color: #C2593C; white-space: nowrap;">{{unlockLeft}} to go</span>
+      </div>
+      <div style="height: 7px; background: #EADCC0; border-radius: 999px; overflow: hidden;">
+        <div style="width: {{unlockW}}; height: 100%; background: linear-gradient(90deg, #E0A339, #C2593C); border-radius: 999px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 8px; align-items: flex-end; height: 148px;">
+    <div style="width: 150px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+      <div style="position: relative; width: 150px; background: #FFF8EA; border: 2px solid #C2593C; border-radius: 14px; padding: 8px 9px; box-shadow: 0 2px 0 #DCC49C;">
+        <div class="cap" style="font-size: 9px; color: #8A7050; margin-bottom: 6px;">Order</div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 5px; background: #F3E3C4; border-radius: 999px; padding: 3px 9px 3px 3px;">
+            <div style="width: 20px; height: 20px; border-radius: 50%; background: {{front.discColor}}; box-shadow: inset 0 0 0 2px #E0C58C;"></div>
+            <span style="font-size: 11.5px; font-weight: 700;">{{front.wantLabel}}</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 4px; background: #F3E3C4; border-radius: 999px; padding: 3px 9px 3px 4px;">
+            <div style="width: 16px; height: 18px; border-radius: 3px 3px 6px 6px; background: #FBF6EA; box-shadow: inset 0 0 0 1.5px #C9B48A;"></div>
+            <span style="font-size: 11.5px; font-weight: 700;">Ayran</span>
+          </div>
+        </div>
+        <div style="position: absolute; left: 22px; bottom: -9px; width: 16px; height: 16px; background: #FFF8EA; border-right: 2px solid #C2593C; border-bottom: 2px solid #C2593C; transform: rotate(45deg);"></div>
+      </div>
+      <div style="display: flex; align-items: flex-end; gap: 8px; width: 150px; padding: 0 4px;">
+        <svg width="52" height="56" viewBox="0 0 52 56" aria-hidden="true"><path d="M11 56c0-11 6.7-16 15-16s15 5 15 16z" fill="#C2593C"></path><circle cx="26" cy="24" r="14" fill="#E8C39A"></circle><path d="M12.5 22c0-9 6-14 13.5-14s13.5 5 13.5 14c0 0-5-4-13.5-4s-13.5 4-13.5 4z" fill="#3B2A1C"></path><circle cx="21" cy="25" r="1.7" fill="#3B2A1C"></circle><circle cx="31" cy="25" r="1.7" fill="#3B2A1C"></circle><path d="M22.5 30.5c1.8 1.6 5.2 1.6 7 0" stroke="#B0704A" stroke-width="1.8" stroke-linecap="round" fill="none"></path></svg>
+        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px; padding-bottom: 4px;">
+          <span style="font-size: 12px; font-weight: 700;">{{front.name}}</span>
+          <div style="height: 7px; background: #E1CFAC; border-radius: 999px; overflow: hidden;">
+            <div style="width: {{front.patW}}; height: 100%; background: {{front.patColor}}; border-radius: 999px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <sc-for list="{{others}}" as="c" hint-placeholder-count="2">
+      <div style="width: 96px; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.92;">
+        <div style="background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 12px; padding: 6px 8px; display: flex; align-items: center; gap: 5px;">
+          <div style="width: 17px; height: 17px; border-radius: 50%; background: {{c.discColor}}; box-shadow: inset 0 0 0 1.5px #E0C58C;"></div>
+          <span style="font-size: 11px; font-weight: 700; color: #8A7050;">{{c.wantLabel}}</span>
+        </div>
+        <svg width="40" height="44" viewBox="0 0 52 56" aria-hidden="true"><path d="M11 56c0-11 6.7-16 15-16s15 5 15 16z" fill="#5F7D3C"></path><circle cx="26" cy="24" r="14" fill="#E2B98E"></circle><path d="M12.5 20c3-6 8-10 13.5-10s10.5 4 13.5 10c0 0-5-3-13.5-3s-13.5 3-13.5 3z" fill="#4A3421"></path><circle cx="21" cy="25" r="1.6" fill="#3B2A1C"></circle><circle cx="31" cy="25" r="1.6" fill="#3B2A1C"></circle></svg>
+        <div style="width: 66px; height: 6px; background: #E1CFAC; border-radius: 999px; overflow: hidden;">
+          <div style="width: {{c.patW}}; height: 100%; background: {{c.patColor}}; border-radius: 999px;"></div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 18px; padding: 9px 11px 11px; box-shadow: 0 2px 0 #DCC49C; display: flex; flex-direction: column; gap: 7px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span class="cap" style="font-size: 9.5px; color: #8A7050;">Saj — tap to pull off</span>
+      <span class="cap" style="font-size: 9.5px; color: #B77C1F;">{{ovenName}}</span>
+    </div>
+    <div style="display: flex; gap: 8px; justify-content: center; align-items: flex-start;">
+      <sc-for list="{{slotViews}}" as="s" hint-placeholder-count="3">
+        <div onClick="{{s.onTap}}" style="display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer;">
+          <div style="position: relative; width: {{s.size}}; height: {{s.size}};">
+            <div style="position: absolute; inset: 0; border-radius: 50%; background: {{s.arc}};"></div>
+            <div style="position: absolute; inset: 5px; border-radius: 50%; background: #FFF8EA;"></div>
+            <div style="position: absolute; inset: 6px; border-radius: 50%; background: {{s.ring}};"></div>
+            <div style="position: absolute; inset: 12px; border-radius: 50%; background: #E9D5AC; box-shadow: inset 0 2px 4px rgba(90,60,25,0.28);"></div>
+            <div style="position: absolute; inset: 17px; border-radius: 50%; background: {{s.disc}}; border: {{s.discBorder}}; box-shadow: {{s.discShadow}};"></div>
+          </div>
+          <span class="cap" style="font-size: 9px; font-weight: 700; color: {{s.stateColor}};">{{s.stateLabel}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 18px; padding: 10px 12px; box-shadow: 0 2px 0 #DCC49C; display: flex; align-items: center; gap: 13px;">
+    <div onClick="{{onPrep}}" style="width: 98px; height: 98px; border-radius: 50%; background: #F3E3C4; box-shadow: inset 0 0 0 2px #E4D3B4; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer;">
+      <div style="width: {{prep.size}}; height: {{prep.size}}; border-radius: 50%; background: {{prep.fill}}; box-shadow: {{prep.shadow}};"></div>
+    </div>
+    <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 7px;">
+      <span class="cap" style="font-size: 9.5px; color: #8A7050;">Prep counter</span>
+      <span class="dsp" style="font-size: 15px; font-weight: 700; line-height: 1.25;">{{hint}}</span>
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <sc-for list="{{steps}}" as="st" hint-placeholder-count="4">
+          <div style="height: 6px; flex-grow: 1; border-radius: 999px; background: {{st.color}};"></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 8px; align-items: stretch; height: 60px;">
+    <div style="flex-grow: 1; display: flex; gap: 6px; align-items: center; background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 14px; padding: 7px 9px; box-shadow: 0 2px 0 #DCC49C;">
+      <span class="cap" style="font-size: 9px; color: #8A7050; writing-mode: vertical-rl; transform: rotate(180deg);">Ready</span>
+      <sc-for list="{{ready}}" as="rd" hint-placeholder-count="2">
+        <div onClick="{{rd.onTap}}" style="display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer;">
+          <div style="width: 34px; height: 34px; border-radius: 50%; background: {{rd.fill}}; box-shadow: 0 0 0 2px {{rd.edge}};"></div>
+          <span class="cap" style="font-size: 8px; font-weight: 700; color: {{rd.edge}};">{{rd.q}}</span>
+        </div>
+      </sc-for>
+      <span style="font-size: 11.5px; color: #A8927088; font-style: italic;">{{readyHint}}</span>
+    </div>
+    <sc-for list="{{drops}}" as="d" hint-placeholder-count="1">
+      <div onClick="{{d.onTap}}" style="position: relative; width: 56px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        <div style="position: absolute; width: 52px; height: 52px; border-radius: 50%; background: {{d.ring}};"></div>
+        <div style="position: absolute; width: 44px; height: 44px; border-radius: 50%; background: #EBBB4E; box-shadow: inset 0 0 0 2px #B77C1F; display: flex; align-items: center; justify-content: center;">
+          <span class="dsp" style="font-size: 14px; font-weight: 800; color: #6B4610;">{{d.amt}}</span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="margin: auto -14px 0; padding: 10px 14px 16px; background: #E3CEA6; border-top: 2px solid #D2B98C;">
+    <div style="display: flex; gap: 8px; justify-content: space-between;">
+      <sc-for list="{{tools}}" as="t" hint-placeholder-count="5">
+        <div onClick="{{t.onTap}}" style="width: 64px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; opacity: {{t.opacity}};">
+          <div style="width: 64px; height: 56px; border-radius: 14px; background: {{t.bg}}; border: 2px solid {{t.edge}}; box-shadow: 0 3px 0 {{t.edge}}; display: flex; align-items: center; justify-content: center;">
+            <div style="width: {{t.dotSize}}; height: {{t.dotSize}}; border-radius: {{t.dotRadius}}; background: {{t.dot}}; box-shadow: inset 0 0 0 2px {{t.dotEdge}};"></div>
+          </div>
+          <span class="cap" style="font-size: 8.5px; font-weight: 700; color: #6B5535;">{{t.label}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"ovenLevel":{"editor":"enum","options":["Clay saj","Gas furn","Stone furn","Pro deck"],"default":"Clay saj","section":"Upgrades"},"sajSlots":{"editor":"int","min":2,"max":4,"default":2,"section":"Upgrades"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      coins: 1240,
+      day: 3,
+      timeLeft: 47,
+      prep: null,
+      slots: [{ item: null }, { item: null }, { item: null }, { item: null }],
+      ready: [],
+      drops: [{ id: 1, amt: 14, life: 3.4, max: 4 }],
+      queue: [
+        { id: 2, name: 'Rana', want: 'zaatar', pat: 0.74 },
+        { id: 3, name: 'Georges', want: 'cheese', pat: 0.9 },
+        { id: 4, name: 'Nour', want: 'zaatar', pat: 1 }
+      ],
+      hint: 'Tap the dough tray',
+      nextId: 20
+    };
+  }
+
+  get recipes() {
+    return {
+      zaatar: { bake: 6, perfect: 1.4, grace: 0.8, price: 8, label: 'Zaatar', disc: '#4E6B2E' },
+      cheese: { bake: 7.5, perfect: 1.5, grace: 1.1, price: 14, label: 'Cheese', disc: '#EFD79B' }
+    };
+  }
+
+  oven() {
+    const names = ['Clay saj', 'Gas furn', 'Stone furn', 'Pro deck'];
+    let i = names.indexOf(this.props.ovenLevel);
+    if (i < 0) i = 0;
+    return { name: names[i], bake: [1, 0.87, 0.73, 0.6][i], win: [1, 1, 1.07, 1.14][i] };
+  }
+
+  recipe(topping) {
+    const base = this.recipes[topping];
+    const o = this.oven();
+    const bake = base.bake * o.bake;
+    const perfect = base.perfect * o.win;
+    return { bake: bake, perfect: perfect, total: bake + base.grace, price: base.price, label: base.label, disc: base.disc };
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.tick(), 100);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  tick() {
+    const s = this.state;
+    const slots = s.slots.map((sl) => (sl.item ? { item: { topping: sl.item.topping, t: sl.item.t + 0.1 } } : sl));
+    const drops = s.drops.map((d) => ({ id: d.id, amt: d.amt, life: d.life - 0.1, max: d.max })).filter((d) => d.life > 0);
+    const queue = s.queue.map((c, i) => ({ id: c.id, name: c.name, want: c.want, pat: Math.max(0.05, c.pat - (i === 0 ? 0.0022 : 0.0009)) }));
+    this.setState({ slots: slots, drops: drops, queue: queue, timeLeft: Math.max(0, s.timeLeft - 0.1) });
+  }
+
+  newCustomer() {
+    const names = ['Jad', 'Maya', 'Karim', 'Layal', 'Ziad', 'Hala'];
+    const id = this.state.nextId + 1;
+    return { id: id, name: names[id % names.length], want: id % 3 === 0 ? 'cheese' : 'zaatar', pat: 1 };
+  }
+
+  tapDough() {
+    if (this.state.prep) return;
+    this.setState({ prep: { stage: 'ball', topping: null }, hint: 'Press the ball to flatten it' });
+  }
+
+  tapPrep() {
+    const p = this.state.prep;
+    if (!p) { this.setState({ hint: 'Take a dough ball first' }); return; }
+    if (p.stage === 'ball') this.setState({ prep: { stage: 'flat', topping: null }, hint: 'Spread zaatar or cheese' });
+  }
+
+  tapTopping(t) {
+    const p = this.state.prep;
+    if (!p || p.stage !== 'flat') { this.setState({ hint: 'Flatten a ball of dough first' }); return; }
+    this.setState({ prep: { stage: 'topped', topping: t }, hint: 'Drop it on the saj' });
+  }
+
+  tapSlot(i) {
+    const s = this.state;
+    const slots = s.slots.map((x) => ({ item: x.item }));
+    const sl = slots[i];
+    if (sl.item) {
+      const r = this.recipe(sl.item.topping);
+      const t = sl.item.t;
+      let q = 'raw';
+      if (t >= r.bake - r.perfect && t < r.bake) q = 'perfect';
+      else if (t >= r.bake && t < r.total) q = 'done';
+      else if (t >= r.total) q = 'burnt';
+      slots[i] = { item: null };
+      const ready = s.ready.concat([{ id: s.nextId, topping: sl.item.topping, q: q }]).slice(-3);
+      const msg = q === 'perfect' ? 'Perfect bake — serve it hot' : q === 'raw' ? 'Pulled it too early' : q === 'done' ? 'A touch dark, still sells' : 'Burnt — that one hurts';
+      this.setState({ slots: slots, ready: ready, nextId: s.nextId + 1, hint: msg });
+      return;
+    }
+    const p = s.prep;
+    if (!p || p.stage !== 'topped') { this.setState({ hint: 'Nothing topped and ready to bake' }); return; }
+    slots[i] = { item: { topping: p.topping, t: 0 } };
+    this.setState({ slots: slots, prep: null, hint: 'Pull it inside the green band' });
+  }
+
+  tapReady(i) {
+    const s = this.state;
+    const item = s.ready[i];
+    const cust = s.queue[0];
+    if (!item || !cust) return;
+    const r = this.recipe(item.topping);
+    let mult = item.q === 'perfect' ? 1.25 : item.q === 'done' ? 1 : item.q === 'raw' ? 0.5 : 0.25;
+    const match = item.topping === cust.want;
+    if (!match) mult = mult * 0.4;
+    const amt = Math.max(1, Math.round(r.price * mult * (0.8 + cust.pat * 0.4)));
+    const ready = s.ready.filter((x, j) => j !== i);
+    const queue = s.queue.slice(1).concat([this.newCustomer()]);
+    const drops = s.drops.concat([{ id: s.nextId, amt: amt, life: 4, max: 4 }]);
+    this.setState({
+      ready: ready, queue: queue, drops: drops, nextId: s.nextId + 2,
+      hint: match ? 'Order matched — tap the coins' : 'Wrong topping, they paid less'
+    });
+  }
+
+  collect(id) {
+    const s = this.state;
+    const d = s.drops.filter((x) => x.id === id)[0];
+    if (!d) return;
+    this.setState({ coins: s.coins + d.amt, drops: s.drops.filter((x) => x.id !== id), hint: 'Collected — keep the line moving' });
+  }
+
+  slotSize(n) {
+    return Math.min(96, Math.floor((362 - 8 * n) / (n + 1)));
+  }
+
+  discColorFor(topping, frac) {
+    const r = this.recipes[topping];
+    if (frac < 0.45) return '#E8D3A6';
+    if (frac < 0.8) return r.disc;
+    if (frac < 1) return topping === 'zaatar' ? '#3C5522' : '#D9B45E';
+    return '#6F4B2C';
+  }
+
+  renderVals() {
+    const s = this.state;
+    const n = Math.max(2, Math.min(4, this.props.sajSlots || 2));
+    const size = this.slotSize(n);
+    const px = size + 'px';
+
+    const slotViews = [];
+    for (let i = 0; i < n; i++) {
+      const sl = s.slots[i];
+      const self = this;
+      if (!sl.item) {
+        slotViews.push({
+          size: px, arc: 'transparent', ring: '#F0E2C6', disc: 'transparent',
+          discBorder: '2px dashed #CDB68A', discShadow: 'none',
+          stateLabel: 'Empty', stateColor: '#A89270',
+          onTap: () => self.tapSlot(i)
+        });
+        continue;
+      }
+      const r = this.recipe(sl.item.topping);
+      const t = sl.item.t;
+      const frac = Math.min(1.06, t / r.total);
+      const deg = Math.min(360, (t / r.total) * 360);
+      const pStart = ((r.bake - r.perfect) / r.total) * 360;
+      const pEnd = (r.bake / r.total) * 360;
+      let col = '#E0A339', label = 'Baking', lc = '#B77C1F';
+      if (t >= r.bake - r.perfect && t < r.bake) { col = '#6E9440'; label = 'Perfect!'; lc = '#4E6B2E'; }
+      else if (t >= r.bake && t < r.total) { col = '#D98324'; label = 'Careful'; lc = '#C2593C'; }
+      else if (t >= r.total) { col = '#6F4B2C'; label = 'Burnt'; lc = '#6F4B2C'; }
+      slotViews.push({
+        size: px,
+        arc: 'conic-gradient(from -90deg, rgba(0,0,0,0) 0deg ' + pStart + 'deg, #A8C57A ' + pStart + 'deg ' + pEnd + 'deg, rgba(0,0,0,0) ' + pEnd + 'deg 360deg)',
+        ring: 'conic-gradient(from -90deg, ' + col + ' 0deg ' + deg + 'deg, #EDDFC2 ' + deg + 'deg 360deg)',
+        disc: this.discColorFor(sl.item.topping, frac),
+        discBorder: '0 solid transparent',
+        discShadow: 'inset 0 -3px 6px rgba(90,60,25,0.28), 0 1px 2px rgba(90,60,25,0.25)',
+        stateLabel: label, stateColor: lc,
+        onTap: () => self.tapSlot(i)
+      });
+    }
+    if (n < 4) {
+      slotViews.push({
+        size: px, arc: 'transparent', ring: '#EBDCBE', disc: 'transparent',
+        discBorder: '2px dashed #D3C0A0', discShadow: 'none',
+        stateLabel: 'Locked', stateColor: '#B6A183', onTap: () => this.setState({ hint: 'Buy Saj slot 3 in the shop — 500' })
+      });
+    }
+
+    const q = s.queue;
+    const front = q[0] || { name: '—', want: 'zaatar', pat: 1 };
+    const fr = this.recipes[front.want];
+    const patColor = (p) => (p > 0.55 ? '#6E9440' : p > 0.28 ? '#E0A339' : '#C2593C');
+    const others = q.slice(1, 3).map((c) => ({
+      wantLabel: this.recipes[c.want].label,
+      discColor: this.recipes[c.want].disc,
+      patW: Math.round(c.pat * 100) + '%',
+      patColor: patColor(c.pat)
+    }));
+
+    const p = s.prep;
+    const prep = !p
+      ? { size: '0px', fill: 'transparent', shadow: 'none' }
+      : p.stage === 'ball'
+        ? { size: '46px', fill: '#EFDCB2', shadow: 'inset 0 -4px 8px rgba(120,85,40,0.22), 0 2px 3px rgba(120,85,40,0.2)' }
+        : p.stage === 'flat'
+          ? { size: '86px', fill: '#EDD7A9', shadow: 'inset 0 0 0 3px #E2C795, 0 1px 2px rgba(120,85,40,0.18)' }
+          : { size: '86px', fill: this.recipes[p.topping].disc, shadow: 'inset 0 0 0 4px #EDD7A9, 0 1px 2px rgba(120,85,40,0.18)' };
+
+    const stage = !p ? -1 : p.stage === 'ball' ? 0 : p.stage === 'flat' ? 1 : 2;
+    const steps = [0, 1, 2, 3].map((i) => ({ color: i <= stage ? '#C2593C' : '#EADCC0' }));
+
+    const ready = s.ready.map((rd, i) => {
+      const self = this;
+      const edge = rd.q === 'perfect' ? '#6E9440' : rd.q === 'done' ? '#D98324' : rd.q === 'raw' ? '#C9B48A' : '#6F4B2C';
+      return {
+        fill: this.discColorFor(rd.topping, rd.q === 'raw' ? 0.5 : rd.q === 'burnt' ? 1.02 : 0.85),
+        edge: edge, q: rd.q, onTap: () => self.tapReady(i)
+      };
+    });
+
+    const drops = s.drops.map((d) => {
+      const self = this;
+      const deg = (d.life / d.max) * 360;
+      return {
+        amt: d.amt,
+        ring: 'conic-gradient(from -90deg, #C2593C 0deg ' + deg + 'deg, rgba(194,89,60,0.18) ' + deg + 'deg 360deg)',
+        onTap: () => self.collect(d.id)
+      };
+    });
+
+    const tools = [
+      { label: 'Dough', bg: '#F6EAD2', edge: '#D2B98C', dot: '#EFDCB2', dotEdge: '#DCC08A', dotSize: '26px', dotRadius: '50%', opacity: '1', onTap: () => this.tapDough() },
+      { label: 'Zaatar', bg: '#E8EEDB', edge: '#9DB47C', dot: '#4E6B2E', dotEdge: '#3C5522', dotSize: '26px', dotRadius: '50%', opacity: '1', onTap: () => this.tapTopping('zaatar') },
+      { label: 'Cheese', bg: '#FBF2D8', edge: '#DCC489', dot: '#EFD79B', dotEdge: '#D9B45E', dotSize: '26px', dotRadius: '50%', opacity: '1', onTap: () => this.tapTopping('cheese') },
+      { label: 'Extras', bg: '#E0CDA6', edge: '#C6AE84', dot: '#CBB79A', dotEdge: '#BCA079', dotSize: '20px', dotRadius: '6px', opacity: '0.5', onTap: () => this.setState({ hint: 'Extras unlock on day 5' }) },
+      { label: 'Ayran', bg: '#E0CDA6', edge: '#C6AE84', dot: '#D6C6A4', dotEdge: '#BCA079', dotSize: '20px', dotRadius: '6px', opacity: '0.5', onTap: () => this.setState({ hint: 'Sides unlock on day 3 — 300 coins' }) }
+    ];
+
+    const secs = Math.floor(s.timeLeft);
+    const timeText = Math.floor(secs / 60) + ':' + (secs % 60 < 10 ? '0' : '') + (secs % 60);
+    const low = s.timeLeft < 15;
+    const have = 660, need = 900;
+
+    return {
+      coins: s.coins.toLocaleString('en-US'),
+      day: s.day,
+      timeText: timeText,
+      timeBarW: Math.round((s.timeLeft / 90) * 100) + '%',
+      timerBg: low ? '#F7DFD6' : '#FFF8EA',
+      timerBorder: low ? '#C2593C' : '#E0CBA4',
+      timerInk: low ? '#9A4229' : '#2E2118',
+      unlockLeft: (need - have),
+      unlockW: Math.round((have / need) * 100) + '%',
+      ovenName: this.oven().name,
+      front: { name: front.name, wantLabel: fr.label, discColor: fr.disc, patW: Math.round(front.pat * 100) + '%', patColor: patColor(front.pat) },
+      others: others,
+      slotViews: slotViews,
+      prep: prep,
+      steps: steps,
+      hint: s.hint,
+      ready: ready,
+      readyHint: s.ready.length ? '' : 'nothing baked yet',
+      drops: drops,
+      tools: tools,
+      onPrep: () => this.tapPrep()
+    };
+  }
+}
+</script>
+</body>
+</html>

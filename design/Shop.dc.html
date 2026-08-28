@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=Cairo:wght@400;600;700&display=swap">
+  <style>
+    body { margin: 0; background: #EFE2CB; color: #2E2118; font-family: 'Cairo', 'Segoe UI', sans-serif; }
+    * { box-sizing: border-box; }
+    a { color: #C2593C; } a:hover { color: #9A4229; }
+    .dsp { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; }
+    .cap { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; text-transform: uppercase; letter-spacing: 0.09em; }
+  </style>
+</helmet>
+
+<div style="width: 390px; height: 844px; padding: 20px 16px 22px; display: flex; flex-direction: column; gap: 12px; background: radial-gradient(120% 45% at 50% 0%, #FAF2E4 0%, #EFE2CB 60%, #E5D3B5 100%); overflow: hidden;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="width: 38px; height: 38px; border-radius: 12px; background: #FFF8EA; border: 1.5px solid #E0CBA4; box-shadow: 0 2px 0 #DCC49C; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5L8 12l6.5 6.5" stroke="#2E2118" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <h1 class="dsp" style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.01em;">Shop</h1>
+    </div>
+    <div style="display: flex; align-items: center; gap: 7px; background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 999px; padding: 5px 13px 5px 6px; box-shadow: 0 2px 0 #DCC49C;">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="#EBBB4E" stroke="#B77C1F" stroke-width="1.6"></circle><circle cx="12" cy="12" r="5.6" fill="none" stroke="#B77C1F" stroke-width="1.4" opacity="0.75"></circle><circle cx="12" cy="12" r="1.7" fill="#B77C1F"></circle></svg>
+      <span class="dsp" style="font-weight: 800; font-size: 16px; line-height: 1;">{{coins}}</span>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 7px;">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+      <div onClick="{{t.onTap}}" style="flex-grow: 1; text-align: center; padding: 10px 6px; border-radius: 13px; background: {{t.bg}}; border: 1.5px solid {{t.edge}}; box-shadow: 0 3px 0 {{t.shadow}}; cursor: pointer;">
+        <span class="cap" style="font-size: 10px; font-weight: 700; color: {{t.ink}};">{{t.label}}</span>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 9px; overflow: hidden;">
+    <sc-for list="{{items}}" as="it" hint-placeholder-count="5">
+      <div style="display: flex; gap: 11px; align-items: center; background: #FFF8EA; border: {{it.border}}; border-radius: 16px; padding: 10px 11px; box-shadow: 0 3px 0 #DCC49C; opacity: {{it.opacity}};">
+        <div style="width: 46px; height: 46px; border-radius: 13px; background: {{it.tileBg}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <sc-if value="{{it.isOven}}" hint-placeholder-val="{{true}}">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 14a8.5 8.5 0 0 1 17 0" stroke="{{it.markEdge}}" stroke-width="2" stroke-linecap="round"></path><path d="M2.5 14h19M6.5 18.5h11" stroke="{{it.markEdge}}" stroke-width="2" stroke-linecap="round"></path><path d="M9 7c0-1 1-1.4 1-2.4M13.5 6.6c0-1 1-1.4 1-2.4" stroke="{{it.mark}}" stroke-width="1.7" stroke-linecap="round"></path></svg>
+          </sc-if>
+          <sc-if value="{{it.isSlots}}" hint-placeholder-val="{{true}}">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="4.2" stroke="{{it.markEdge}}" stroke-width="2"></circle><circle cx="16" cy="8" r="4.2" stroke="{{it.markEdge}}" stroke-width="2"></circle><circle cx="8" cy="16" r="4.2" stroke="{{it.mark}}" stroke-width="2" stroke-dasharray="3 3"></circle><circle cx="16" cy="16" r="4.2" stroke="{{it.mark}}" stroke-width="2" stroke-dasharray="3 3"></circle></svg>
+          </sc-if>
+          <sc-if value="{{it.isShield}}" hint-placeholder-val="{{true}}">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2l7 2.6v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9v-6z" stroke="{{it.markEdge}}" stroke-width="2" stroke-linejoin="round"></path><path d="M8.8 12.2l2.3 2.3 4.1-4.6" stroke="{{it.mark}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </sc-if>
+          <sc-if value="{{it.isDisc}}" hint-placeholder-val="{{true}}">
+            <div style="width: 26px; height: 26px; border-radius: 50%; background: {{it.mark}}; box-shadow: inset 0 0 0 3px {{it.markEdge}};"></div>
+          </sc-if>
+        </div>
+        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 14px; font-weight: 700;">{{it.name}}</span>
+            <sc-if value="{{it.isNext}}" hint-placeholder-val="{{true}}">
+              <span class="cap" style="font-size: 8px; font-weight: 700; color: #FFF3E0; background: #C2593C; border-radius: 999px; padding: 2px 7px;">Next up</span>
+            </sc-if>
+          </div>
+          <span style="font-size: 11.5px; color: #8A7050; line-height: 1.3;">{{it.blurb}}</span>
+          <div style="display: flex; gap: 3px; margin-top: 1px;">
+            <sc-for list="{{it.pips}}" as="p" hint-placeholder-count="4">
+              <div style="width: 15px; height: 5px; border-radius: 999px; background: {{p.c}};"></div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0;">
+          <div style="background: {{it.ctaBg}}; border-radius: 11px; padding: 8px 12px; box-shadow: 0 3px 0 {{it.ctaShadow}}; cursor: pointer;">
+            <span class="dsp" style="font-size: 13px; font-weight: 800; color: {{it.ctaInk}}; white-space: nowrap;">{{it.cta}}</span>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="background: #C2593C; border-radius: 18px; padding: 15px 20px; box-shadow: 0 5px 0 #8F3E27; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+    <span class="dsp" style="font-size: 20px; font-weight: 800; color: #FFF3E0;">Start day 4</span>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5L13 17.5" stroke="#FFF3E0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'Equipment', coins: 1240 };
+  }
+
+  data() {
+    return {
+      Equipment: [
+        { name: 'Oven heat', blurb: 'Gas furn — bake 13% faster, same forgiving window', icon: 'oven', lvl: 1, max: 4, cost: 350, next: true },
+        { name: 'Saj slots', blurb: 'Bake three at once instead of two', icon: 'slots', lvl: 0, max: 3, cost: 500 },
+        { name: 'Burn guard', blurb: 'Holds at perfect 0.6s longer before it chars', icon: 'shield', lvl: 0, max: 3, cost: 600 },
+        { name: 'Dough press', blurb: 'Flatten in one tap instead of pressing', icon: 'slots', lvl: 0, max: 1, cost: 800 },
+        { name: 'Tip jar', blurb: 'Coins collect themselves after 2 seconds', icon: 'shield', lvl: 0, max: 2, cost: 7000, lockedBy: 'Day 12' }
+      ],
+      Menu: [
+        { name: 'Zaatar', blurb: 'Thyme, sumac, sesame, good olive oil — 8 coins', icon: 'disc', lvl: 1, max: 1, owned: true, mark: '#4E6B2E', markEdge: '#3C5522' },
+        { name: 'Cheese', blurb: 'Akkawi — melts slower, pays 14 coins', icon: 'disc', lvl: 1, max: 1, owned: true, mark: '#EFD79B', markEdge: '#D9B45E' },
+        { name: 'Half and half', blurb: 'Two toppings, two bake times, 18 coins', icon: 'disc', lvl: 0, max: 1, cost: 900, mark: '#8FA55E', markEdge: '#4E6B2E' },
+        { name: 'Kishk', blurb: 'Fermented wheat and yoghurt — 16 coins', icon: 'disc', lvl: 0, max: 1, cost: 1400, lockedBy: 'Day 7', mark: '#C9B48A', markEdge: '#A8916A' },
+        { name: 'Lahm bi ajin', blurb: 'Minced meat, an extra prep step — 22 coins', icon: 'disc', lvl: 0, max: 1, cost: 2600, lockedBy: 'Day 10', mark: '#B0654A', markEdge: '#8F3E27' }
+      ],
+      Ingredients: [
+        { name: 'Olive oil grade', blurb: 'Every manousheh sells for 15% more', icon: 'disc', lvl: 1, max: 3, cost: 450, next: true, mark: '#8FA55E', markEdge: '#4E6B2E' },
+        { name: 'Fresh akkawi', blurb: 'Cheese pays more and melts more evenly', icon: 'disc', lvl: 0, max: 3, cost: 700, mark: '#EFD79B', markEdge: '#D9B45E' },
+        { name: 'Zaatar blend', blurb: 'The smell keeps customers waiting longer', icon: 'disc', lvl: 0, max: 3, cost: 550, mark: '#4E6B2E', markEdge: '#3C5522' },
+        { name: 'Bigger dough', blurb: 'Same seven taps, a wider manousheh, more coins', icon: 'disc', lvl: 0, max: 2, cost: 1200, mark: '#EFDCB2', markEdge: '#DCC08A' },
+        { name: 'Stone-ground flour', blurb: 'Dough tears less when you flatten fast', icon: 'disc', lvl: 0, max: 2, cost: 1800, lockedBy: 'Day 6', mark: '#E8D3A6', markEdge: '#C9B48A' }
+      ]
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const all = this.data();
+    const tabs = ['Equipment', 'Menu', 'Ingredients'].map((label) => {
+      const on = label === s.tab;
+      return {
+        label: label,
+        bg: on ? '#2E2118' : '#FFF8EA',
+        edge: on ? '#2E2118' : '#E0CBA4',
+        shadow: on ? '#160F09' : '#DCC49C',
+        ink: on ? '#F7EDDC' : '#8A7050',
+        onTap: () => this.setState({ tab: label })
+      };
+    });
+
+    const items = all[s.tab].map((it) => {
+      const locked = !!it.lockedBy;
+      const owned = !!it.owned;
+      const afford = !locked && !owned && s.coins >= it.cost;
+      const pips = [];
+      for (let i = 0; i < it.max; i++) pips.push({ c: i < it.lvl ? '#C2593C' : '#EADCC0' });
+      return {
+        name: it.name,
+        blurb: it.blurb,
+        pips: pips,
+        isOven: it.icon === 'oven',
+        isSlots: it.icon === 'slots',
+        isShield: it.icon === 'shield',
+        isDisc: it.icon === 'disc',
+        mark: it.mark || '#C2593C',
+        markEdge: it.markEdge || '#2E2118',
+        tileBg: owned ? '#E8EEDB' : locked ? '#EFE3CB' : '#F3E3C4',
+        border: it.next ? '2px solid #C2593C' : '1.5px solid #E0CBA4',
+        opacity: locked ? '0.55' : '1',
+        isNext: !!it.next,
+        cta: owned ? 'Owned' : locked ? it.lockedBy : it.cost.toLocaleString('en-US'),
+        ctaBg: owned ? '#E8EEDB' : locked ? '#E6D7B7' : afford ? '#EBBB4E' : '#EDE0C4',
+        ctaShadow: owned ? '#C6D2AE' : locked ? '#CFBC97' : afford ? '#B77C1F' : '#D6C3A0',
+        ctaInk: owned ? '#4E6B2E' : locked ? '#8A7050' : afford ? '#5B3B0C' : '#A08A66'
+      };
+    });
+
+    return { tabs: tabs, items: items, coins: s.coins.toLocaleString('en-US') };
+  }
+}
+</script>
+</body>
+</html>
