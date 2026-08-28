@@ -110,6 +110,23 @@
 
 @keyframes cupfill { 0% { height: 4% } 100% { height: 82% } }
     .cupfill { animation: cupfill 2s linear both }
+@keyframes stepA { 0% { transform: translateX(118px) } 60% { transform: translateX(-4px) } 100% { transform: translateX(0) } }
+    @keyframes stepB { 0% { transform: translateX(118px) } 60% { transform: translateX(-4px) } 100% { transform: translateX(0) } }
+    .stepA { animation: stepA .5s cubic-bezier(.3,.9,.4,1) both }
+    .stepB { animation: stepB .5s cubic-bezier(.3,.9,.4,1) both }
+    @keyframes enterA { 0% { transform: translateX(260px); opacity: 0 } 22% { opacity: 1 } 78% { transform: translateX(-6px) } 100% { transform: translateX(0); opacity: 1 } }
+    @keyframes enterB { 0% { transform: translateX(260px); opacity: 0 } 22% { opacity: 1 } 78% { transform: translateX(-6px) } 100% { transform: translateX(0); opacity: 1 } }
+    .enterA { animation: enterA .62s cubic-bezier(.25,.8,.35,1) both }
+    .enterB { animation: enterB .62s cubic-bezier(.25,.8,.35,1) both }
+    @keyframes walkout { 0% { transform: translateX(0) translateY(0); opacity: 1 } 100% { transform: translateX(-250px) translateY(6px); opacity: 0 } }
+    .walkout { animation: walkout .85s ease-in both }
+    @keyframes waddle { 0%,100% { transform: rotate(-3deg) translateY(0) } 50% { transform: rotate(3deg) translateY(-3px) } }
+    .waddle { animation: waddle .28s ease-in-out infinite }
+    @keyframes coinfly { 0% { transform: translate(0,0) scale(1); opacity: 1 } 70% { opacity: 1 } 100% { transform: translate(var(--dx), var(--dy)) scale(.42); opacity: 0 } }
+    .coinfly { animation: coinfly .55s cubic-bezier(.4,0,.6,1) both }
+    @keyframes popin { 0% { transform: scale(.3) translateY(-10px); opacity: 0 } 65% { transform: scale(1.14) translateY(0); opacity: 1 } 100% { transform: scale(1); opacity: 1 } }
+    .popA { animation: popin .34s cubic-bezier(.3,1.5,.5,1) both }
+    .popB { animation: popin .34s cubic-bezier(.3,1.5,.5,1) both }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
     .beat { animation: hb 1.5s ease-in-out infinite; transform-origin: 50% 60% }
   </style>
@@ -266,7 +283,7 @@
 
   <!-- ===== CUSTOMERS — the morning queue ===== -->
   <sc-for list="{{customers}}" as="c" hint-placeholder-count="3">
-    <div style="position: absolute; left: {{c.left}}; top: 58px; width: 118px; height: 158px; display: flex; align-items: flex-start; gap: 2px;">
+    <div class="{{c.walk}}" style="position: absolute; left: {{c.left}}; top: 58px; width: 118px; height: 158px; display: flex; align-items: flex-start; gap: 2px;">
       <div style="display: flex; flex-direction: column; align-items: center; gap: 0;">
         <sc-if value="{{c.isA}}" hint-placeholder-val="{{true}}">
           <svg class="cust {{c.mood}}" style="animation-delay: {{c.delay}};" width="56" height="102" viewBox="0 0 110 200" aria-hidden="true"><path d="M6 200c0-46 21-64 49-64s49 18 49 64z" fill="#6FA3C4" stroke="#2A1B12" stroke-width="3.6"></path><path d="M55 136c28 0 49 18 49 64H62c0-26-3-46-7-64z" fill="#5987A8"></path><path d="M44 136l11 16 11-16 8 5-19 24-19-24z" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6" stroke-linejoin="round"></path><path d="M46 160c5 5 13 5 18 0" stroke="#E0A339" stroke-width="3" fill="none"></path><path d="M42 128h26v18a13 13 0 0 1-26 0z" fill="#A87B50" stroke="#2A1B12" stroke-width="3"></path><path d="M21 60c0-26 14-45 34-45s34 19 34 45v10c0 9-4 13-6 22-4 21-15 29-28 29s-24-8-28-29c-2-9-6-13-6-22z" fill="#C89A6E" stroke="#2A1B12" stroke-width="3.6"></path><path d="M83 62c4 11 2 26-3 36-5 10-12 16-20 18 13-3 21-16 23-28 2-9 1-18 0-26z" fill="rgba(0,0,0,.13)"></path><path d="M17 70c-7 0-9 10-4 17s12 7 12 7M93 70c7 0 9 10 4 17s-12 7-12 7" fill="#C89A6E" stroke="#2A1B12" stroke-width="3"></path><path d="M19 62c2-27 14-40 36-40s34 13 36 40c-8-13-20-18-36-18s-28 5-36 18z" fill="#4A443E" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path><path d="M28 52c6-7 16-7 22-2M60 50c6-5 16-5 22 2" stroke="#3E3832" stroke-width="4.4" stroke-linecap="round" fill="none"></path><g class="eye"><path d="M32 66c3-7 15-7 18 0-3 7-15 7-18 0z" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.4"></path><circle cx="42" cy="66" r="4.4" fill="#4A3020"></circle><circle cx="42" cy="66" r="2.1" fill="#1A1008"></circle><circle cx="40.4" cy="64.2" r="1.5" fill="#FFF"></circle><path d="M32 66c3-7 15-7 18 0" fill="none" stroke="#2A1B12" stroke-width="2.8" stroke-linecap="round"></path></g><g class="eye"><path d="M60 66c3-7 15-7 18 0-3 7-15 7-18 0z" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.4"></path><circle cx="70" cy="66" r="4.4" fill="#4A3020"></circle><circle cx="70" cy="66" r="2.1" fill="#1A1008"></circle><circle cx="68.4" cy="64.2" r="1.5" fill="#FFF"></circle><path d="M60 66c3-7 15-7 18 0" fill="none" stroke="#2A1B12" stroke-width="2.8" stroke-linecap="round"></path></g><path d="M55 70c-3 8-5 12-1 15h5" stroke="#A87B50" stroke-width="2.6" stroke-linecap="round" fill="none"></path><path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path><path d="M16 40c10-7 25-10 39-10s29 3 39 10c2 6-1 11-6 11-9-5-20-7-33-7s-24 2-33 7c-5 0-7-5-6-11z" fill="#2E2A26" stroke="#2A1B12" stroke-width="2.8" stroke-linejoin="round"></path><ellipse cx="35" cy="40" rx="12" ry="7" fill="#1B2A33" stroke="#2A1B12" stroke-width="2.2"></ellipse><ellipse cx="76" cy="40" rx="12" ry="7" fill="#1B2A33" stroke="#2A1B12" stroke-width="2.2"></ellipse><rect x="88" y="66" width="18" height="6" rx="3" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.2" transform="rotate(-16 97 69)"></rect><path d="M30 88c6-5 17-4 25-4s19-1 25 4c-6 9-15 12-25 12s-19-3-25-12z" fill="#4A443E" stroke="#2A1B12" stroke-width="2.8" stroke-linejoin="round"></path></svg>
@@ -335,17 +352,31 @@
     </div>
   </sc-for>
 
+  <sc-if value="{{leaving}}" hint-placeholder-val="{{true}}">
+    <div class="walkout" style="position: absolute; left: 214px; top: 96px; width: 70px; height: 120px; pointer-events: none; z-index: 12;">
+      <div class="waddle" style="width: 100%; height: 100%;">
+        <svg width="70" height="120" viewBox="0 0 110 190" aria-hidden="true">
+          <path d="M6 190c0-46 21-64 49-64s49 18 49 64z" fill="{{leaver.shirt}}" stroke="#2A1B12" stroke-width="3.6"></path>
+          <path d="M55 126c28 0 49 18 49 64H62c0-26-3-46-7-64z" fill="{{leaver.dark}}"></path>
+          <path d="M42 118h26v14a13 13 0 0 1-26 0z" fill="{{leaver.skin}}" stroke="#2A1B12" stroke-width="3"></path>
+          <ellipse cx="55" cy="66" rx="34" ry="38" fill="{{leaver.hair}}" stroke="#2A1B12" stroke-width="3.6"></ellipse>
+          <path d="M23 74c-3 12-1 22 3 28M87 74c3 12 1 22-3 28" stroke="#2A1B12" stroke-width="3" fill="none"></path>
+        </svg>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- ===== RIGHT: JEDDO ===== -->
   <div style="position: absolute; right: 0; top: 0; width: 144px; height: 390px; background: repeating-linear-gradient(180deg, #C6B9A2 0 40px, #A99878 40px 44px), repeating-linear-gradient(90deg, #C6B9A2 0 58px, #A99878 58px 62px); background-blend-mode: multiply; box-shadow: inset 16px 0 26px rgba(0,0,0,.26);"></div>
-  <div style="position: absolute; right: 6px; top: 34px; width: 132px; height: 250px; border-radius: 66px 66px 0 0; background: radial-gradient(80% 60% at 50% 90%, #4A382A 0%, #2A1B12 70%); box-shadow: inset 0 0 30px rgba(0,0,0,.7);"></div>
+  <div style="position: absolute; right: 14px; top: 58px; width: 104px; height: 214px; border-radius: 52px 52px 0 0; background: radial-gradient(80% 60% at 50% 90%, #4A382A 0%, #2A1B12 70%); box-shadow: inset 0 0 30px rgba(0,0,0,.7);"></div>
 
-  <div onClick="{{onJeddo}}" style="position: absolute; right: 0; top: 56px; width: 146px; height: 236px; cursor: pointer; border-radius: 73px 73px 12px 12px; box-shadow: {{jeddoGlow}};"></div>
-  <div style="position: absolute; right: 42px; top: 40px; opacity: {{jeddoAlert}}; pointer-events: none;">
+  <div onClick="{{onJeddo}}" style="position: absolute; right: 10px; top: 78px; width: 112px; height: 194px; cursor: pointer; border-radius: 56px 56px 10px 10px; box-shadow: {{jeddoGlow}};"></div>
+  <div style="position: absolute; right: 48px; top: 66px; opacity: {{jeddoAlert}}; pointer-events: none;">
     <div class="beat" style="width: 30px; height: 30px; border-radius: 50%; background: #EBBB4E; border: 3px solid #2A1B12; box-shadow: 0 3px 0 rgba(0,0,0,.35); display: flex; align-items: center; justify-content: center;">
       <span class="dsp" style="font-size: 17px; font-weight: 800; color: #5B3B0C;">!</span>
     </div>
   </div>
-  <svg class="jeddo" width="150" height="222" viewBox="0 0 150 222" style="position: absolute; right: -4px; top: 62px; pointer-events: none;" aria-hidden="true">
+  <svg class="jeddo" width="112" height="166" viewBox="0 0 150 222" style="position: absolute; right: 6px; top: 92px; pointer-events: none;" aria-hidden="true">
     <path d="M14 222c0-58 24-82 61-82s61 24 61 82z" fill="#EFE7D6" stroke="#2A1B12" stroke-width="3.6"></path>
     <path d="M14 222c0-58 24-82 61-82 0 0-24 32-24 82z" fill="#DBD1BC"></path>
     <path d="M40 148c10 26 60 26 70 0" stroke="#2A1B12" stroke-width="3.2" fill="none"></path>
@@ -372,7 +403,7 @@
     <ellipse cx="110" cy="98" rx="7" ry="5" fill="#DD9C82" opacity=".45"></ellipse>
     <path d="M14 200c14-10 24-10 34-2" stroke="#2A1B12" stroke-width="3.2" fill="none"></path>
   </svg>
-  <div style="position: absolute; right: 8px; top: 250px; width: 120px; height: 26px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.34), rgba(0,0,0,0));"></div>
+  <div style="position: absolute; right: 16px; top: 246px; width: 94px; height: 22px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.34), rgba(0,0,0,0));"></div>
 
   <div style="position: absolute; right: 14px; top: 8px; display: flex; align-items: center; gap: 8px;">
     <span class="dsp" style="font-size: 25px; font-weight: 800; color: #FFF6E4; text-shadow: 2px 3px 0 #2A1B12, -1.5px -1.5px 0 #2A1B12, 1.5px -1.5px 0 #2A1B12, -1.5px 1.5px 0 #2A1B12;">{{coins}}</span>
@@ -425,7 +456,7 @@
       <div style="position: absolute; left: 4px; bottom: -7px; right: 4px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
       <div style="position: absolute; inset: 0; border-radius: 7px; background: linear-gradient(180deg, #DCE0E4 0%, #B4B9BF 38%, #8A9096 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6); padding: 5px;">
         <div style="width: 100%; height: 100%; border-radius: 4px; background: linear-gradient(180deg, #4E5359, #6E747A); box-shadow: inset 0 3px 8px rgba(0,0,0,.65); position: relative; overflow: hidden;">
-          <div style="position: absolute; left: 0; right: 0; bottom: 0; height: {{t.level}}; background: {{t.fill}}; box-shadow: inset 0 3px 7px rgba(0,0,0,.4);">
+          <div style="position: absolute; left: 0; right: 0; bottom: 0; height: {{t.level}}; background: {{t.fill}}; box-shadow: inset 0 3px 7px rgba(0,0,0,.4); transition: height .35s cubic-bezier(.3,.8,.4,1);">
             <div style="position: absolute; left: 6px; top: 3px; width: 17px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.26);"></div>
             <div style="position: absolute; right: 9px; bottom: 4px; width: 22px; height: 6px; border-radius: 50%; background: rgba(0,0,0,.2);"></div>
           </div>
@@ -496,7 +527,7 @@
         <div style="position: absolute; inset: 4px; border: 1.5px dashed #CDB78E; border-radius: 2px;"></div>
       </div>
       <sc-for list="{{ready}}" as="rd" hint-placeholder-count="2">
-        <div onClick="{{rd.onTap}}" onPointerDown="{{rd.onDown}}" style="position: relative; width: 46px; height: 54px; cursor: pointer;">
+        <div onClick="{{rd.onTap}}" onPointerDown="{{rd.onDown}}" class="{{rd.pop}}" style="position: relative; width: 46px; height: 54px; cursor: pointer;">
           <sc-if value="{{rd.isCup}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 8px; top: 6px; width: 30px; height: 40px;">
               <div style="position: absolute; inset: 0; clip-path: polygon(8% 0, 92% 0, 80% 100%, 20% 100%); background: linear-gradient(180deg, #FDFCF7 0%, #ECE9DC 62%, #D2CEBC 100%);"></div>
@@ -567,7 +598,7 @@
       <div onPointerDown="{{cp.onDown}}" style="position: absolute; left: {{cp.x}}; top: 44px; width: 28px; height: 34px; cursor: grab;">
         <div style="position: absolute; inset: 0; clip-path: polygon(9% 0, 91% 0, 79% 100%, 21% 100%); background: rgba(252,252,250,.45);"></div>
         <div style="position: absolute; inset: 0; overflow: hidden; clip-path: polygon(9% 0, 91% 0, 79% 100%, 21% 100%);">
-          <div class="{{cp.anim}}" style="position: absolute; left: 0; right: 0; bottom: 0; height: {{cp.level}}; background: linear-gradient(180deg, #FDFCF7 0%, #ECE9DC 60%, #D6D2C0 100%);"></div>
+          <div class="{{cp.anim}}" style="position: absolute; left: 0; right: 0; bottom: 0; height: {{cp.level}}; transition: height .2s linear; background: linear-gradient(180deg, #FDFCF7 0%, #ECE9DC 60%, #D6D2C0 100%);"></div>
         </div>
         <div style="position: absolute; inset: 0; clip-path: polygon(9% 0, 91% 0, 79% 100%, 21% 100%); box-shadow: inset 0 0 0 2.5px #2A1B12;"></div>
         <div style="position: absolute; left: 2px; top: -1px; width: 24px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.6); border: 2px solid #2A1B12;"></div>
@@ -600,6 +631,12 @@
     <span style="display: inline-block; font-size: 11px; font-weight: 700; color: #F4EDDD; background: rgba(28,18,10,.62); border-radius: 999px; padding: 3px 14px; box-shadow: 0 2px 6px rgba(0,0,0,.35);">{{hint}}</span>
   </div>
 
+  <sc-if value="{{flying}}" hint-placeholder-val="{{true}}">
+    <div class="coinfly" style="position: absolute; left: {{flyer.left}}; top: 186px; width: 58px; height: 58px; pointer-events: none; z-index: 30; --dx: {{flyer.dx}}; --dy: {{flyer.dy}};">
+      <div style="position: absolute; inset: 6px; border-radius: 50%; background: radial-gradient(circle at 34% 28%, #F7D477, #E0A339 54%, #B77C1F 100%); border: 3px solid #2A1B12; box-shadow: 0 0 16px rgba(235,187,78,.9);"></div>
+    </div>
+  </sc-if>
+
   <!-- ===== GRADE + VIGNETTE ===== -->
   <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(90% 76% at 42% 46%, rgba(255,214,150,.10) 0%, rgba(0,0,0,0) 52%), radial-gradient(115% 96% at 50% 50%, rgba(0,0,0,0) 52%, rgba(30,18,8,.42) 100%);"></div>
 
@@ -618,6 +655,8 @@ class Component extends DCLogic {
       fatayerStock: 6,
       peelAnim: null,
       rolling: false,
+      flyer: null,
+      leaver: null,
       wrapping: null,
       trays: { zaatar: 5, cheese: 5 },
       cups: [true, true, true],
@@ -660,7 +699,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() { this.timer = setInterval(() => this.tick(), 100); }
-  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.t1); clearTimeout(this.t2); clearTimeout(this.t3); clearTimeout(this.t4); }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.t1); clearTimeout(this.t2); clearTimeout(this.t3); clearTimeout(this.t4); clearTimeout(this.t5); clearTimeout(this.t6); }
 
   tick() {
     const s = this.state;
@@ -921,11 +960,23 @@ class Component extends DCLogic {
 
   cupCount() { return Math.max(1, Math.min(3, this.props.ayranCups || 1)); }
 
+  waveOff(cust) {
+    const skins = ['#E9C39C', '#C8996B', '#EEDCC2', '#B78354', '#C08A5E', '#8A5E3C', '#D2A06E', '#E5BE94'];
+    const shirts = ['#6FA3C4', '#2E3F63', '#9A7E92', '#2E2E30', '#26262A', '#3C4A5C', '#E4DFD2', '#B5563A'];
+    const darks = ['#5987A8', '#243352', '#83687B', '#242426', '#1C1C20', '#2F3B4A', '#CDC7B8', '#96422B'];
+    const hairs = ['#4A443E', '#3B2A1C', '#F4EEE0', '#F2F0EA', '#241A12', '#2A1B12', '#4E6B7A', '#3A2417'];
+    const k = cust.id % 8;
+    this.setState({ leaver: { skin: skins[k], shirt: shirts[k], dark: darks[k], hair: hairs[k] } });
+    clearTimeout(this.t6);
+    this.t6 = setTimeout(() => this.setState({ leaver: null }), 860);
+  }
+
   serveAyran(i) {
     const s = this.state;
     if (!s.cups[i]) { this.setState({ hint: 'That cup is still filling' }); return; }
     const cust = s.queue[0];
     if (!cust) return;
+    this.waveOff(cust);
     const cups = s.cups.slice();
     cups[i] = false;
     const amt = Math.max(1, Math.round(this.recipes.ayran.price * (0.8 + cust.pat * 0.4)));
@@ -977,6 +1028,7 @@ class Component extends DCLogic {
     if (missing) mult = mult * Math.pow(0.78, missing);
     const extra = item.veg.length * 2;
     const amt = Math.max(1, Math.round((r.price + extra) * mult * (0.8 + cust.pat * 0.4)));
+    this.waveOff(cust);
     const ready = s.ready.filter((x, j) => j !== i);
     const queue = s.queue.slice(1).concat([this.newCustomer()]);
     const used = s.drops.map((d) => d.slot);
@@ -1003,7 +1055,15 @@ class Component extends DCLogic {
     const s = this.state;
     const d = s.drops.filter((x) => x.id === id)[0];
     if (!d) return;
-    this.setState({ coins: s.coins + d.amt, drops: s.drops.filter((x) => x.id !== id), hint: 'Keep the line moving' });
+    const lx = 236 + (d.slot % 3) * 118;
+    this.setState({
+      coins: s.coins + d.amt,
+      drops: s.drops.filter((x) => x.id !== id),
+      flyer: { left: lx + 'px', dx: (760 - lx) + 'px', dy: '-168px' },
+      hint: 'Keep the line moving'
+    });
+    clearTimeout(this.t5);
+    this.t5 = setTimeout(() => this.setState({ flyer: null }), 560);
   }
 
   breadBg(frac) {
@@ -1244,6 +1304,7 @@ class Component extends DCLogic {
         isA: kind === 0, isB: kind === 1, isC: kind === 2, isD: kind === 3,
         isE: kind === 4, isF: kind === 5, isG: kind === 6, isH: kind === 7,
         mood: c.pat > 0.4 ? 'calm' : 'anxious',
+        walk: (i === 2 ? 'enter' : 'step') + (c.id % 2 === 0 ? 'A' : 'B'),
         delay: (i * 0.7).toFixed(1) + 's',
         mouth: c.pat > 0.45 ? 'M43 92c5 8 19 8 24 0' : 'M43 99c5-8 19-8 24 0',
         bread: this.breadBg(0.9),
@@ -1285,6 +1346,7 @@ class Component extends DCLogic {
     ];
 
     const ready = s.ready.map((rd, i) => ({
+      pop: rd.id % 2 === 0 ? 'popA' : 'popB',
       isCup: !!this.recipes[rd.topping].drink,
       isSet: !!this.recipes[rd.topping].set && !this.recipes[rd.topping].drink,
       isWrapping: s.wrapping === rd.id,
@@ -1458,6 +1520,10 @@ class Component extends DCLogic {
       onPrepDown: (e) => { if (s.prep && s.prep.stage === 'topped') this.startDrag('topped', e); },
       onPeelDown: (e) => { if (s.peel.length && !s.oven) this.startDrag('peel', e); },
       onOvenDown: (e) => { if (s.oven) this.startDrag('furn', e); },
+      flying: !!s.flyer,
+      flyer: s.flyer || { left: '0px', dx: '0px', dy: '0px' },
+      leaving: !!s.leaver,
+      leaver: s.leaver || { skin: '#E9C39C', shirt: '#6FA3C4', dark: '#5987A8', hair: '#4A443E' },
       onDough: () => this.takeDough(),
       onPrep: () => this.tapPrep(),
       onTrash: () => this.trash()

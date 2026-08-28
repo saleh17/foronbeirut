@@ -224,6 +224,11 @@ Warm, not caricature: varied ages, skin tones and dress, each drawn with the
 same affection you would draw a neighbour. Later regulars can carry standing
 orders — Abou Elias always takes zaatar, and the player learns it.
 
+**The queue is a queue, not a rack.** A new customer **walks in from the right**
+and settles into the back of the line; when the one at the counter is served the
+whole line **steps up** into the space, and the served customer **turns and walks
+out to the left**, seen from behind, waddling as they go. Nobody teleports.
+
 **They are alive, not stamps.** Tapered jaws rather than circles, a shadow down
 one side of every face lit from the furn, almond eyes with a lid line, brows
 that carry the expression, ears, necks, collars. They breathe on a slow idle,
@@ -250,6 +255,23 @@ the stores. Three routes, in the order I would take them:
 Either way the music is **diegetic**: it comes from the radio on the shelf. Tap
 it and the dial goes dark and the notes stop. That one detail does more for the
 setting than a menu toggle ever would.
+
+### Motion everywhere, and what it is for
+
+Every state change in the station is a movement rather than a swap, because in a
+game played at speed the movement *is* the feedback:
+
+- customers walk in, step up the queue, and walk out
+- coins **fly to the counter in the corner** when collected, so you see where the
+  money went
+- a manousheh **pops onto the bench** as it leaves the peel
+- topping trays **drain smoothly** rather than jumping a notch
+- the ayran rises up the glass as the cup refills
+- the dough squashes under the pin, the peel rises into the furn, the paper rolls
+
+None of it lasts longer than about half a second. The rule is that an animation
+may confirm an action but must never delay the next one — the only exception is
+the peel, where the pause is the point.
 
 ### Two more mechanics worth taking
 
