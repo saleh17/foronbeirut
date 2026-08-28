@@ -45,9 +45,10 @@ both sides, a low ceiling, and the far wall glowing orange. Nothing in there is
 black.
 
 **Two gas burner lines run the length of it**, one along the foot of each wall,
-converging toward the back like a road in a tunnel. That is what a real furn
-looks like and it does something no flickering blob could: it gives the interior
-depth, so the manakish sit *in* a space rather than on a flat panel.
+converging toward the back like a road in a tunnel, with **small flame tongues
+standing up off them** — four a side, each licking on its own offset. The
+tongues shrink with distance along with everything else, which is what sells the
+depth: the manakish sit *in* a space rather than on a flat panel.
 
 The fire is a state readout, not decoration: it burns low and slow on an empty
 deck, steps up while something is baking, and roars — brighter, faster, whiter —

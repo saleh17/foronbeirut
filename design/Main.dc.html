@@ -60,7 +60,15 @@
     .anim-out { animation: peelOut .95s cubic-bezier(.45,.05,.3,1) both }
     @keyframes mouthflash { 0%,100% { opacity: 0 } 40% { opacity: .55 } }
     .mouthflash { animation: mouthflash .95s ease-out both }
-@keyframes burnpulse { 0%,100% { opacity: .82; transform: scaleY(1) } 28% { opacity: 1; transform: scaleY(1.06) } 54% { opacity: .74; transform: scaleY(.96) } 76% { opacity: .95; transform: scaleY(1.03) } }
+@keyframes tongue {
+      0%, 100% { transform: scaleY(1) scaleX(1); opacity: .9 }
+      21% { transform: scaleY(1.34) scaleX(.84); opacity: 1 }
+      44% { transform: scaleY(.84) scaleX(1.14); opacity: .7 }
+      67% { transform: scaleY(1.2) scaleX(.92); opacity: .96 }
+      85% { transform: scaleY(.94) scaleX(1.06); opacity: .8 }
+    }
+    .tongue { transform-origin: 50% 100%; animation-name: tongue; animation-iteration-count: infinite; animation-timing-function: ease-in-out }
+    @keyframes burnpulse { 0%,100% { opacity: .82; transform: scaleY(1) } 28% { opacity: 1; transform: scaleY(1.06) } 54% { opacity: .74; transform: scaleY(.96) } 76% { opacity: .95; transform: scaleY(1.03) } }
     .burn { transform-origin: 50% 100%; animation-name: burnpulse; animation-iteration-count: infinite; animation-timing-function: ease-in-out }
     .burn2 { transform-origin: 50% 100%; animation-name: burnpulse; animation-iteration-count: infinite; animation-timing-function: ease-in-out; animation-delay: .3s }
     @keyframes sparkup {
@@ -156,6 +164,14 @@
       <div class="burn" style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 17% 100%, 34% 52%, 29% 52%); background: linear-gradient(0deg, rgba(255,150,40,.5), rgba(255,214,140,.16) 60%, rgba(0,0,0,0)); filter: blur(3px); animation-duration: {{flameDur}};"></div>
       <div class="burn2" style="position: absolute; inset: 0; clip-path: polygon(100% 100%, 83% 100%, 66% 52%, 71% 52%); background: linear-gradient(0deg, rgba(255,150,40,.5), rgba(255,214,140,.16) 60%, rgba(0,0,0,0)); filter: blur(3px); animation-duration: {{flameDur}};"></div>
 
+      <sc-for list="{{tongues}}" as="tg" hint-placeholder-count="8">
+        <div class="tongue" style="position: absolute; left: {{tg.x}}; bottom: {{tg.b}}; width: {{tg.w}}; height: {{tg.h}}; animation-duration: {{tg.dur}}; animation-delay: {{tg.delay}};">
+          <svg width="100%" height="100%" viewBox="0 0 30 70" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M15 70C6 70 1 62 1 53c0-12 9-18 9-30 0-7-2-11-2-11 12 4 17 12 17 21 0 5-2 8-2 11 0 3 2 5 4 3 2-2 2-5 2-7 5 5 6 10 6 17 0 9-6 13-14 13z" fill="{{flameOuter}}" opacity=".92"></path>
+            <path d="M15 70c-5 0-8-5-8-11 0-8 6-12 6-20 0-5-1-7-1-7 8 3 11 8 11 14 0 3-1 5-1 7 0 2 1 3 3 2 1-1 1-3 1-5 3 3 4 7 4 11 0 6-4 9-9 9z" fill="{{flameInner}}"></path>
+          </svg>
+        </div>
+      </sc-for>
       <div style="position: absolute; inset: 0; background: radial-gradient(46% 40% at 50% 46%, rgba(255,186,90,{{spillA}}) 0%, rgba(0,0,0,0) 72%); pointer-events: none;"></div>
       <sc-for list="{{sparks}}" as="sp" hint-placeholder-count="4">
         <div class="spark" style="position: absolute; left: {{sp.x}}; bottom: {{sp.b}}; width: {{sp.s}}; height: {{sp.s}}; border-radius: 50%; background: #FFE9A8; box-shadow: 0 0 6px {{flameOuter}}; animation-delay: {{sp.delay}};"></div>
@@ -1200,6 +1216,25 @@ class Component extends DCLogic {
     const flameDur = heat === 2 ? '0.42s' : heat === 1 ? '0.8s' : '1.5s';
     const flameOuter = heat === 2 ? '#FF7A1E' : heat === 1 ? '#F2891C' : '#D9701A';
     const flameInner = heat === 2 ? '#FFE07A' : heat === 1 ? '#FFCB58' : '#F5B845';
+    const tSteps = [
+      { t: 0.13, w: 16, h: 28, d: '0s' },
+      { t: 0.36, w: 13, h: 22, d: '.28s' },
+      { t: 0.58, w: 10, h: 17, d: '.54s' },
+      { t: 0.79, w: 7.5, h: 12, d: '.8s' }
+    ];
+    const tScale = heat === 2 ? 1.4 : heat === 1 ? 1.05 : 0.66;
+    const tongues = [];
+    tSteps.forEach((st, i) => {
+      const yy = 99 - (99 - 52) * st.t;
+      const bpx = ((100 - yy) / 100) * 116;
+      const w = st.w * tScale;
+      const h = st.h * tScale;
+      const lx = (7 + (31 - 7) * st.t) / 100 * 138;
+      const rx = (93 - (93 - 69) * st.t) / 100 * 138;
+      tongues.push({ x: (lx - w / 2).toFixed(1) + 'px', b: bpx.toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', dur: flameDur, delay: st.d });
+      tongues.push({ x: (rx - w / 2).toFixed(1) + 'px', b: bpx.toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', dur: flameDur, delay: (0.14 + i * 0.27).toFixed(2) + 's' });
+    });
+
     const sparks = [
       { x: '14px', b: '14px', s: '3px', delay: '0s' },
       { x: '38px', b: '30px', s: '2px', delay: '.6s' },
@@ -1251,7 +1286,7 @@ class Component extends DCLogic {
       spillA: heat === 2 ? '.62' : heat === 1 ? '.46' : '.3',
       spillB: heat === 2 ? '.26' : heat === 1 ? '.18' : '.11',
       pinClass: s.rolling ? 'pin' : '',
-      sparks: sparks, flameDur: flameDur, flameOuter: flameOuter, flameInner: flameInner,
+      tongues: tongues, sparks: sparks, flameDur: flameDur, flameOuter: flameOuter, flameInner: flameInner,
       peelAnim: s.peelAnim || '',
       peelGlow: peelReady ? '0 0 0 3px rgba(235,187,78,.9), 0 0 20px rgba(235,187,78,.7), 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55)' : '0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55)',
       peelZ: s.peelAnim ? '25' : '1',
