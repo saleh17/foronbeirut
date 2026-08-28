@@ -168,7 +168,7 @@
       <div class="burn" style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 18% 100%, 34% 53%, 28% 53%); background: linear-gradient(0deg, rgba(255,150,40,.55), rgba(255,214,140,.14) 62%, rgba(0,0,0,0)); filter: blur(4px); animation-duration: {{flameDur}};"></div>
       <div class="burn2" style="position: absolute; inset: 0; clip-path: polygon(100% 100%, 82% 100%, 66% 53%, 72% 53%); background: linear-gradient(0deg, rgba(255,150,40,.55), rgba(255,214,140,.14) 62%, rgba(0,0,0,0)); filter: blur(4px); animation-duration: {{flameDur}};"></div>
       <sc-for list="{{jets}}" as="jt" hint-placeholder-count="12">
-        <div style="position: absolute; left: {{jt.hx}}; bottom: {{jt.hb}}; width: {{jt.hs}}; height: {{jt.hs}}; border-radius: 50%; background: #1B1F23; box-shadow: 0 0 3px rgba(255,170,60,.9);"></div>
+        <div style="position: absolute; left: {{jt.hx}}; bottom: {{jt.hb}}; width: {{jt.hs}}; height: {{jt.hs}}; border-radius: 50%; background: #14181C; box-shadow: 0 0 5px rgba(255,190,80,1), inset 0 0 3px rgba(255,150,40,.8);"></div>
       </sc-for>
       <sc-for list="{{tongues}}" as="tg" hint-placeholder-count="8">
         <div class="tongue" style="position: absolute; left: {{tg.x}}; bottom: {{tg.b}}; width: {{tg.w}}; height: {{tg.h}}; animation-duration: {{tg.dur}}; animation-delay: {{tg.delay}};">
@@ -176,6 +176,7 @@
             <path d="M15 70C6 70 1 62 1 53c0-12 9-18 9-30 0-7-2-11-2-11 12 4 17 12 17 21 0 5-2 8-2 11 0 3 2 5 4 3 2-2 2-5 2-7 5 5 6 10 6 17 0 9-6 13-14 13z" fill="{{flameOuter}}" opacity=".92"></path>
             <path d="M15 70c-5 0-8-5-8-11 0-8 6-12 6-20 0-5-1-7-1-7 8 3 11 8 11 14 0 3-1 5-1 7 0 2 1 3 3 2 1-1 1-3 1-5 3 3 4 7 4 11 0 6-4 9-9 9z" fill="{{flameInner}}"></path>
           </svg>
+          <div style="position: absolute; left: 50%; bottom: 0; width: {{tg.cw}}; height: {{tg.ch}}; margin-left: calc({{tg.cw}} / -2); border-radius: 50% 50% 40% 40%; background: radial-gradient(60% 80% at 50% 100%, #FFF6DC 0%, #FFD98A 46%, rgba(255,200,110,0) 100%);"></div>
         </div>
       </sc-for>
       <div style="position: absolute; inset: 0; background: radial-gradient(46% 40% at 50% 46%, rgba(255,186,90,{{spillA}}) 0%, rgba(0,0,0,0) 72%); pointer-events: none;"></div>
@@ -1222,25 +1223,27 @@ class Component extends DCLogic {
     const flameDur = heat === 2 ? '0.42s' : heat === 1 ? '0.8s' : '1.5s';
     const flameOuter = heat === 2 ? '#FF7A1E' : heat === 1 ? '#F2891C' : '#D9701A';
     const flameInner = heat === 2 ? '#FFE07A' : heat === 1 ? '#FFCB58' : '#F5B845';
-    const tScale = heat === 2 ? 1.42 : heat === 1 ? 1.06 : 0.66;
+    const tScale = heat === 2 ? 1.55 : heat === 1 ? 1.18 : 0.88;
     const tongues = [];
     const jets = [];
     const stops = [0.05, 0.21, 0.37, 0.53, 0.69, 0.84];
     stops.forEach((tt, i) => {
-      const dep = 1 - 0.7 * tt;
+      const dep = 1 - 0.52 * tt;
       const ypct = 98 - 45 * tt;
       const bpx = ((100 - ypct) / 100) * 116;
       const lx = ((8 + 23 * tt) / 100) * 138;
       const rx = ((92 - 23 * tt) / 100) * 138;
-      const hs = 5.2 * dep;
-      const w = 14 * dep * tScale;
-      const h = 26 * dep * tScale;
+      const hs = 6 * dep;
+      const w = 21 * dep * tScale;
+      const h = 42 * dep * tScale;
       const d1 = (i * 0.19).toFixed(2) + 's';
       const d2 = (0.11 + i * 0.19).toFixed(2) + 's';
       jets.push({ hx: (lx - hs / 2).toFixed(1) + 'px', hb: (bpx - hs / 2).toFixed(1) + 'px', hs: hs.toFixed(1) + 'px' });
       jets.push({ hx: (rx - hs / 2).toFixed(1) + 'px', hb: (bpx - hs / 2).toFixed(1) + 'px', hs: hs.toFixed(1) + 'px' });
-      tongues.push({ x: (lx - w / 2).toFixed(1) + 'px', b: (bpx + hs / 2).toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', dur: flameDur, delay: d1 });
-      tongues.push({ x: (rx - w / 2).toFixed(1) + 'px', b: (bpx + hs / 2).toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', dur: flameDur, delay: d2 });
+      const cw = (w * 0.42).toFixed(1) + 'px';
+      const ch = (h * 0.26).toFixed(1) + 'px';
+      tongues.push({ x: (lx - w / 2).toFixed(1) + 'px', b: (bpx - hs * 0.28).toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', cw: cw, ch: ch, dur: flameDur, delay: d1 });
+      tongues.push({ x: (rx - w / 2).toFixed(1) + 'px', b: (bpx - hs * 0.28).toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', cw: cw, ch: ch, dur: flameDur, delay: d2 });
     });
 
     const sparks = [
