@@ -25,6 +25,10 @@
     .jeddo { animation: lean 3.4s ease-in-out infinite; transform-origin: 50% 90% }
     @keyframes sheen { 0% { transform: translateX(-130%) skewX(-18deg) } 55%,100% { transform: translateX(320%) skewX(-18deg) } }
     .sheen { animation: sheen 3.4s ease-in-out infinite }
+    @keyframes note { 0% { transform: translateY(6px) rotate(-8deg); opacity: 0 } 25% { opacity: .95 } 100% { transform: translateY(-46px) rotate(12deg); opacity: 0 } }
+    .n1 { animation: note 3.2s ease-out infinite }
+    .n2 { animation: note 3.2s ease-out 1.05s infinite }
+    .n3 { animation: note 3.2s ease-out 2.1s infinite }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
     .beat { animation: hb 1.5s ease-in-out infinite; transform-origin: 50% 60% }
   </style>
@@ -45,7 +49,18 @@
     <div style="position: absolute; left: 26px; bottom: 9px; width: 13px; height: 33px; border-radius: 3px; background: linear-gradient(100deg, #8A6242, #5E4028); border: 2.5px solid #2A1B12;"></div>
     <div style="position: absolute; left: 46px; bottom: 9px; width: 17px; height: 26px; border-radius: 3px; background: linear-gradient(100deg, #E4CF9E, #C4A96E); border: 2.5px solid #2A1B12;"></div>
     <div style="position: absolute; left: 68px; bottom: 9px; width: 17px; height: 30px; border-radius: 3px; background: linear-gradient(100deg, #B5563A, #8A3A25); border: 2.5px solid #2A1B12;"></div>
-    <div style="position: absolute; left: 92px; bottom: 9px; width: 34px; height: 24px; border-radius: 4px; background: linear-gradient(180deg, #8E939A, #61666C); border: 2.5px solid #2A1B12;"><div style="position: absolute; left: 4px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: #3A2E24; box-shadow: inset 0 0 0 2px #A8AEB5;"></div><div style="position: absolute; right: 4px; top: 7px; width: 10px; height: 3px; background: #A8AEB5;"></div></div>
+    <div onClick="{{onRadio}}" style="position: absolute; left: 88px; bottom: 9px; width: 40px; height: 30px; border-radius: 4px; background: linear-gradient(180deg, #A9754E, #7A5233); border: 2.5px solid #2A1B12; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,.35);">
+      <div style="position: absolute; left: 15px; top: -15px; width: 2.5px; height: 16px; background: #2A1B12; transform: rotate(16deg);"></div>
+      <div style="position: absolute; left: 4px; top: 4px; width: 15px; height: 15px; border-radius: 2px; background: repeating-linear-gradient(90deg, #2E2620 0 2px, #6A5B4C 2px 4px); border: 1.5px solid #2A1B12;"></div>
+      <div style="position: absolute; right: 4px; top: 4px; width: 13px; height: 7px; border-radius: 1px; background: {{radioDial}}; border: 1.5px solid #2A1B12;"></div>
+      <div style="position: absolute; right: 5px; bottom: 4px; width: 5px; height: 5px; border-radius: 50%; background: #D9C7A6; border: 1.5px solid #2A1B12;"></div>
+      <div style="position: absolute; right: 12px; bottom: 4px; width: 5px; height: 5px; border-radius: 50%; background: #D9C7A6; border: 1.5px solid #2A1B12;"></div>
+    </div>
+    <div style="position: absolute; left: 116px; bottom: 34px; width: 60px; height: 56px; opacity: {{radioNotes}}; pointer-events: none;">
+      <svg class="n1" width="17" height="19" viewBox="0 0 17 19" style="position: absolute; left: 2px; bottom: 0;" aria-hidden="true"><path d="M6 15V3l9-2v12" stroke="#4E6B2E" stroke-width="2.4" fill="none" stroke-linecap="round"></path><ellipse cx="3.6" cy="15.4" rx="3.6" ry="3" fill="#4E6B2E"></ellipse><ellipse cx="12.6" cy="13.4" rx="3.6" ry="3" fill="#4E6B2E"></ellipse></svg>
+      <svg class="n2" width="13" height="17" viewBox="0 0 13 17" style="position: absolute; left: 24px; bottom: 0;" aria-hidden="true"><path d="M5 13V2c3 1 6 2 6 5" stroke="#B04A2C" stroke-width="2.4" fill="none" stroke-linecap="round"></path><ellipse cx="2.8" cy="13.4" rx="2.8" ry="2.4" fill="#B04A2C"></ellipse></svg>
+      <svg class="n3" width="13" height="17" viewBox="0 0 13 17" style="position: absolute; left: 44px; bottom: 0;" aria-hidden="true"><path d="M5 13V2c3 1 6 2 6 5" stroke="#B77C1F" stroke-width="2.4" fill="none" stroke-linecap="round"></path><ellipse cx="2.8" cy="13.4" rx="2.8" ry="2.4" fill="#B77C1F"></ellipse></svg>
+    </div>
     <div style="position: absolute; left: 132px; bottom: 9px; width: 30px; height: 34px; border-radius: 4px 4px 2px 2px; background: linear-gradient(100deg, #D9C69C, #B39F73); border: 2.5px solid #2A1B12;"><div style="position: absolute; left: 4px; top: 6px; right: 4px; height: 10px; background: rgba(78,107,46,.5); border-radius: 2px;"></div></div>
   </div>
 
@@ -118,74 +133,27 @@
     </div>
   </div>
 
-  <!-- ===== CUSTOMERS ===== -->
+  <!-- ===== CUSTOMERS — the morning queue ===== -->
   <sc-for list="{{customers}}" as="c" hint-placeholder-count="3">
     <div style="position: absolute; left: {{c.left}}; top: 68px; width: 114px; height: 148px; display: flex; align-items: flex-start; gap: 3px;">
       <div style="display: flex; flex-direction: column; align-items: center; gap: 1px;">
         <sc-if value="{{c.isA}}" hint-placeholder-val="{{true}}">
-          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true">
-            <path d="M12 162c0-38 16-52 36-52s36 14 36 52z" fill="#3E7C74" stroke="#2A1B12" stroke-width="3.4"></path>
-            <path d="M12 162c0-38 16-52 36-52 0 0-14 22-14 52z" fill="#31665F"></path>
-            <path d="M36 108h24v14a12 12 0 0 1-24 0z" fill="#D3A87E" stroke="#2A1B12" stroke-width="3"></path>
-            <path d="M20 44c0-24 12-36 28-36s28 12 28 36v14c0 8-4 12-6 22-4 18-14 24-22 24s-18-6-22-24c-2-10-6-14-6-22z" fill="#E9C39C" stroke="#2A1B12" stroke-width="3.4"></path>
-            <path d="M62 22c10 6 14 18 14 36v10c-2-6-6-8-8-14-6 4-24 6-34 0-2 6-6 8-8 14V56c0-22 10-36 26-38 4-.5 8 1 10 4z" fill="#2B1D14" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path>
-            <path d="M18 52c-6 0-8 8-4 14s10 6 10 6M78 52c6 0 8 8 4 14s-10 6-10 6" fill="#E9C39C" stroke="#2A1B12" stroke-width="3"></path>
-            <circle cx="18" cy="76" r="5" fill="#EBBB4E" stroke="#2A1B12" stroke-width="2.4"></circle>
-            <circle cx="78" cy="76" r="5" fill="#EBBB4E" stroke="#2A1B12" stroke-width="2.4"></circle>
-            <path d="M28 50c4-3 10-3 13 0M55 50c4-3 10-3 13 0" stroke="#2A1B12" stroke-width="3.2" stroke-linecap="round" fill="none"></path>
-            <ellipse cx="35" cy="62" rx="8" ry="9" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse>
-            <ellipse cx="61" cy="62" rx="8" ry="9" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse>
-            <circle cx="36" cy="63" r="4" fill="#4A3020"></circle>
-            <circle cx="62" cy="63" r="4" fill="#4A3020"></circle>
-            <circle cx="34.4" cy="61" r="1.5" fill="#FFF"></circle>
-            <circle cx="60.4" cy="61" r="1.5" fill="#FFF"></circle>
-            <path d="M46 66c-2 6-4 9-1 11h4" stroke="#C99A70" stroke-width="2.6" stroke-linecap="round" fill="none"></path>
-            <path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path>
-            <ellipse cx="26" cy="76" rx="6" ry="4" fill="#E39B84" opacity=".5"></ellipse>
-            <ellipse cx="70" cy="76" rx="6" ry="4" fill="#E39B84" opacity=".5"></ellipse>
-          </svg>
+          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true"><path d="M10 162c0-38 17-52 38-52s38 14 38 52z" fill="#6FA3C4" stroke="#2A1B12" stroke-width="3.4"></path><path d="M10 162c0-38 17-52 38-52 0 0-15 22-15 52z" fill="#5A88A6"></path><path d="M38 110h20v14a10 10 0 0 1-20 0z" fill="#AC7C51" stroke="#2A1B12" stroke-width="3"></path><path d="M20 44c0-24 12-36 28-36s28 12 28 36v14c0 8-4 12-6 22-4 18-14 24-22 24s-18-6-22-24c-2-10-6-14-6-22z" fill="#C89A6E" stroke="#2A1B12" stroke-width="3.4"></path><path d="M18 56c-6 0-8 8-4 14s10 6 10 6M78 56c6 0 8 8 4 14s-10 6-10 6" fill="#C89A6E" stroke="#2A1B12" stroke-width="3"></path><path d="M46 110l-8 6 10 8 10-8-8-6z" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.4" stroke-linejoin="round"></path><path d="M18 48c2-24 14-34 30-34s28 10 30 34c-7-11-17-15-30-15s-23 4-30 15z" fill="#4A443E" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path><path d="M14 34c8-5 22-7 34-7s26 2 34 7c1 5-1 9-5 9-8-4-18-5-29-5s-21 1-29 5c-4 0-6-4-5-9z" fill="#2E2A26" stroke="#2A1B12" stroke-width="2.8" stroke-linejoin="round"></path><ellipse cx="30" cy="34" rx="10" ry="6" fill="#1B2A33" stroke="#2A1B12" stroke-width="2.2"></ellipse><ellipse cx="66" cy="34" rx="10" ry="6" fill="#1B2A33" stroke="#2A1B12" stroke-width="2.2"></ellipse><rect x="76" y="52" width="16" height="5" rx="2" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.2" transform="rotate(-14 84 54)"></rect><path d="M26 54c5-4 12-4 16-1M54 53c4-3 11-3 16 1" stroke="#2A1B12" stroke-width="3.4" stroke-linecap="round" fill="none"></path><ellipse cx="35" cy="64" rx="8" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><ellipse cx="61" cy="64" rx="8" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><circle cx="36" cy="65" r="4" fill="#4A3020"></circle><circle cx="62" cy="65" r="4" fill="#4A3020"></circle><circle cx="34.4" cy="63" r="1.5" fill="#FFF"></circle><circle cx="60.4" cy="63" r="1.5" fill="#FFF"></circle><path d="M46 68c-2 6-4 9-1 11h4" stroke="#A87B50" stroke-width="2.6" stroke-linecap="round" fill="none"></path><path d="M28 82c6-5 14-3 20-3s14-2 20 3c-5 8-12 10-20 10s-15-2-20-10z" fill="#4A443E" stroke="#2A1B12" stroke-width="2.8" stroke-linejoin="round"></path><path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="2.8" stroke-linecap="round" fill="none"></path></svg>
         </sc-if>
         <sc-if value="{{c.isB}}" hint-placeholder-val="{{true}}">
-          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true">
-            <path d="M10 162c0-38 17-52 38-52s38 14 38 52z" fill="#5A7699" stroke="#2A1B12" stroke-width="3.4"></path>
-            <path d="M10 162c0-38 17-52 38-52 0 0-15 22-15 52z" fill="#4A6382"></path>
-            <path d="M38 108h20v14a10 10 0 0 1-20 0z" fill="#AC7C51" stroke="#2A1B12" stroke-width="3"></path>
-            <path d="M40 110l8 12 8-12" fill="#FDF8ED" stroke="#2A1B12" stroke-width="2.6" stroke-linejoin="round"></path>
-            <path d="M20 48c0-22 12-34 28-34s28 12 28 34v10c0 8-4 12-6 22-4 18-14 24-22 24s-18-6-22-24c-2-10-6-14-6-22z" fill="#C8996B" stroke="#2A1B12" stroke-width="3.4"></path>
-            <path d="M18 54c-6 0-8 8-4 14s10 6 10 6M78 54c6 0 8 8 4 14s-10 6-10 6" fill="#C8996B" stroke="#2A1B12" stroke-width="3"></path>
-            <path d="M14 40c0-16 14-26 34-26s34 10 34 26c0 4-4 5-8 5H22c-4 0-8-1-8-5z" fill="#6B5A44" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path>
-            <path d="M12 42c14 4 58 4 72 0 3 4 1 8-6 8H18c-7 0-9-4-6-8z" fill="#54452F" stroke="#2A1B12" stroke-width="3" stroke-linejoin="round"></path>
-            <path d="M28 56c4-4 11-4 14-1M54 55c4-3 11-3 14 1" stroke="#2A1B12" stroke-width="3.4" stroke-linecap="round" fill="none"></path>
-            <ellipse cx="35" cy="66" rx="8" ry="8" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse>
-            <ellipse cx="61" cy="66" rx="8" ry="8" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse>
-            <circle cx="35" cy="67" r="4" fill="#3E2A18"></circle>
-            <circle cx="61" cy="67" r="4" fill="#3E2A18"></circle>
-            <circle cx="33.6" cy="65" r="1.5" fill="#FFF"></circle>
-            <circle cx="59.6" cy="65" r="1.5" fill="#FFF"></circle>
-            <path d="M46 70c-2 6-5 10-1 12h5" stroke="#9C7047" stroke-width="2.6" stroke-linecap="round" fill="none"></path>
-            <path d="M30 88c6 8 30 8 36 0" stroke="#6B5A44" stroke-width="7" stroke-linecap="round" opacity=".45" fill="none"></path>
-            <path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path>
-          </svg>
+          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true"><path d="M10 162c0-38 17-52 38-52s38 14 38 52z" fill="#2E3F63" stroke="#2A1B12" stroke-width="3.4"></path><path d="M10 162c0-38 17-52 38-52 0 0-15 22-15 52z" fill="#243352"></path><path d="M38 110h20v14a10 10 0 0 1-20 0z" fill="#D3B48E" stroke="#2A1B12" stroke-width="3"></path><path d="M20 44c0-24 12-36 28-36s28 12 28 36v14c0 8-4 12-6 22-4 18-14 24-22 24s-18-6-22-24c-2-10-6-14-6-22z" fill="#EFD3B0" stroke="#2A1B12" stroke-width="3.4"></path><path d="M18 56c-6 0-8 8-4 14s10 6 10 6M78 56c6 0 8 8 4 14s-10 6-10 6" fill="#EFD3B0" stroke="#2A1B12" stroke-width="3"></path><path d="M32 112h32v10H32z" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></path><path d="M22 126c0-8 4-14 8-16M74 126c0-8-4-14-8-16" stroke="#6B4A31" stroke-width="7" stroke-linecap="round" fill="none"></path><path d="M70 18c14 2 20 14 16 26-3 9-10 10-14 4" fill="#3B2A1C" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path><circle cx="73" cy="24" r="6" fill="#D4643F" stroke="#2A1B12" stroke-width="2.6"></circle><path d="M18 46c0-22 12-34 30-34s30 12 30 34c-4-8-9-12-14-14-6 6-24 8-34 2-6 2-10 6-12 12z" fill="#3B2A1C" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path><path d="M28 54c4-3 10-3 13 0M55 54c4-3 10-3 13 0" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path><ellipse cx="35" cy="64" rx="8" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><ellipse cx="61" cy="64" rx="8" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><circle cx="36" cy="65" r="4" fill="#3E2A18"></circle><circle cx="62" cy="65" r="4" fill="#3E2A18"></circle><circle cx="34.4" cy="63" r="1.5" fill="#FFF"></circle><circle cx="60.4" cy="63" r="1.5" fill="#FFF"></circle><path d="M46 68c-2 6-4 9-1 11h4" stroke="#CBA47C" stroke-width="2.4" stroke-linecap="round" fill="none"></path><circle cx="28" cy="76" r="1.6" fill="#C08A5E"></circle><circle cx="34" cy="80" r="1.4" fill="#C08A5E"></circle><circle cx="62" cy="80" r="1.4" fill="#C08A5E"></circle><circle cx="68" cy="76" r="1.6" fill="#C08A5E"></circle><path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
         </sc-if>
         <sc-if value="{{c.isC}}" hint-placeholder-val="{{true}}">
-          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true">
-            <path d="M10 162c0-38 17-52 38-52s38 14 38 52z" fill="#EFE4D0" stroke="#2A1B12" stroke-width="3.4"></path>
-            <path d="M10 162c0-38 17-52 38-52 0 0-15 22-15 52z" fill="#DCCFB6"></path>
-            <path d="M14 52c0-26 14-42 34-42s34 16 34 42c0 18-6 30-6 44 0 10 6 16 6 22H62c-4-8-8-14-14-14s-10 6-14 14H14c0-6 6-12 6-22 0-14-6-26-6-44z" fill="#C2593C" stroke="#2A1B12" stroke-width="3.4" stroke-linejoin="round"></path>
-            <path d="M14 52c0-26 14-42 34-42 0 0-18 18-18 42 0 18 4 30 4 44 0 10-6 12-6 22H14c0-6 6-12 6-22 0-14-6-26-6-44z" fill="#A8452D"></path>
-            <path d="M26 52c0-16 10-26 22-26s22 10 22 26v10c0 8-4 12-6 22-4 16-10 22-16 22s-12-6-16-22c-2-10-6-14-6-22z" fill="#EDD3B0" stroke="#2A1B12" stroke-width="3.2"></path>
-            <path d="M31 54c4-3 9-3 12 0M53 54c4-3 9-3 12 0" stroke="#2A1B12" stroke-width="3.2" stroke-linecap="round" fill="none"></path>
-            <ellipse cx="37" cy="65" rx="7.5" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse>
-            <ellipse cx="59" cy="65" rx="7.5" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse>
-            <circle cx="38" cy="66" r="3.8" fill="#4A3020"></circle>
-            <circle cx="60" cy="66" r="3.8" fill="#4A3020"></circle>
-            <circle cx="36.6" cy="64" r="1.4" fill="#FFF"></circle>
-            <circle cx="58.6" cy="64" r="1.4" fill="#FFF"></circle>
-            <path d="M47 69c-2 5-4 8-1 10h4" stroke="#CBA47C" stroke-width="2.5" stroke-linecap="round" fill="none"></path>
-            <path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path>
-            <ellipse cx="30" cy="76" rx="5" ry="3.4" fill="#E39B84" opacity=".5"></ellipse>
-            <ellipse cx="66" cy="76" rx="5" ry="3.4" fill="#E39B84" opacity=".5"></ellipse>
-          </svg>
+          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true"><path d="M10 162c0-38 17-52 38-52s38 14 38 52z" fill="#9A7E92" stroke="#2A1B12" stroke-width="3.4"></path><path d="M10 162c0-38 17-52 38-52 0 0-15 22-15 52z" fill="#836A7C"></path><path d="M38 110h20v14a10 10 0 0 1-20 0z" fill="#D2BFA4" stroke="#2A1B12" stroke-width="3"></path><path d="M20 44c0-24 12-36 28-36s28 12 28 36v14c0 8-4 12-6 22-4 18-14 24-22 24s-18-6-22-24c-2-10-6-14-6-22z" fill="#EEDCC2" stroke="#2A1B12" stroke-width="3.4"></path><path d="M18 56c-6 0-8 8-4 14s10 6 10 6M78 56c6 0 8 8 4 14s-10 6-10 6" fill="#EEDCC2" stroke="#2A1B12" stroke-width="3"></path><path d="M12 60c0-30 16-48 36-48s36 18 36 48c0 20-6 32-6 44 0 10 6 14 6 18H66c-4-8-10-12-18-12s-14 4-18 12H12c0-4 6-8 6-18 0-12-6-24-6-44z" fill="#F4EEE0" stroke="#2A1B12" stroke-width="3.4" stroke-linejoin="round"></path><path d="M12 60c0-30 16-48 36-48 0 0-19 20-19 48 0 20 5 32 5 44 0 10-6 10-6 18H12c0-4 6-8 6-18 0-12-6-24-6-44z" fill="#DFD6C4"></path><circle cx="26" cy="40" r="2" fill="#C9B79E"></circle><circle cx="44" cy="26" r="2" fill="#C9B79E"></circle><circle cx="66" cy="42" r="2" fill="#C9B79E"></circle><circle cx="32" cy="88" r="2" fill="#C9B79E"></circle><circle cx="70" cy="92" r="2" fill="#C9B79E"></circle><path d="M26 54c0-20 10-32 22-32s22 12 22 32v10c0 8-4 12-6 20-4 15-10 21-16 21s-12-6-16-21c-2-8-6-12-6-20z" fill="#EEDCC2" stroke="#2A1B12" stroke-width="3.2"></path><path d="M31 54c4-3 9-3 12 0M53 54c4-3 9-3 12 0" stroke="#8E8378" stroke-width="3" stroke-linecap="round" fill="none"></path><ellipse cx="36" cy="65" rx="7.5" ry="8" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><ellipse cx="60" cy="65" rx="7.5" ry="8" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><circle cx="37" cy="66" r="3.8" fill="#4A5A4A"></circle><circle cx="61" cy="66" r="3.8" fill="#4A5A4A"></circle><circle cx="35.6" cy="64" r="1.4" fill="#FFF"></circle><circle cx="59.6" cy="64" r="1.4" fill="#FFF"></circle><circle cx="36" cy="65" r="11" fill="none" stroke="#8A7A5E" stroke-width="2.6"></circle><circle cx="60" cy="65" r="11" fill="none" stroke="#8A7A5E" stroke-width="2.6"></circle><path d="M47 65h2" stroke="#8A7A5E" stroke-width="2.6"></path><path d="M46 68c-2 6-4 9-1 11h4" stroke="#C9A98A" stroke-width="2.4" stroke-linecap="round" fill="none"></path><path d="M28 78c2 3 4 5 4 8M68 78c-2 3-4 5-4 8" stroke="#D6BFA2" stroke-width="2.2" stroke-linecap="round" fill="none"></path><path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="2.8" stroke-linecap="round" fill="none"></path></svg>
+        </sc-if>
+        <sc-if value="{{c.isD}}" hint-placeholder-val="{{true}}">
+          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true"><path d="M10 162c0-38 17-52 38-52s38 14 38 52z" fill="#2E2E30" stroke="#2A1B12" stroke-width="3.4"></path><path d="M10 162c0-38 17-52 38-52 0 0-15 22-15 52z" fill="#242426"></path><path d="M38 110h20v14a10 10 0 0 1-20 0z" fill="#996A40" stroke="#2A1B12" stroke-width="3"></path><path d="M20 44c0-24 12-36 28-36s28 12 28 36v14c0 8-4 12-6 22-4 18-14 24-22 24s-18-6-22-24c-2-10-6-14-6-22z" fill="#B78354" stroke="#2A1B12" stroke-width="3.4"></path><path d="M18 56c-6 0-8 8-4 14s10 6 10 6M78 56c6 0 8 8 4 14s-10 6-10 6" fill="#B78354" stroke="#2A1B12" stroke-width="3"></path><path d="M14 130c6-16 18-22 34-22s28 6 34 22c-6 4-20 6-34 6s-28-2-34-6z" fill="#D8E84A" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path><path d="M18 126h60" stroke="#F4F7C8" stroke-width="5"></path><path d="M12 50c0-24 16-40 36-40s36 16 36 40v8c-4-2-8-2-10 2-8-6-44-6-52 0-2-4-6-4-10-2z" fill="#F2F0EA" stroke="#2A1B12" stroke-width="3.4" stroke-linejoin="round"></path><path d="M12 50c0-24 16-40 36-40 0 0-22 12-24 40-4 0-8 0-12 0z" fill="#D9D6CE"></path><path d="M14 36c10-8 24-11 34-11s24 3 34 11" stroke="#D4643F" stroke-width="5" fill="none"></path><path d="M14 60c-4 14 0 26 6 30M82 60c4 14 0 26-6 30" stroke="#2A1B12" stroke-width="3" fill="none"></path><path d="M26 54c5-4 11-4 15-1M53 53c4-3 10-3 15 1" stroke="#2A1B12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="35" cy="64" rx="8" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><ellipse cx="61" cy="64" rx="8" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><circle cx="36" cy="65" r="4" fill="#3E2A18"></circle><circle cx="62" cy="65" r="4" fill="#3E2A18"></circle><circle cx="34.4" cy="63" r="1.5" fill="#FFF"></circle><circle cx="60.4" cy="63" r="1.5" fill="#FFF"></circle><path d="M46 68c-2 6-4 9-1 11h4" stroke="#9C7047" stroke-width="2.6" stroke-linecap="round" fill="none"></path><path d="M28 88c6 9 32 9 40 0" stroke="#2A2018" stroke-width="9" stroke-linecap="round" opacity=".26" fill="none"></path><path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
+        </sc-if>
+        <sc-if value="{{c.isE}}" hint-placeholder-val="{{true}}">
+          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true"><path d="M10 162c0-38 17-52 38-52s38 14 38 52z" fill="#26262A" stroke="#2A1B12" stroke-width="3.4"></path><path d="M10 162c0-38 17-52 38-52 0 0-15 22-15 52z" fill="#1C1C20"></path><path d="M38 110h20v14a10 10 0 0 1-20 0z" fill="#A06E44" stroke="#2A1B12" stroke-width="3"></path><path d="M20 44c0-24 12-36 28-36s28 12 28 36v14c0 8-4 12-6 22-4 18-14 24-22 24s-18-6-22-24c-2-10-6-14-6-22z" fill="#C08A5E" stroke="#2A1B12" stroke-width="3.4"></path><path d="M18 56c-6 0-8 8-4 14s10 6 10 6M78 56c6 0 8 8 4 14s-10 6-10 6" fill="#C08A5E" stroke="#2A1B12" stroke-width="3"></path><path d="M30 112c6 10 12 14 18 14s12-4 18-14" fill="none" stroke="#E0A339" stroke-width="4"></path><circle cx="48" cy="128" r="4" fill="#EBBB4E" stroke="#2A1B12" stroke-width="2.2"></circle><path d="M16 46c0-24 14-36 32-36 14 0 24 7 29 19-9-3-15 3-26 3-9 0-14-4-20 0-8 5-11 9-15 14z" fill="#241A12" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path><path d="M45 29c8-8 20-10 32-4-6-8-16-13-26-12" fill="#241A12" stroke="#2A1B12" stroke-width="3" stroke-linejoin="round"></path><path d="M18 58h60v4a8 8 0 0 1-8 8H54a6 6 0 0 1-6-6 6 6 0 0 1-6 6H26a8 8 0 0 1-8-8z" fill="#1B2A33" stroke="#2A1B12" stroke-width="3" stroke-linejoin="round"></path><path d="M22 62h20M56 62h18" stroke="rgba(255,255,255,.3)" stroke-width="3" stroke-linecap="round"></path><path d="M14 58h6M76 58h6" stroke="#2A1B12" stroke-width="3" stroke-linecap="round"></path><circle cx="80" cy="74" r="4" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.2"></circle><path d="M46 68c-2 6-4 9-1 11h4" stroke="#9C7047" stroke-width="2.6" stroke-linecap="round" fill="none"></path><path d="M30 86c5 6 14 8 22 4" stroke="#2A2018" stroke-width="7" stroke-linecap="round" opacity=".2" fill="none"></path><path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
+        </sc-if>
+        <sc-if value="{{c.isF}}" hint-placeholder-val="{{true}}">
+          <svg width="66" height="112" viewBox="0 0 96 162" aria-hidden="true"><path d="M10 162c0-38 17-52 38-52s38 14 38 52z" fill="#3C4A5C" stroke="#2A1B12" stroke-width="3.4"></path><path d="M10 162c0-38 17-52 38-52 0 0-15 22-15 52z" fill="#2F3B4A"></path><path d="M38 110h20v14a10 10 0 0 1-20 0z" fill="#6E4830" stroke="#2A1B12" stroke-width="3"></path><path d="M20 44c0-24 12-36 28-36s28 12 28 36v14c0 8-4 12-6 22-4 18-14 24-22 24s-18-6-22-24c-2-10-6-14-6-22z" fill="#8A5E3C" stroke="#2A1B12" stroke-width="3.4"></path><path d="M18 56c-6 0-8 8-4 14s10 6 10 6M78 56c6 0 8 8 4 14s-10 6-10 6" fill="#8A5E3C" stroke="#2A1B12" stroke-width="3"></path><path d="M34 110h28l-8 16-6-6-6 6z" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6" stroke-linejoin="round"></path><circle cx="48" cy="8" r="12" fill="#2A1B12" stroke="#2A1B12" stroke-width="3"></circle><path d="M18 48c0-24 12-36 30-36s30 12 30 36c-4-10-8-14-12-16-8 4-28 4-36 0-4 2-8 6-12 16z" fill="#2A1B12" stroke="#2A1B12" stroke-width="3.2" stroke-linejoin="round"></path><circle cx="18" cy="76" r="5.5" fill="none" stroke="#EBBB4E" stroke-width="3"></circle><circle cx="78" cy="76" r="5.5" fill="none" stroke="#EBBB4E" stroke-width="3"></circle><path d="M28 54c4-3 10-3 13 0M55 54c4-3 10-3 13 0" stroke="#2A1B12" stroke-width="3.2" stroke-linecap="round" fill="none"></path><ellipse cx="35" cy="64" rx="8" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><ellipse cx="61" cy="64" rx="8" ry="8.5" fill="#FDFBF6" stroke="#2A1B12" stroke-width="2.6"></ellipse><circle cx="36" cy="65" r="4" fill="#2E1D10"></circle><circle cx="62" cy="65" r="4" fill="#2E1D10"></circle><circle cx="34.4" cy="63" r="1.5" fill="#FFF"></circle><circle cx="60.4" cy="63" r="1.5" fill="#FFF"></circle><path d="M46 68c-2 6-4 9-1 11h4" stroke="#6E4830" stroke-width="2.6" stroke-linecap="round" fill="none"></path><path d="{{c.mouth}}" stroke="#2A1B12" stroke-width="3" stroke-linecap="round" fill="none"></path></svg>
         </sc-if>
         <svg class="beat" width="20" height="18" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 21C5 15.5 1.5 12 1.5 7.8A5.8 5.8 0 0 1 12 4.4a5.8 5.8 0 0 1 10.5 3.4c0 4.2-3.5 7.7-10.5 13.2z" fill="{{c.heart}}" stroke="#2A1B12" stroke-width="2.2" stroke-linejoin="round"></path><path d="M6 8.4c0-2 1.4-3.2 3-3.2" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round" fill="none"></path></svg>
       </div>
@@ -367,11 +335,12 @@ class Component extends DCLogic {
       ready: [],
       drops: [{ id: 1, amt: 14, life: 3.4, max: 4, slot: 1 }],
       queue: [
-        { id: 2, name: 'Rana', want: 'zaatar', pat: 0.74 },
-        { id: 3, name: 'Georges', want: 'cheese', pat: 0.9 },
-        { id: 4, name: 'Nour', want: 'sbanekh', pat: 1 }
+        { id: 2, name: 'Im Georges', want: 'zaatar', pat: 0.74 },
+        { id: 3, name: 'Ziad', want: 'cheese', pat: 0.9 },
+        { id: 4, name: 'Karim', want: 'sbanekh', pat: 1 }
       ],
       hint: 'Take dough from the bowl',
+      radioOn: true,
       nextId: 20
     };
   }
@@ -411,7 +380,7 @@ class Component extends DCLogic {
   }
 
   newCustomer() {
-    const names = ['Jad', 'Maya', 'Karim', 'Layal', 'Ziad', 'Hala'];
+    const names = ['Abou Elias', 'Yara', 'Im Georges', 'Ziad', 'Karim', 'Nour'];
     const id = this.state.nextId + 1;
     const pool = ['zaatar', 'cheese', 'sbanekh', 'zaatar', 'cheese'];
     return { id: id, name: names[id % names.length], want: pool[id % pool.length], pat: 1 };
@@ -481,6 +450,11 @@ class Component extends DCLogic {
     this.setState({ ready: ready, queue: queue, drops: drops, nextId: s.nextId + 2, hint: match ? 'Order matched — take the money' : 'Wrong topping, they paid less' });
   }
 
+  toggleRadio() {
+    const on = !this.state.radioOn;
+    this.setState({ radioOn: on, hint: on ? 'Fairuz is back on — as it should be' : 'You turned off Fairuz. Bold' });
+  }
+
   trash() {
     const s = this.state;
     if (s.ready.length) { this.setState({ ready: s.ready.slice(0, -1), hint: 'Binned it' }); return; }
@@ -545,11 +519,12 @@ class Component extends DCLogic {
 
     const customers = s.queue.slice(0, 3).map((c, i) => {
       const wrapped = i === 0 && s.ready.filter((x) => x.wrapped).length > 0;
-      const kind = c.id % 3;
+      const kind = c.id % 6;
       return {
         left: 222 + i * 116 + 'px',
         isA: kind === 0, isB: kind === 1, isC: kind === 2,
-        mouth: c.pat > 0.45 ? 'M38 82c5 6 15 6 20 0' : 'M38 86c5-6 15-6 20 0',
+        isD: kind === 3, isE: kind === 4, isF: kind === 5,
+        mouth: c.pat > 0.45 ? 'M36 88c6 7 18 7 24 0' : 'M36 93c6-7 18-7 24 0',
         discColor: this.recipes[c.want].disc,
         clip: this.recipes[c.want].clip,
         sideColor: '#4A7038',
@@ -604,6 +579,9 @@ class Component extends DCLogic {
       trays: trays, prep: prep, ready: ready,
       readyHint: s.ready.length ? '' : 'nothing baked',
       drops: drops,
+      radioDial: s.radioOn ? '#8AECAE' : '#3E4A44',
+      radioNotes: s.radioOn ? '1' : '0',
+      onRadio: () => this.toggleRadio(),
       onDough: () => this.takeDough(),
       onPrep: () => this.tapPrep(),
       onTrash: () => this.trash()

@@ -59,6 +59,45 @@ The fatayer is **folded into a triangle**, which is worth honouring in the art �
 it is the one item on the menu that is not a disc, and that reads instantly in a
 queue of order cards.
 
+### The cast
+
+The queue is a Beirut morning, not a row of generic customers. Six regulars,
+cycling — each readable by silhouette alone at phone size, which is the whole
+test:
+
+| | Who | Reads by |
+|---|---|---|
+| **Abou Elias** | the service driver | moustache, sunglasses pushed up on his head, cigarette behind the ear |
+| **Yara** | on her way to school | high ponytail with a red scrunchie, backpack straps, freckles |
+| **Im Georges** | the teta from the building | headscarf tied under the chin, round glasses, cardigan |
+| **Ziad** | the delivery rider | open-face helmet, hi-vis vest, chin strap |
+| **Karim** | gym before work | gelled quiff, sunglasses on, gold chain, one earbud |
+| **Nour** | late for the office | hair in a bun, blazer over a white shirt, hoops |
+
+Warm, not caricature: varied ages, skin tones and dress, each drawn with the
+same affection you would draw a neighbour. Later regulars can carry standing
+orders — Abou Elias always takes zaatar, and the player learns it.
+
+### Sound: Fairuz, and the licensing problem
+
+Fairuz in the morning is the ritual this game is about. It belongs in it.
+
+**But her recordings are copyrighted** — the Rahbani catalogue is actively
+administered, and shipping a track without a licence would pull the game from
+the stores. Three routes, in the order I would take them:
+
+1. **Commission original music in the Rahbani morning idiom** — oud, qanun,
+   accordion, buzuq, a light 3/4 lilt. Cheap, clean, and it can be scored to
+   the day timer: sparse at the open, busier as the queue builds, resolving on
+   the end-of-day screen.
+2. **Licence properly** through the rights holders, if the budget is ever there.
+3. **Traditional folk melodies**, freshly arranged — the melodies are old, but
+   any specific Rahbani arrangement is not, so this needs care.
+
+Either way the music is **diegetic**: it comes from the radio on the shelf. Tap
+it and the dial goes dark and the notes stop. That one detail does more for the
+setting than a menu toggle ever would.
+
 ### Two more mechanics worth taking
 
 - **The order card is a live checklist.** Each item on it gets a green check the
