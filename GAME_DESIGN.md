@@ -43,6 +43,21 @@ on the **right**, with the topping trays under it and the dough bowl under those
 **Jeddo leans in from the archway on the right**, behind the counter. He is
 decor and personality, not a control.
 
+### Drawing a manousheh that looks like one
+
+Worth writing down because the first pass got it wrong: **a manousheh is not a
+green disc.** It is a pale golden flatbread with a **raised, visibly separate
+rim** — the topping never reaches the edge — and the zaatar itself is a dark
+**olive-brown**, not green: dried thyme and sumac bound in olive oil, closer to
+khaki than to grass. On top of that field sit **sesame seeds** (pale, scattered,
+individually visible) and **flecks of sumac** (rust red), with an **oil sheen**
+catching the light off-centre.
+
+So every manousheh in the game renders as two layers — bread underneath, topping
+field inset on top — and both brown independently as it bakes: the rim goes
+gold then blistered then charred, the zaatar darkens and dries. Cheese is the
+same construction with a pale melted field and golden-brown bubbles.
+
 ### Sbanekh comes off a plate, not out of the furn
 
 **Drinks are cut.** Ayran, tea and juice each needed their own cooler, their own
@@ -142,6 +157,7 @@ Keep it small — this is the data model.
 | Take dough    | tap the bowl — comes out flat       | wrong count                   |
 | Spread        | drag the ladle across the disc      | patchy coverage, lower rating |
 | Load the peel | tap the peel — holds 3              | peel full, or left half empty |
+| Refill        | tap jeddo when a tray runs dry      | caught empty mid-rush         |
 | Bake          | slide the peel in, timing rings     | raw / perfect / burnt         |
 | Extras        | drag onto the baked piece           | wrong or missing item         |
 | Wrap          | tap to roll it in a sheet of paper  | served bare, no tip           |
@@ -161,7 +177,25 @@ player can watch one band go green while the other has not, and learn the
 lesson without being told it. Batching by topping is the skill the game is
 quietly teaching, and the peel is what teaches it.
 
-Peel capacity is the upgrade that used to be "furn slots": 2 -> 3 -> 4.
+**Two capacities, both bought separately.** The peel is how many you can carry
+in; the deck is how many the furn holds. The batch is whichever is smaller, so
+buying one without the other does nothing — and the station says so ("buy more
+deck, the peel has room"). Two upgrades, 500 and 650, each 2 -> 3 -> 4.
+
+### Jeddo fills the trays
+
+The zaatar and cheese trays hold **five manakish each**, and they visibly drain:
+the topping level drops in the tray and a badge counts down, green to amber to
+red. Empty, the tray is bare metal and the topping cannot be spread at all.
+
+**Jeddo refills them, but only when asked.** Tap him and both trays go back to
+five. He glows and a "!" pops over his head the moment one runs dry, so it is
+never a mystery — but it is a tap, and it is a tap you have to spend during the
+rush.
+
+This is what he is for. Standing in the archway as decor was a waste of the best
+character in the scene; now he is the reason you look right when your hands are
+busy left, and the reason running two toppings hard costs you something.
 
 **Dough comes out of the bowl already flattened.** Pressing it out was a tap
 that taught nothing and got boring by day two. **Wrapping replaced it**: after
@@ -221,7 +255,8 @@ Bake time -50%, forgiveness +29%. The upgrade always feels like a gift.
 
 | Upgrade        | What it removes                      | Levels        | Cost            |
 |----------------|--------------------------------------|---------------|-----------------|
-| Peel capacity  | serialization — bake in one load     | 2>3>4         | 500/1,400/4,000 |
+| Wider peel     | carry more into the furn in one go   | 2>3>4         | 500/1,400/4,000 |
+| Furn deck      | the deck holds more at a time        | 2>3>4         | 650/1,700/4,600 |
 | Oven           | waiting (table above)                | 5             | 350 -> 5,000    |
 | Burn guard     | panic — holds at perfect longer      | 3             | 600/1,800/4,500 |
 | Paper feeder   | wrapping happens on pull-out         | 1             | 800             |
@@ -250,6 +285,7 @@ It should read as the reward for mastery, not an early convenience.
 
 - Better olive oil / fresh akkawi / stone-ground zaatar: price x1.15 per tier,
   and customers wait longer.
+- Bigger sbanekh tray: 12 fatayer on the plate instead of 8.
 - Bigger dough: same taps, more coins.
 - Awning, chairs, radio, tiled counter, sign: faster customer spawn, more
   patience, and the visible reward players screenshot.
