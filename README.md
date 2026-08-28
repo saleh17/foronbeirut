@@ -1,4 +1,4 @@
-# Sabah el Saj
+# Forn Beirut
 
 A manakish cooking game for Android and iOS — open the bakery, beat the morning
 rush, keep every manousheh out of the fire.
@@ -12,7 +12,7 @@ that makes the same seven taps steadily easier.
   <https://claude.ai/code/artifact/2ae1c617-d592-4513-bf2d-7aee4b42c011>.
   Its artboard sources are in [`design/`](design/).
 
-The name is a working title.
+فرن بيروت.
 
 ## Stack
 

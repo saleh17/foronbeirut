@@ -1,6 +1,6 @@
-# Sabah el Saj — design spec
+# Forn Beirut — design spec
 
-Working title. A single-station cooking game: one saj, a queue of customers, a
+A single-station cooking game: one saj, a queue of customers, a
 90-second day, and an upgrade tree that keeps you coming back.
 
 Reference point: **Shawarma Legend** (`com.company.shaw`, Play Store, July 2024,
@@ -253,6 +253,5 @@ satisfying.
 
 - **Station layout** — stacked lanes vs thumb arc. Both drawn low-fi on the
   prototype canvas's second page; pick one before building.
-- **Name.** "Sabah el Saj" is a placeholder.
 - **Art.** The prototype's customers and ingredient icons are drawn
   placeholders.
