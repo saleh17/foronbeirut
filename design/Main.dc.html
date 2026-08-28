@@ -159,11 +159,17 @@
       <div style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 100% 100%, 69.6% 50%, 30.4% 50%); background: radial-gradient(60% 120% at 50% 108%, #E8B97E 0%, #CE9256 30%, #A9683A 62%, #7E4726 100%);"></div>
       <div style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 100% 100%, 69.6% 50%, 30.4% 50%); background: radial-gradient(circle at 30% 78%, rgba(40,22,10,.45) 0 9%, rgba(0,0,0,0) 10%), radial-gradient(circle at 68% 86%, rgba(40,22,10,.4) 0 7%, rgba(0,0,0,0) 8%), radial-gradient(circle at 52% 64%, rgba(40,22,10,.35) 0 6%, rgba(0,0,0,0) 7%);"></div>
 
-      <div class="burn" style="position: absolute; inset: 0; clip-path: polygon(3% 99%, 12% 99%, 32.6% 52%, 30.2% 52%); background: linear-gradient(0deg, {{flameOuter}} 0%, {{flameInner}} 46%, #FFF0BE 100%); filter: blur(.4px); animation-duration: {{flameDur}};"></div>
-      <div class="burn2" style="position: absolute; inset: 0; clip-path: polygon(97% 99%, 88% 99%, 67.4% 52%, 69.8% 52%); background: linear-gradient(0deg, {{flameOuter}} 0%, {{flameInner}} 46%, #FFF0BE 100%); filter: blur(.4px); animation-duration: {{flameDur}};"></div>
-      <div class="burn" style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 17% 100%, 34% 52%, 29% 52%); background: linear-gradient(0deg, rgba(255,150,40,.5), rgba(255,214,140,.16) 60%, rgba(0,0,0,0)); filter: blur(3px); animation-duration: {{flameDur}};"></div>
-      <div class="burn2" style="position: absolute; inset: 0; clip-path: polygon(100% 100%, 83% 100%, 66% 52%, 71% 52%); background: linear-gradient(0deg, rgba(255,150,40,.5), rgba(255,214,140,.16) 60%, rgba(0,0,0,0)); filter: blur(3px); animation-duration: {{flameDur}};"></div>
-
+      <div style="position: absolute; inset: 0; clip-path: polygon(2% 100%, 13% 100%, 32.6% 53%, 29.4% 53%); background: linear-gradient(90deg, #454B51 0%, #8E959C 32%, #B6BCC2 46%, #737A81 62%, #3E444A 100%);"></div>
+      <div style="position: absolute; inset: 0; clip-path: polygon(5% 100%, 8% 100%, 31.4% 53%, 30.8% 53%); background: rgba(255,255,255,.45);"></div>
+      <div style="position: absolute; inset: 0; clip-path: polygon(98% 100%, 87% 100%, 67.4% 53%, 70.6% 53%); background: linear-gradient(270deg, #454B51 0%, #8E959C 32%, #B6BCC2 46%, #737A81 62%, #3E444A 100%);"></div>
+      <div style="position: absolute; inset: 0; clip-path: polygon(95% 100%, 92% 100%, 68.6% 53%, 69.2% 53%); background: rgba(255,255,255,.45);"></div>
+      <div style="position: absolute; left: -2px; bottom: -3px; width: 15px; height: 11px; border-radius: 3px; background: linear-gradient(180deg, #9AA1A8, #4A5056); border: 1.5px solid #23282D;"></div>
+      <div style="position: absolute; right: -2px; bottom: -3px; width: 15px; height: 11px; border-radius: 3px; background: linear-gradient(180deg, #9AA1A8, #4A5056); border: 1.5px solid #23282D;"></div>
+      <div class="burn" style="position: absolute; inset: 0; clip-path: polygon(0% 100%, 18% 100%, 34% 53%, 28% 53%); background: linear-gradient(0deg, rgba(255,150,40,.55), rgba(255,214,140,.14) 62%, rgba(0,0,0,0)); filter: blur(4px); animation-duration: {{flameDur}};"></div>
+      <div class="burn2" style="position: absolute; inset: 0; clip-path: polygon(100% 100%, 82% 100%, 66% 53%, 72% 53%); background: linear-gradient(0deg, rgba(255,150,40,.55), rgba(255,214,140,.14) 62%, rgba(0,0,0,0)); filter: blur(4px); animation-duration: {{flameDur}};"></div>
+      <sc-for list="{{jets}}" as="jt" hint-placeholder-count="12">
+        <div style="position: absolute; left: {{jt.hx}}; bottom: {{jt.hb}}; width: {{jt.hs}}; height: {{jt.hs}}; border-radius: 50%; background: #1B1F23; box-shadow: 0 0 3px rgba(255,170,60,.9);"></div>
+      </sc-for>
       <sc-for list="{{tongues}}" as="tg" hint-placeholder-count="8">
         <div class="tongue" style="position: absolute; left: {{tg.x}}; bottom: {{tg.b}}; width: {{tg.w}}; height: {{tg.h}}; animation-duration: {{tg.dur}}; animation-delay: {{tg.delay}};">
           <svg width="100%" height="100%" viewBox="0 0 30 70" preserveAspectRatio="none" aria-hidden="true">
@@ -1216,23 +1222,25 @@ class Component extends DCLogic {
     const flameDur = heat === 2 ? '0.42s' : heat === 1 ? '0.8s' : '1.5s';
     const flameOuter = heat === 2 ? '#FF7A1E' : heat === 1 ? '#F2891C' : '#D9701A';
     const flameInner = heat === 2 ? '#FFE07A' : heat === 1 ? '#FFCB58' : '#F5B845';
-    const tSteps = [
-      { t: 0.13, w: 16, h: 28, d: '0s' },
-      { t: 0.36, w: 13, h: 22, d: '.28s' },
-      { t: 0.58, w: 10, h: 17, d: '.54s' },
-      { t: 0.79, w: 7.5, h: 12, d: '.8s' }
-    ];
-    const tScale = heat === 2 ? 1.4 : heat === 1 ? 1.05 : 0.66;
+    const tScale = heat === 2 ? 1.42 : heat === 1 ? 1.06 : 0.66;
     const tongues = [];
-    tSteps.forEach((st, i) => {
-      const yy = 99 - (99 - 52) * st.t;
-      const bpx = ((100 - yy) / 100) * 116;
-      const w = st.w * tScale;
-      const h = st.h * tScale;
-      const lx = (7 + (31 - 7) * st.t) / 100 * 138;
-      const rx = (93 - (93 - 69) * st.t) / 100 * 138;
-      tongues.push({ x: (lx - w / 2).toFixed(1) + 'px', b: bpx.toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', dur: flameDur, delay: st.d });
-      tongues.push({ x: (rx - w / 2).toFixed(1) + 'px', b: bpx.toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', dur: flameDur, delay: (0.14 + i * 0.27).toFixed(2) + 's' });
+    const jets = [];
+    const stops = [0.05, 0.21, 0.37, 0.53, 0.69, 0.84];
+    stops.forEach((tt, i) => {
+      const dep = 1 - 0.7 * tt;
+      const ypct = 98 - 45 * tt;
+      const bpx = ((100 - ypct) / 100) * 116;
+      const lx = ((8 + 23 * tt) / 100) * 138;
+      const rx = ((92 - 23 * tt) / 100) * 138;
+      const hs = 5.2 * dep;
+      const w = 14 * dep * tScale;
+      const h = 26 * dep * tScale;
+      const d1 = (i * 0.19).toFixed(2) + 's';
+      const d2 = (0.11 + i * 0.19).toFixed(2) + 's';
+      jets.push({ hx: (lx - hs / 2).toFixed(1) + 'px', hb: (bpx - hs / 2).toFixed(1) + 'px', hs: hs.toFixed(1) + 'px' });
+      jets.push({ hx: (rx - hs / 2).toFixed(1) + 'px', hb: (bpx - hs / 2).toFixed(1) + 'px', hs: hs.toFixed(1) + 'px' });
+      tongues.push({ x: (lx - w / 2).toFixed(1) + 'px', b: (bpx + hs / 2).toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', dur: flameDur, delay: d1 });
+      tongues.push({ x: (rx - w / 2).toFixed(1) + 'px', b: (bpx + hs / 2).toFixed(1) + 'px', w: w.toFixed(1) + 'px', h: h.toFixed(1) + 'px', dur: flameDur, delay: d2 });
     });
 
     const sparks = [
@@ -1286,7 +1294,7 @@ class Component extends DCLogic {
       spillA: heat === 2 ? '.62' : heat === 1 ? '.46' : '.3',
       spillB: heat === 2 ? '.26' : heat === 1 ? '.18' : '.11',
       pinClass: s.rolling ? 'pin' : '',
-      tongues: tongues, sparks: sparks, flameDur: flameDur, flameOuter: flameOuter, flameInner: flameInner,
+      tongues: tongues, jets: jets, sparks: sparks, flameDur: flameDur, flameOuter: flameOuter, flameInner: flameInner,
       peelAnim: s.peelAnim || '',
       peelGlow: peelReady ? '0 0 0 3px rgba(235,187,78,.9), 0 0 20px rgba(235,187,78,.7), 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55)' : '0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55)',
       peelZ: s.peelAnim ? '25' : '1',

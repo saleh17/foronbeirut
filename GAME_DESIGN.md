@@ -44,11 +44,15 @@ a fire-brick floor scorched with soot, brick walls in courses running back on
 both sides, a low ceiling, and the far wall glowing orange. Nothing in there is
 black.
 
-**Two gas burner lines run the length of it**, one along the foot of each wall,
-converging toward the back like a road in a tunnel, with **small flame tongues
-standing up off them** — four a side, each licking on its own offset. The
-tongues shrink with distance along with everything else, which is what sells the
-depth: the manakish sit *in* a space rather than on a flat panel.
+**Two gas burner pipes run the length of it**, one along the foot of each wall,
+converging toward the back like a road in a tunnel: steel with a highlight down
+the top, tapering with distance, a feed elbow at the front of each. **Six
+drilled holes down each pipe, evenly spaced**, and a flame standing up out of
+every one — twelve jets in strict formation, each licking on its own offset so
+the line never pulses as a block.
+
+Everything shrinks together with depth — pipe, holes, flames — and that is what
+sells the space: the manakish sit *in* a tunnel rather than on a flat panel.
 
 The fire is a state readout, not decoration: it burns low and slow on an empty
 deck, steps up while something is baking, and roars — brighter, faster, whiter —
