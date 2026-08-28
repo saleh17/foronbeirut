@@ -7,107 +7,107 @@
 <body>
 <x-dc>
 <helmet>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=Cairo:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=Cairo:wght@600;700;800&display=swap">
   <style>
-    body { margin: 0; background: #EFE2CB; color: #2E2118; font-family: 'Cairo', 'Segoe UI', sans-serif; }
+    body { margin: 0; background: #2A211A; color: #2E2118; font-family: 'Cairo', 'Segoe UI', sans-serif; }
     * { box-sizing: border-box; }
-    a { color: #C2593C; } a:hover { color: #9A4229; }
+    a { color: #EBBB4E; } a:hover { color: #E0A339; }
     .dsp { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; }
-    .cap { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; text-transform: uppercase; letter-spacing: 0.09em; }
-    @keyframes pop { 0% { transform: scale(0.4) rotate(-14deg); opacity: 0; } 65% { transform: scale(1.14) rotate(3deg); opacity: 1; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
-    .p1 { animation: pop 0.5s cubic-bezier(.3,1.4,.5,1) both; }
-    .p2 { animation: pop 0.5s cubic-bezier(.3,1.4,.5,1) 0.16s both; }
-    .p3 { animation: pop 0.5s cubic-bezier(.3,1.4,.5,1) 0.32s both; }
+    @keyframes pop { 0% { transform: scale(0.4) rotate(-16deg); opacity: 0; } 68% { transform: scale(1.16) rotate(4deg); opacity: 1; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+    .p1 { animation: pop 0.5s cubic-bezier(.3,1.4,.5,1) 0.1s both; }
+    .p2 { animation: pop 0.5s cubic-bezier(.3,1.4,.5,1) 0.26s both; }
+    .p3 { animation: pop 0.5s cubic-bezier(.3,1.4,.5,1) 0.42s both; }
   </style>
 </helmet>
 
-<div style="width: 390px; height: 844px; padding: 26px 18px 22px; display: flex; flex-direction: column; gap: 14px; background: radial-gradient(115% 42% at 50% 6%, #FAF2E4 0%, #EFE2CB 55%, #E2CFAE 100%); overflow: hidden;">
+<div style="position: relative; width: 844px; height: 390px; overflow: hidden; background: #B9C4C0;">
 
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <span class="cap" style="font-size: 10px; font-weight: 700; color: #8A7050;">The saj is off</span>
-    <h1 class="dsp" style="margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -0.015em;">Day 3 done</h1>
+  <div style="position: absolute; inset: 0; filter: blur(3px); opacity: 0.9;">
+    <div style="position: absolute; left: 0; top: 0; width: 844px; height: 212px; background: repeating-linear-gradient(90deg, #E5D8BC 0 46px, #D6C6A4 46px 49px), repeating-linear-gradient(180deg, #E5D8BC 0 40px, #D6C6A4 40px 43px); background-blend-mode: multiply;"></div>
+    <div style="position: absolute; left: 0; top: 86px; width: 844px; height: 46px; background: repeating-linear-gradient(90deg, #6E8F6A 0 44px, #5A7757 44px 47px);"></div>
+    <div style="position: absolute; left: 0; top: 196px; width: 844px; height: 22px; background: #E8DFCB;"></div>
+    <div style="position: absolute; left: 0; top: 218px; width: 844px; height: 172px; background: linear-gradient(180deg, #E4DCCB 0%, #C6BAA2 100%);"></div>
+    <div style="position: absolute; left: 122px; top: 144px; width: 166px; height: 74px; border-radius: 84px 84px 22px 22px; background: #4A4038;"></div>
   </div>
+  <div style="position: absolute; inset: 0; background: rgba(42,33,26,0.68);"></div>
 
-  <div style="display: flex; justify-content: center; gap: 10px; padding: 2px 0 2px;">
-    <svg class="p1" width="58" height="58" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#EBBB4E" stroke="#B77C1F" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-    <svg class="p2" width="58" height="58" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#EBBB4E" stroke="#B77C1F" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-    <svg class="p3" width="58" height="58" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#E7D8BC" stroke="#CDB68A" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-  </div>
+  <div style="position: absolute; left: 62px; top: 26px; width: 720px; height: 338px; border-radius: 16px; background: linear-gradient(180deg, #A9754E 0%, #8A6242 100%); border: 6px solid #3A2E24; box-shadow: 0 10px 0 rgba(0,0,0,0.4); padding: 16px; display: flex; gap: 16px;">
 
-  <div style="background: #2E2118; border-radius: 20px; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 5px 0 #160F09;">
-    <div style="display: flex; flex-direction: column; gap: 2px;">
-      <span class="cap" style="font-size: 9.5px; color: #B09B7C; font-weight: 700;">Earned today</span>
-      <span class="dsp" style="font-size: 30px; font-weight: 800; color: #EBBB4E; line-height: 1;">+ 284</span>
-    </div>
-    <div style="text-align: right; display: flex; flex-direction: column; gap: 2px;">
-      <span class="cap" style="font-size: 9.5px; color: #B09B7C; font-weight: 700;">Purse</span>
-      <span class="dsp" style="font-size: 18px; font-weight: 800; color: #F7EDDC; line-height: 1;">1,240</span>
-    </div>
-  </div>
-
-  <div style="background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 18px; padding: 6px 14px; box-shadow: 0 3px 0 #DCC49C; display: flex; flex-direction: column;">
-    <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
-      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: {{r.rule}};">
-        <div style="display: flex; align-items: center; gap: 9px;">
-          <div style="width: 8px; height: 8px; border-radius: 50%; background: {{r.dot}};"></div>
-          <span style="font-size: 13.5px;">{{r.label}}</span>
+    <div style="width: 268px; background: rgba(58,46,36,0.34); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+      <span style="font-size: 11px; font-weight: 800; color: #E3C79C; letter-spacing: 0.16em; text-transform: uppercase;">The saj is off</span>
+      <h1 class="dsp" style="margin: 0; font-size: 30px; font-weight: 800; color: #FBF3E3; text-shadow: 2px 2px 0 #3A2E24; line-height: 1;">Day 3 done</h1>
+      <div style="display: flex; gap: 6px; margin: 4px 0 2px;">
+        <svg class="p1" width="54" height="54" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#EBBB4E" stroke="#3A2E24" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+        <svg class="p2" width="54" height="54" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#EBBB4E" stroke="#3A2E24" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+        <svg class="p3" width="54" height="54" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z" fill="#6B5540" stroke="#3A2E24" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+      </div>
+      <div style="width: 100%; border-radius: 10px; background: #2E2118; border: 3px solid #3A2E24; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+          <span style="font-size: 9px; color: #B09B7C; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;">Earned</span>
+          <span class="dsp" style="font-size: 26px; font-weight: 800; color: #EBBB4E; line-height: 1;">+284</span>
         </div>
-        <span class="dsp" style="font-size: 14px; font-weight: 800; color: {{r.color}};">{{r.value}}</span>
-      </div>
-    </sc-for>
-  </div>
-
-  <div style="background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 18px; padding: 13px 14px; box-shadow: 0 3px 0 #DCC49C; display: flex; flex-direction: column; gap: 9px;">
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-      <span class="cap" style="font-size: 9.5px; color: #8A7050; font-weight: 700;">Next unlock</span>
-      <span class="dsp" style="font-size: 11px; font-weight: 700; color: #C2593C;">240 to go</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 11px;">
-      <div style="width: 40px; height: 40px; border-radius: 12px; background: #F3E3C4; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 14a8.5 8.5 0 0 1 17 0" stroke="#B77C1F" stroke-width="2" stroke-linecap="round"></path><path d="M2.5 14h19M6.5 18.5h11" stroke="#B77C1F" stroke-width="2" stroke-linecap="round"></path><path d="M9 7c0-1 1-1.4 1-2.4M13.5 6.6c0-1 1-1.4 1-2.4" stroke="#C2593C" stroke-width="1.7" stroke-linecap="round"></path></svg>
-      </div>
-      <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px;">
-        <span style="font-size: 13.5px; font-weight: 700;">Gas furn <span style="color: #8A7050; font-weight: 600;">— bake 13% faster</span></span>
-        <div style="height: 8px; background: #EADCC0; border-radius: 999px; overflow: hidden;">
-          <div style="width: 73%; height: 100%; background: linear-gradient(90deg, #E0A339, #C2593C); border-radius: 999px;"></div>
+        <div style="display: flex; flex-direction: column; gap: 1px; text-align: right;">
+          <span style="font-size: 9px; color: #B09B7C; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;">Purse</span>
+          <span class="dsp" style="font-size: 17px; font-weight: 800; color: #FBF3E3; line-height: 1;">1,240</span>
         </div>
       </div>
+      <div style="margin-top: auto; width: 100%; display: flex; align-items: center; gap: 9px; background: rgba(110,143,106,0.36); border: 3px solid #4F6E4C; border-radius: 10px; padding: 8px 10px;">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: #FBF3E3; border: 2.5px solid #3A2E24; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <span class="dsp" style="font-size: 12px; font-weight: 800; color: #4E6B2E;">14</span>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; color: #FBF3E3; line-height: 1.25;">Tomorrow: serve 20 cheese · <span style="color: #C7E3A8;">+120</span></span>
+      </div>
     </div>
-  </div>
 
-  <div style="display: flex; align-items: center; gap: 11px; background: #E8EEDB; border: 1.5px solid #A9BF88; border-radius: 18px; padding: 12px 14px; box-shadow: 0 3px 0 #C6D2AE;">
-    <div style="width: 40px; height: 40px; border-radius: 50%; background: #FFF8EA; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-      <span class="dsp" style="font-size: 13px; font-weight: 800; color: #4E6B2E;">14</span>
-    </div>
-    <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px;">
-      <span class="cap" style="font-size: 9px; color: #5F7D3C; font-weight: 700;">Tomorrow's goal</span>
-      <span style="font-size: 13.5px; font-weight: 700; line-height: 1.25;">Serve 20 cheese manakish · <span style="color: #4E6B2E;">+120 bonus</span></span>
-    </div>
-  </div>
+    <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
+      <div style="flex-grow: 1; background: #FBF3E3; border: 4px solid #3A2E24; border-radius: 12px; padding: 4px 14px;">
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: {{r.rule}};">
+            <div style="display: flex; align-items: center; gap: 9px;">
+              <div style="width: 9px; height: 9px; border-radius: 50%; background: {{r.dot}}; border: 2px solid #3A2E24;"></div>
+              <span style="font-size: 13px; font-weight: 600;">{{r.label}}</span>
+            </div>
+            <span class="dsp" style="font-size: 14px; font-weight: 800; color: {{r.color}};">{{r.value}}</span>
+          </div>
+        </sc-for>
+      </div>
 
-  <div style="margin-top: auto; display: flex; gap: 10px;">
-    <div style="width: 116px; background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 18px; padding: 15px 10px; box-shadow: 0 4px 0 #DCC49C; text-align: center; cursor: pointer;">
-      <span class="dsp" style="font-size: 15px; font-weight: 800; color: #6B5535;">Replay</span>
-    </div>
-    <div style="flex-grow: 1; background: #C2593C; border-radius: 18px; padding: 15px 18px; box-shadow: 0 5px 0 #8F3E27; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
-      <span class="dsp" style="font-size: 19px; font-weight: 800; color: #FFF3E0;">Spend it</span>
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5L13 17.5" stroke="#FFF3E0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <div style="background: #2E3A33; border: 4px solid #3A2E24; border-radius: 12px; padding: 9px 13px; display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 10px; font-weight: 800; color: #8FA98C; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap;">Next unlock</span>
+        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 5px;">
+          <span style="font-size: 12px; font-weight: 700; color: #F2EAD9;">Gas furn — bake 13% faster</span>
+          <div style="height: 8px; background: rgba(0,0,0,0.4); border-radius: 999px; overflow: hidden;">
+            <div style="width: 73%; height: 100%; background: linear-gradient(90deg, #E0A339, #C2593C);"></div>
+          </div>
+        </div>
+        <span class="dsp" style="font-size: 13px; font-weight: 800; color: #EBBB4E; white-space: nowrap;">240 to go</span>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <div style="width: 128px; height: 56px; border-radius: 12px; background: linear-gradient(180deg, #F0E7D4, #DACDB2); border: 4px solid #3A2E24; box-shadow: 0 5px 0 rgba(0,0,0,0.34); display: flex; align-items: center; justify-content: center; cursor: pointer;">
+          <span class="dsp" style="font-size: 16px; font-weight: 800; color: #4A3524;">Replay</span>
+        </div>
+        <div style="flex-grow: 1; height: 56px; border-radius: 12px; background: linear-gradient(180deg, #D4643F, #B04A2C); border: 4px solid #3A2E24; box-shadow: 0 5px 0 #6E2C18; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer;">
+          <span class="dsp" style="font-size: 20px; font-weight: 800; color: #FBF3E3; text-shadow: 2px 2px 0 #3A2E24;">Spend it</span>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5L13 17.5" stroke="#FBF3E3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+      </div>
     </div>
   </div>
 
 </div>
 </x-dc>
 
-<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+<script data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
 class Component extends DCLogic {
   renderVals() {
-    const rule = '1px solid #F0E4CC';
+    const rule = '2px solid #EFE3CB';
     return {
       rows: [
         { label: 'Customers served', value: '18', color: '#2E2118', dot: '#C2593C', rule: rule },
-        { label: 'Perfect bakes', value: '11  +22', color: '#4E6B2E', dot: '#6E9440', rule: rule },
-        { label: 'Burnt', value: '2  − 16', color: '#9A4229', dot: '#6F4B2C', rule: rule },
-        { label: 'Coins left on the table', value: '− 14', color: '#9A4229', dot: '#EBBB4E', rule: rule },
+        { label: 'Perfect bakes', value: '11   +22', color: '#4E6B2E', dot: '#6E9440', rule: rule },
+        { label: 'Burnt', value: '2   −16', color: '#9A4229', dot: '#6F4B2C', rule: rule },
+        { label: 'Coins left on the counter', value: '−14', color: '#9A4229', dot: '#EBBB4E', rule: rule },
         { label: 'Best streak', value: '7 in a row', color: '#2E2118', dot: '#B77C1F', rule: 'none' }
       ]
     };

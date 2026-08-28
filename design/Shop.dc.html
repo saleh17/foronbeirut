@@ -7,88 +7,79 @@
 <body>
 <x-dc>
 <helmet>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=Cairo:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=Cairo:wght@600;700;800&display=swap">
   <style>
-    body { margin: 0; background: #EFE2CB; color: #2E2118; font-family: 'Cairo', 'Segoe UI', sans-serif; }
+    body { margin: 0; background: #2A211A; color: #2E2118; font-family: 'Cairo', 'Segoe UI', sans-serif; }
     * { box-sizing: border-box; }
-    a { color: #C2593C; } a:hover { color: #9A4229; }
+    a { color: #EBBB4E; } a:hover { color: #E0A339; }
     .dsp { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; }
-    .cap { font-family: 'Alexandria', 'Trebuchet MS', sans-serif; text-transform: uppercase; letter-spacing: 0.09em; }
   </style>
 </helmet>
 
-<div style="width: 390px; height: 844px; padding: 20px 16px 22px; display: flex; flex-direction: column; gap: 12px; background: radial-gradient(120% 45% at 50% 0%, #FAF2E4 0%, #EFE2CB 60%, #E5D3B5 100%); overflow: hidden;">
+<div style="position: relative; width: 844px; height: 390px; overflow: hidden; background: #B9C4C0;">
 
-  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <div style="width: 38px; height: 38px; border-radius: 12px; background: #FFF8EA; border: 1.5px solid #E0CBA4; box-shadow: 0 2px 0 #DCC49C; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5L8 12l6.5 6.5" stroke="#2E2118" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      </div>
-      <h1 class="dsp" style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.01em;">Shop</h1>
-    </div>
-    <div style="display: flex; align-items: center; gap: 7px; background: #FFF8EA; border: 1.5px solid #E0CBA4; border-radius: 999px; padding: 5px 13px 5px 6px; box-shadow: 0 2px 0 #DCC49C;">
-      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="#EBBB4E" stroke="#B77C1F" stroke-width="1.6"></circle><circle cx="12" cy="12" r="5.6" fill="none" stroke="#B77C1F" stroke-width="1.4" opacity="0.75"></circle><circle cx="12" cy="12" r="1.7" fill="#B77C1F"></circle></svg>
-      <span class="dsp" style="font-weight: 800; font-size: 16px; line-height: 1;">{{coins}}</span>
-    </div>
+  <div style="position: absolute; inset: 0; filter: blur(3px); opacity: 0.9;">
+    <div style="position: absolute; left: 0; top: 0; width: 844px; height: 212px; background: repeating-linear-gradient(90deg, #E5D8BC 0 46px, #D6C6A4 46px 49px), repeating-linear-gradient(180deg, #E5D8BC 0 40px, #D6C6A4 40px 43px); background-blend-mode: multiply;"></div>
+    <div style="position: absolute; left: 0; top: 86px; width: 844px; height: 46px; background: repeating-linear-gradient(90deg, #6E8F6A 0 44px, #5A7757 44px 47px);"></div>
+    <div style="position: absolute; left: 0; top: 218px; width: 844px; height: 172px; background: linear-gradient(180deg, #E4DCCB 0%, #C6BAA2 100%);"></div>
   </div>
+  <div style="position: absolute; inset: 0; background: rgba(42,33,26,0.66);"></div>
 
-  <div style="display: flex; gap: 7px;">
-    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
-      <div onClick="{{t.onTap}}" style="flex-grow: 1; text-align: center; padding: 10px 6px; border-radius: 13px; background: {{t.bg}}; border: 1.5px solid {{t.edge}}; box-shadow: 0 3px 0 {{t.shadow}}; cursor: pointer;">
-        <span class="cap" style="font-size: 10px; font-weight: 700; color: {{t.ink}};">{{t.label}}</span>
+  <div style="position: absolute; left: 14px; top: 14px; right: 14px; bottom: 14px; border-radius: 16px; background: linear-gradient(180deg, #A9754E 0%, #8A6242 100%); border: 6px solid #3A2E24; box-shadow: 0 10px 0 rgba(0,0,0,0.4); padding: 12px; display: flex; gap: 12px;">
+
+    <div style="width: 132px; display: flex; flex-direction: column; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 7px; background: #2E2118; border: 3px solid #3A2E24; border-radius: 999px; padding: 5px 10px 5px 5px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#EBBB4E" stroke="#3A2E24" stroke-width="2"></circle><circle cx="12" cy="12" r="5.6" fill="none" stroke="#B77C1F" stroke-width="1.8"></circle></svg>
+        <span class="dsp" style="font-size: 16px; font-weight: 800; color: #FBF3E3;">{{coins}}</span>
       </div>
-    </sc-for>
-  </div>
-
-  <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 9px; overflow: hidden;">
-    <sc-for list="{{items}}" as="it" hint-placeholder-count="5">
-      <div style="display: flex; gap: 11px; align-items: center; background: #FFF8EA; border: {{it.border}}; border-radius: 16px; padding: 10px 11px; box-shadow: 0 3px 0 #DCC49C; opacity: {{it.opacity}};">
-        <div style="width: 46px; height: 46px; border-radius: 13px; background: {{it.tileBg}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-          <sc-if value="{{it.isOven}}" hint-placeholder-val="{{true}}">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 14a8.5 8.5 0 0 1 17 0" stroke="{{it.markEdge}}" stroke-width="2" stroke-linecap="round"></path><path d="M2.5 14h19M6.5 18.5h11" stroke="{{it.markEdge}}" stroke-width="2" stroke-linecap="round"></path><path d="M9 7c0-1 1-1.4 1-2.4M13.5 6.6c0-1 1-1.4 1-2.4" stroke="{{it.mark}}" stroke-width="1.7" stroke-linecap="round"></path></svg>
-          </sc-if>
-          <sc-if value="{{it.isSlots}}" hint-placeholder-val="{{true}}">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="4.2" stroke="{{it.markEdge}}" stroke-width="2"></circle><circle cx="16" cy="8" r="4.2" stroke="{{it.markEdge}}" stroke-width="2"></circle><circle cx="8" cy="16" r="4.2" stroke="{{it.mark}}" stroke-width="2" stroke-dasharray="3 3"></circle><circle cx="16" cy="16" r="4.2" stroke="{{it.mark}}" stroke-width="2" stroke-dasharray="3 3"></circle></svg>
-          </sc-if>
-          <sc-if value="{{it.isShield}}" hint-placeholder-val="{{true}}">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2l7 2.6v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9v-6z" stroke="{{it.markEdge}}" stroke-width="2" stroke-linejoin="round"></path><path d="M8.8 12.2l2.3 2.3 4.1-4.6" stroke="{{it.mark}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          </sc-if>
-          <sc-if value="{{it.isDisc}}" hint-placeholder-val="{{true}}">
-            <div style="width: 26px; height: 26px; border-radius: 50%; background: {{it.mark}}; box-shadow: inset 0 0 0 3px {{it.markEdge}};"></div>
-          </sc-if>
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+        <div onClick="{{t.onTap}}" style="height: 58px; border-radius: 11px; background: {{t.bg}}; border: 4px solid #3A2E24; box-shadow: 0 4px 0 {{t.shadow}}; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+          <span class="dsp" style="font-size: 12px; font-weight: 800; color: {{t.ink}}; letter-spacing: 0.06em; text-transform: uppercase;">{{t.label}}</span>
         </div>
-        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0;">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span style="font-size: 14px; font-weight: 700;">{{it.name}}</span>
-            <sc-if value="{{it.isNext}}" hint-placeholder-val="{{true}}">
-              <span class="cap" style="font-size: 8px; font-weight: 700; color: #FFF3E0; background: #C2593C; border-radius: 999px; padding: 2px 7px;">Next up</span>
+      </sc-for>
+      <div style="margin-top: auto; height: 54px; border-radius: 11px; background: linear-gradient(180deg, #D4643F, #B04A2C); border: 4px solid #3A2E24; box-shadow: 0 5px 0 #6E2C18; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        <span class="dsp" style="font-size: 14px; font-weight: 800; color: #FBF3E3; text-shadow: 1px 2px 0 #3A2E24;">Start day 4</span>
+      </div>
+    </div>
+
+    <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 9px;">
+      <sc-for list="{{items}}" as="it" hint-placeholder-count="6">
+        <div style="display: flex; gap: 9px; align-items: center; background: #FBF3E3; border: {{it.border}}; border-radius: 11px; padding: 8px 9px; box-shadow: 0 4px 0 rgba(0,0,0,0.3); opacity: {{it.opacity}};">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: {{it.tileBg}}; border: 2.5px solid #3A2E24; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <sc-if value="{{it.isOven}}" hint-placeholder-val="{{true}}">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 14a8.5 8.5 0 0 1 17 0" stroke="#3A2E24" stroke-width="2.2" stroke-linecap="round"></path><path d="M2.5 14h19M6.5 18.5h11" stroke="#3A2E24" stroke-width="2.2" stroke-linecap="round"></path><path d="M9 7c0-1 1-1.4 1-2.4M13.5 6.6c0-1 1-1.4 1-2.4" stroke="#C2593C" stroke-width="1.9" stroke-linecap="round"></path></svg>
+            </sc-if>
+            <sc-if value="{{it.isSlots}}" hint-placeholder-val="{{true}}">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="4.2" stroke="#3A2E24" stroke-width="2.2"></circle><circle cx="16" cy="8" r="4.2" stroke="#3A2E24" stroke-width="2.2"></circle><circle cx="12" cy="16.5" r="4.2" stroke="#C2593C" stroke-width="2.2" stroke-dasharray="3 3"></circle></svg>
+            </sc-if>
+            <sc-if value="{{it.isShield}}" hint-placeholder-val="{{true}}">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2l7 2.6v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9v-6z" stroke="#3A2E24" stroke-width="2.2" stroke-linejoin="round"></path><path d="M8.8 12.2l2.3 2.3 4.1-4.6" stroke="#C2593C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </sc-if>
+            <sc-if value="{{it.isDisc}}" hint-placeholder-val="{{true}}">
+              <div style="width: 24px; height: 24px; border-radius: 50%; background: {{it.mark}}; border: 2.5px solid #3A2E24;"></div>
             </sc-if>
           </div>
-          <span style="font-size: 11.5px; color: #8A7050; line-height: 1.3;">{{it.blurb}}</span>
-          <div style="display: flex; gap: 3px; margin-top: 1px;">
-            <sc-for list="{{it.pips}}" as="p" hint-placeholder-count="4">
-              <div style="width: 15px; height: 5px; border-radius: 999px; background: {{p.c}};"></div>
-            </sc-for>
+          <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0;">
+            <span style="font-size: 12.5px; font-weight: 800; line-height: 1.1;">{{it.name}}</span>
+            <span style="font-size: 10px; color: #7B6852; line-height: 1.25;">{{it.blurb}}</span>
+            <div style="display: flex; gap: 3px; margin-top: 1px;">
+              <sc-for list="{{it.pips}}" as="p" hint-placeholder-count="4">
+                <div style="width: 13px; height: 5px; border-radius: 999px; background: {{p.c}}; border: 1px solid #3A2E24;"></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background: {{it.ctaBg}}; border: 2.5px solid #3A2E24; border-radius: 9px; padding: 6px 9px; box-shadow: 0 3px 0 {{it.ctaShadow}}; flex-shrink: 0; cursor: pointer;">
+            <span class="dsp" style="font-size: 12px; font-weight: 800; color: {{it.ctaInk}}; white-space: nowrap;">{{it.cta}}</span>
           </div>
         </div>
-        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0;">
-          <div style="background: {{it.ctaBg}}; border-radius: 11px; padding: 8px 12px; box-shadow: 0 3px 0 {{it.ctaShadow}}; cursor: pointer;">
-            <span class="dsp" style="font-size: 13px; font-weight: 800; color: {{it.ctaInk}}; white-space: nowrap;">{{it.cta}}</span>
-          </div>
-        </div>
-      </div>
-    </sc-for>
-  </div>
-
-  <div style="background: #C2593C; border-radius: 18px; padding: 15px 20px; box-shadow: 0 5px 0 #8F3E27; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
-    <span class="dsp" style="font-size: 20px; font-weight: 800; color: #FFF3E0;">Start day 4</span>
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5L13 17.5" stroke="#FFF3E0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </sc-for>
+    </div>
   </div>
 
 </div>
 </x-dc>
 
-<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+<script data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -98,25 +89,28 @@ class Component extends DCLogic {
   data() {
     return {
       Equipment: [
-        { name: 'Oven heat', blurb: 'Gas furn — bake 13% faster, same forgiving window', icon: 'oven', lvl: 1, max: 4, cost: 350, next: true },
+        { name: 'Oven heat', blurb: 'Gas furn — bake 13% faster, window unchanged', icon: 'oven', lvl: 1, max: 4, cost: 350, next: true },
         { name: 'Saj slots', blurb: 'Bake three at once instead of two', icon: 'slots', lvl: 0, max: 3, cost: 500 },
-        { name: 'Burn guard', blurb: 'Holds at perfect 0.6s longer before it chars', icon: 'shield', lvl: 0, max: 3, cost: 600 },
-        { name: 'Dough press', blurb: 'Flatten in one tap instead of pressing', icon: 'slots', lvl: 0, max: 1, cost: 800 },
-        { name: 'Tip jar', blurb: 'Coins collect themselves after 2 seconds', icon: 'shield', lvl: 0, max: 2, cost: 7000, lockedBy: 'Day 12' }
+        { name: 'Burn guard', blurb: 'Holds at perfect 0.6s longer', icon: 'shield', lvl: 0, max: 3, cost: 600 },
+        { name: 'Dough press', blurb: 'Flatten in one tap, not a press', icon: 'slots', lvl: 0, max: 1, cost: 800 },
+        { name: 'Wide ladle', blurb: 'Spread in one stroke instead of three', icon: 'oven', lvl: 0, max: 3, cost: 400 },
+        { name: 'Tip jar', blurb: 'Coins collect themselves after 2s', icon: 'shield', lvl: 0, max: 2, cost: 7000, lockedBy: 'Day 12' }
       ],
       Menu: [
-        { name: 'Zaatar', blurb: 'Thyme, sumac, sesame, good olive oil — 8 coins', icon: 'disc', lvl: 1, max: 1, owned: true, mark: '#4E6B2E', markEdge: '#3C5522' },
-        { name: 'Cheese', blurb: 'Akkawi — melts slower, pays 14 coins', icon: 'disc', lvl: 1, max: 1, owned: true, mark: '#EFD79B', markEdge: '#D9B45E' },
-        { name: 'Half and half', blurb: 'Two toppings, two bake times, 18 coins', icon: 'disc', lvl: 0, max: 1, cost: 900, mark: '#8FA55E', markEdge: '#4E6B2E' },
-        { name: 'Kishk', blurb: 'Fermented wheat and yoghurt — 16 coins', icon: 'disc', lvl: 0, max: 1, cost: 1400, lockedBy: 'Day 7', mark: '#C9B48A', markEdge: '#A8916A' },
-        { name: 'Lahm bi ajin', blurb: 'Minced meat, an extra prep step — 22 coins', icon: 'disc', lvl: 0, max: 1, cost: 2600, lockedBy: 'Day 10', mark: '#B0654A', markEdge: '#8F3E27' }
+        { name: 'Zaatar', blurb: 'Thyme, sumac, sesame, olive oil — 8', icon: 'disc', lvl: 1, max: 1, owned: true, mark: '#4E6B2E' },
+        { name: 'Cheese', blurb: 'Akkawi — melts slower, pays 14', icon: 'disc', lvl: 1, max: 1, owned: true, mark: '#EFD79B' },
+        { name: 'Half and half', blurb: 'Two toppings, two bake times — 18', icon: 'disc', lvl: 0, max: 1, cost: 900, mark: '#8FA55E' },
+        { name: 'Kishk', blurb: 'Fermented wheat and yoghurt — 16', icon: 'disc', lvl: 0, max: 1, cost: 1400, lockedBy: 'Day 7', mark: '#C9B48A' },
+        { name: 'Lahm bi ajin', blurb: 'Minced meat, one more prep step — 22', icon: 'disc', lvl: 0, max: 1, cost: 2600, lockedBy: 'Day 10', mark: '#B0654A' },
+        { name: 'Ayran', blurb: 'One tap, pure margin — 6', icon: 'disc', lvl: 0, max: 1, cost: 300, mark: '#FBF6EA' }
       ],
       Ingredients: [
-        { name: 'Olive oil grade', blurb: 'Every manousheh sells for 15% more', icon: 'disc', lvl: 1, max: 3, cost: 450, next: true, mark: '#8FA55E', markEdge: '#4E6B2E' },
-        { name: 'Fresh akkawi', blurb: 'Cheese pays more and melts more evenly', icon: 'disc', lvl: 0, max: 3, cost: 700, mark: '#EFD79B', markEdge: '#D9B45E' },
-        { name: 'Zaatar blend', blurb: 'The smell keeps customers waiting longer', icon: 'disc', lvl: 0, max: 3, cost: 550, mark: '#4E6B2E', markEdge: '#3C5522' },
-        { name: 'Bigger dough', blurb: 'Same seven taps, a wider manousheh, more coins', icon: 'disc', lvl: 0, max: 2, cost: 1200, mark: '#EFDCB2', markEdge: '#DCC08A' },
-        { name: 'Stone-ground flour', blurb: 'Dough tears less when you flatten fast', icon: 'disc', lvl: 0, max: 2, cost: 1800, lockedBy: 'Day 6', mark: '#E8D3A6', markEdge: '#C9B48A' }
+        { name: 'Olive oil grade', blurb: 'Everything sells for 15% more', icon: 'disc', lvl: 1, max: 3, cost: 450, next: true, mark: '#8FA55E' },
+        { name: 'Fresh akkawi', blurb: 'Cheese pays more, melts evenly', icon: 'disc', lvl: 0, max: 3, cost: 700, mark: '#EFD79B' },
+        { name: 'Zaatar blend', blurb: 'The smell keeps them waiting longer', icon: 'disc', lvl: 0, max: 3, cost: 550, mark: '#4E6B2E' },
+        { name: 'Bigger dough', blurb: 'Same taps, wider manousheh, more coins', icon: 'disc', lvl: 0, max: 2, cost: 1200, mark: '#EFDCB2' },
+        { name: 'Stone-ground flour', blurb: 'Dough tears less when you rush', icon: 'disc', lvl: 0, max: 2, cost: 1800, lockedBy: 'Day 6', mark: '#E8D3A6' },
+        { name: 'Awning and chairs', blurb: 'More customers, and they wait longer', icon: 'shield', lvl: 0, max: 3, cost: 2000, lockedBy: 'Day 8' }
       ]
     };
   }
@@ -128,10 +122,9 @@ class Component extends DCLogic {
       const on = label === s.tab;
       return {
         label: label,
-        bg: on ? '#2E2118' : '#FFF8EA',
-        edge: on ? '#2E2118' : '#E0CBA4',
-        shadow: on ? '#160F09' : '#DCC49C',
-        ink: on ? '#F7EDDC' : '#8A7050',
+        bg: on ? 'linear-gradient(180deg, #FBF3E3, #E6D8BC)' : 'linear-gradient(180deg, #6B4A31, #563B27)',
+        shadow: on ? 'rgba(0,0,0,0.34)' : 'rgba(0,0,0,0.3)',
+        ink: on ? '#3A2E24' : '#D9C4A6',
         onTap: () => this.setState({ tab: label })
       };
     });
@@ -141,7 +134,7 @@ class Component extends DCLogic {
       const owned = !!it.owned;
       const afford = !locked && !owned && s.coins >= it.cost;
       const pips = [];
-      for (let i = 0; i < it.max; i++) pips.push({ c: i < it.lvl ? '#C2593C' : '#EADCC0' });
+      for (let i = 0; i < it.max; i++) pips.push({ c: i < it.lvl ? '#C2593C' : '#E4D6BA' });
       return {
         name: it.name,
         blurb: it.blurb,
@@ -151,15 +144,13 @@ class Component extends DCLogic {
         isShield: it.icon === 'shield',
         isDisc: it.icon === 'disc',
         mark: it.mark || '#C2593C',
-        markEdge: it.markEdge || '#2E2118',
-        tileBg: owned ? '#E8EEDB' : locked ? '#EFE3CB' : '#F3E3C4',
-        border: it.next ? '2px solid #C2593C' : '1.5px solid #E0CBA4',
-        opacity: locked ? '0.55' : '1',
-        isNext: !!it.next,
+        tileBg: owned ? '#D8E6C4' : locked ? '#E0D5BC' : '#F3E3C4',
+        border: it.next ? '4px solid #C2593C' : '3px solid #3A2E24',
+        opacity: locked ? '0.6' : '1',
         cta: owned ? 'Owned' : locked ? it.lockedBy : it.cost.toLocaleString('en-US'),
-        ctaBg: owned ? '#E8EEDB' : locked ? '#E6D7B7' : afford ? '#EBBB4E' : '#EDE0C4',
-        ctaShadow: owned ? '#C6D2AE' : locked ? '#CFBC97' : afford ? '#B77C1F' : '#D6C3A0',
-        ctaInk: owned ? '#4E6B2E' : locked ? '#8A7050' : afford ? '#5B3B0C' : '#A08A66'
+        ctaBg: owned ? '#D8E6C4' : locked ? '#DCCDB0' : afford ? '#EBBB4E' : '#E8DCC0',
+        ctaShadow: owned ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.28)',
+        ctaInk: owned ? '#3F6420' : locked ? '#7B6852' : afford ? '#5B3B0C' : '#9A876A'
       };
     });
 

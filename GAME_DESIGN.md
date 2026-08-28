@@ -17,6 +17,33 @@ worth taking, and the rest is dressing:
 
 Mechanics are not protectable; art and copy are. All assets here are original.
 
+### Presentation: landscape, and a scene rather than a UI
+
+**The game is played horizontally.** Everything below assumes a landscape phone
+(~844x390 at 19.5:9).
+
+**And the screen is a diorama, not an interface.** This is the single biggest
+lesson from the reference: there are no floating panels, cards or app chrome.
+The shop *is* the UI —
+
+- the day counter is a **calendar nailed to the wall**,
+- the timer is a **wooden sign** beside it,
+- the coin total sits alone in the **top-right corner**, with a pause button,
+- ingredients live in **metal trays on the counter**, not in a tool bar,
+- customers lean through a **window behind the counter**, each with an order
+  card floating beside their head,
+- and a **bin** sits at the end of the counter for anything burnt.
+
+Anything drawn as a rounded card on a flat background is wrong for this game.
+
+### Two more mechanics worth taking
+
+- **The order card is a live checklist.** Each item on it gets a green check the
+  moment it is satisfied, so the player reads progress off the customer rather
+  than off a HUD.
+- **Patience is a heart, not a bar.** One icon per customer that drains in
+  colour. Cheaper to read at a glance mid-rush than a meter.
+
 ## 1. The station
 
     dough tray -> rolling surface -> topping bar -> saj -> wrap & serve
@@ -249,9 +276,25 @@ bake) until phase 3, and make the day timer the only pressure source early —
 layering patience meters on top too soon makes it stressful rather than
 satisfying.
 
-## 5. Open decisions
+## 5. Layout
 
-- **Station layout** — stacked lanes vs thumb arc. Both drawn low-fi on the
-  prototype canvas's second page; pick one before building.
+Landscape gives two thumbs, which settles the layout: the pipeline runs **left
+to right** across the counter — dough, topping, saj, serve — the same direction
+a baker actually works.
+
+- Everything you only **read** sits above the counter line: day, timer, coins,
+  the queue and its order cards.
+- Everything you **touch** sits below it, inside one thumb arc or the other:
+  saj on the left, trays and work board in the middle, ready/serve and the bin
+  on the right.
+- Coins land on the counter where the customer stood — reachable by either
+  hand, never free.
+
+The zone map on the prototype canvas's second page draws this out. Watch the
+left thumb at three saj slots: that is the point where the prep buffer upgrade
+starts to earn its cost.
+
+## 6. Open decisions
+
 - **Art.** The prototype's customers and ingredient icons are drawn
   placeholders.

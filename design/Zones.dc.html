@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cairo:wght@600;700;800&display=swap">
+  <style>
+    body { margin: 0; background: #F4F1EB; color: #3A3733; font-family: 'Cairo', 'Segoe UI', sans-serif; }
+    * { box-sizing: border-box; }
+    a { color: #C2593C; } a:hover { color: #9A4229; }
+    .hand { font-family: 'Caveat', 'Segoe Print', cursive; }
+    .zn { position: absolute; border-radius: 10px; display: flex; align-items: flex-start; justify-content: flex-start; padding: 6px 8px; }
+    .zl { font-size: 10px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; }
+  </style>
+</helmet>
+
+<div style="position: relative; width: 844px; height: 390px; overflow: hidden; background: #EFEBE2;">
+
+  <div style="position: absolute; inset: 0; opacity: 0.5;">
+    <div style="position: absolute; left: 0; top: 0; width: 844px; height: 212px; background: repeating-linear-gradient(90deg, #E5D8BC 0 46px, #D6C6A4 46px 49px), repeating-linear-gradient(180deg, #E5D8BC 0 40px, #D6C6A4 40px 43px); background-blend-mode: multiply;"></div>
+    <div style="position: absolute; left: 0; top: 196px; width: 844px; height: 22px; background: #E8DFCB; border-top: 3px solid #9C8F7A;"></div>
+    <div style="position: absolute; left: 0; top: 218px; width: 844px; height: 172px; background: linear-gradient(180deg, #E4DCCB 0%, #C6BAA2 100%);"></div>
+    <div style="position: absolute; left: 128px; top: 144px; width: 166px; height: 74px; border-radius: 84px 84px 22px 22px; background: #6E6259;"></div>
+    <div style="position: absolute; left: 316px; top: 236px; width: 440px; height: 52px; border-radius: 7px; background: #A8ADB3;"></div>
+  </div>
+
+  <div style="position: absolute; right: -170px; bottom: -210px; width: 520px; height: 520px; border-radius: 50%; border: 3px dashed #C2593C; background: rgba(194,89,60,0.06);"></div>
+  <div style="position: absolute; left: -170px; bottom: -210px; width: 520px; height: 520px; border-radius: 50%; border: 3px dashed #4E7A9C; background: rgba(78,122,156,0.06);"></div>
+  <span class="hand" style="position: absolute; left: 128px; bottom: 8px; font-size: 20px; color: #4E7A9C;">left thumb</span>
+  <span class="hand" style="position: absolute; right: 128px; bottom: 8px; font-size: 20px; color: #C2593C;">right thumb</span>
+
+  <div class="zn" style="left: 8px; top: 8px; width: 186px; height: 74px; border: 2.5px dashed #8A8378; background: rgba(138,131,120,0.10);">
+    <span class="zl" style="color: #6E685E;">read only — day, timer, hint board</span>
+  </div>
+  <div class="zn" style="right: 8px; top: 8px; width: 190px; height: 46px; border: 2.5px dashed #8A8378; background: rgba(138,131,120,0.10);">
+    <span class="zl" style="color: #6E685E;">read only — coins, pause</span>
+  </div>
+  <div class="zn" style="left: 306px; top: 66px; width: 470px; height: 126px; border: 2.5px dashed #8A8378; background: rgba(138,131,120,0.10);">
+    <span class="zl" style="color: #6E685E;">read only — queue, orders, patience hearts</span>
+  </div>
+
+  <div class="zn" style="left: 116px; top: 128px; width: 190px; height: 116px; border: 3px solid #C2593C; background: rgba(194,89,60,0.12);">
+    <span class="zl" style="color: #9A4229;">saj — the only timed tap</span>
+  </div>
+  <div class="zn" style="left: 310px; top: 228px; width: 456px; height: 70px; border: 3px solid #4E7A9C; background: rgba(78,122,156,0.12);">
+    <span class="zl" style="color: #35607F;">ingredient trays — drag from here</span>
+  </div>
+  <div class="zn" style="left: 316px; top: 302px; width: 138px; height: 80px; border: 3px solid #4E7A9C; background: rgba(78,122,156,0.12);">
+    <span class="zl" style="color: #35607F;">work board</span>
+  </div>
+  <div class="zn" style="left: 470px; top: 302px; width: 158px; height: 80px; border: 3px solid #C2593C; background: rgba(194,89,60,0.12);">
+    <span class="zl" style="color: #9A4229;">ready + serve</span>
+  </div>
+  <div class="zn" style="left: 756px; top: 288px; width: 78px; height: 94px; border: 3px solid #C2593C; background: rgba(194,89,60,0.12);">
+    <span class="zl" style="color: #9A4229;">bin</span>
+  </div>
+  <div class="zn" style="left: 330px; top: 200px; width: 62px; height: 58px; border: 3px solid #B77C1F; background: rgba(235,187,78,0.20);">
+    <span class="zl" style="color: #8A5A12;">coins</span>
+  </div>
+
+  <div style="position: absolute; left: 8px; top: 96px; width: 186px; height: 268px; background: rgba(251,246,234,0.94); border: 3px solid #3A3733; border-radius: 12px; padding: 11px 12px; display: flex; flex-direction: column; gap: 8px;">
+    <span class="hand" style="font-size: 24px; color: #C2593C; line-height: 1;">Why this layout</span>
+    <p style="margin: 0; font-size: 11px; line-height: 1.45; color: #4A453D;">Landscape gives two thumbs. The pipeline runs <strong>left to right</strong> across the counter — dough, topping, saj, serve — the same direction a baker actually works.</p>
+    <p style="margin: 0; font-size: 11px; line-height: 1.45; color: #4A453D;">Everything you only <em>read</em> sits above the counter line, out of the way. Everything you <em>touch</em> sits below it, inside one thumb arc or the other.</p>
+    <p style="margin: 0; font-size: 11px; line-height: 1.45; color: #4A453D;">Coins land on the counter where the customer stood, in the middle — reachable by either hand, but never free.</p>
+    <span class="hand" style="font-size: 20px; color: #3A3733; margin-top: 2px;">Watch for</span>
+    <p style="margin: 0; font-size: 11px; line-height: 1.45; color: #4A453D;">The saj sits under the left thumb; serving under the right. At three slots the left hand gets busy — that is when the prep buffer upgrade starts to matter.</p>
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

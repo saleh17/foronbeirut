@@ -1,20 +1,19 @@
 {
   "pages": [
     { "id": "page-1", "name": "Screens" },
-    { "id": "page-2", "name": "Layout options" }
+    { "id": "page-2", "name": "Zone map" }
   ],
   "artboards": [
-    { "file": "Home.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "page": "page-1", "title": "Home" },
-    { "file": "Main.dc.html", "x": 470, "y": 0, "w": 390, "h": 844, "page": "page-1", "title": "Cooking station (playable)", "is_interactive": true },
-    { "file": "Serve.dc.html", "x": 940, "y": 0, "w": 390, "h": 844, "page": "page-1", "title": "Serve moment" },
-    { "file": "DayEnd.dc.html", "x": 1410, "y": 0, "w": 390, "h": 844, "page": "page-1", "title": "End of day" },
-    { "file": "Shop.dc.html", "x": 1880, "y": 0, "w": 390, "h": 844, "page": "page-1", "title": "Upgrade shop", "is_interactive": true },
-    { "file": "LayoutA.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "page": "page-2", "title": "Option A — stacked lanes" },
-    { "file": "LayoutB.dc.html", "x": 470, "y": 0, "w": 390, "h": 844, "page": "page-2", "title": "Option B — thumb arc" }
+    { "file": "Home.dc.html", "x": 0, "y": 0, "w": 844, "h": 390, "page": "page-1", "title": "Home" },
+    { "file": "Main.dc.html", "x": 924, "y": 0, "w": 844, "h": 390, "page": "page-1", "title": "Cooking station (playable)", "is_interactive": true },
+    { "file": "Serve.dc.html", "x": 0, "y": 510, "w": 844, "h": 390, "page": "page-1", "title": "Serve moment" },
+    { "file": "DayEnd.dc.html", "x": 924, "y": 510, "w": 844, "h": 390, "page": "page-1", "title": "End of day" },
+    { "file": "Shop.dc.html", "x": 0, "y": 1020, "w": 844, "h": 390, "page": "page-1", "title": "Upgrade shop", "is_interactive": true },
+    { "file": "Zones.dc.html", "x": 0, "y": 0, "w": 844, "h": 390, "page": "page-2", "title": "Reach and read zones" }
   ],
   "annotations": [
-    { "id": "note-loop", "x": 0, "y": -170, "w": 860, "page": "page-1", "text": "The core loop, left to right: open the bakery -> work the station -> land the order -> bank the day -> spend it. The station and the shop are live: tap dough, flatten, top, bake, pull it inside the green band, serve, then tap the coins." },
-    { "id": "note-opts", "x": 0, "y": -150, "w": 860, "page": "page-2", "text": "Two layouts for the station, both drawn low-fi on purpose. A is what the hi-fi screen uses today. Pick one before any of this gets built." }
+    { "id": "note-loop", "x": 0, "y": -170, "w": 844, "page": "page-1", "text": "Landscape, and the screen is a scene rather than a UI — the day is a calendar on the wall, the timer is a sign, the ingredients are trays on a real counter. The station and the shop are live: tap the dough tray, press it flat on the board, spread zaatar or cheese, drop it on the saj, pull it inside the green band, hand it over, then tap the coins." },
+    { "id": "note-zones", "x": 0, "y": -150, "w": 844, "page": "page-2", "text": "What the landscape layout is actually solving: read above the counter line, touch below it, and the pipeline runs left to right the way a baker works." }
   ],
   "launch": { "view": "canvas", "page": "page-1" }
 }
