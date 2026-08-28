@@ -43,21 +43,31 @@ on the **right**, with the topping trays under it and the dough bowl under those
 **Jeddo leans in from the archway on the right**, behind the counter. He is
 decor and personality, not a control.
 
-### Appetizers, not drinks
+### Sbanekh comes off a plate, not out of the furn
 
 **Drinks are cut.** Ayran, tea and juice each needed their own cooler, their own
 pour, their own serve — a whole second interaction grammar for one tap of value,
 and it made the busiest moment of the day worse.
 
-**Pastries replace them.** Fatayer sbanekh and mini pizza come out of the same
-bowl of dough, take a topping from the same tray row, bake in the same furn and
-get wrapped in the same paper. They cost almost nothing to add and they do more:
-they give the queue real variety, and each carries its own bake time, so a mixed
-order is a genuine juggling problem rather than a longer errand.
+**Pastries replace them**, and they work differently from each other:
+
+- **Fatayer sbanekh sit finished on a plate on the counter**, folded that
+  morning like the kibbeh tray in any real shop. One tap and it goes straight to
+  a customer — no dough, no topping, no furn, no wrap. It is the item you reach
+  for when the queue is about to walk, and it is the reason the plate is the
+  only thing on the counter with a **stock count**: eight a day, and when they
+  are gone they are gone. Without that limit a one-tap 12 coins would beat
+  everything else on the menu.
+- **Mini pizza is baked to order** like a manousheh — a topping on the tray row,
+  onto the peel, into the furn. Unlocks day 6.
+
+So the menu now has two rhythms: five taps for a manousheh, one for a fatayer.
+That contrast is what makes the plate feel like a lifeline rather than a
+shortcut.
 
 The fatayer is **folded into a triangle**, which is worth honouring in the art —
-it is the one item on the menu that is not a disc, and that reads instantly in a
-queue of order cards.
+it is the one item on the menu that is not a disc, and that reads instantly both
+on the plate and in a queue of order cards.
 
 ### The cast
 
@@ -108,7 +118,8 @@ setting than a menu toggle ever would.
 
 ## 1. The station
 
-    dough bowl -> topping trays -> furn -> paper -> serve
+    dough bowl -> topping trays -> PEEL -> furn -> paper -> serve
+    sbanekh plate ------------------------------> serve
     (laid out RIGHT to LEFT on screen — see "Layout")
 
 Manakish suits this better than shawarma: the prep is a clean ordered pipeline
@@ -130,10 +141,27 @@ Keep it small — this is the data model.
 |---------------|-------------------------------------|-------------------------------|
 | Take dough    | tap the bowl — comes out flat       | wrong count                   |
 | Spread        | drag the ladle across the disc      | patchy coverage, lower rating |
-| Bake          | into the furn, timing ring          | raw / perfect / burnt         |
+| Load the peel | tap the peel — holds 3              | peel full, or left half empty |
+| Bake          | slide the peel in, timing rings     | raw / perfect / burnt         |
 | Extras        | drag onto the baked piece           | wrong or missing item         |
 | Wrap          | tap to roll it in a sheet of paper  | served bare, no tip           |
 | Serve+collect | hand it over, tap the coins         | uncollected coins expire      |
+
+**Nothing goes into the furn by hand.** Manakish are loaded onto the **peel** —
+the long-handled paddle — up to three at a time, and the whole peel slides in
+together. That is how a furn actually works, and it does the game a favour:
+**one bake timer for the whole load**, so the player is not tracking three
+independent clocks, they are choosing a moment that suits all three.
+
+That makes a **mixed load a real decision**. Zaatar wants 6.0s, cheese wants
+7.5s. Put both on the same peel and there is no moment that is perfect for
+both — pull for the zaatar and the cheese is pale, wait for the cheese and the
+zaatar is dark. Each piece still shows its own ring inside the mouth, so the
+player can watch one band go green while the other has not, and learn the
+lesson without being told it. Batching by topping is the skill the game is
+quietly teaching, and the peel is what teaches it.
+
+Peel capacity is the upgrade that used to be "furn slots": 2 -> 3 -> 4.
 
 **Dough comes out of the bowl already flattened.** Pressing it out was a tap
 that taught nothing and got boring by day two. **Wrapping replaced it**: after
@@ -193,7 +221,7 @@ Bake time -50%, forgiveness +29%. The upgrade always feels like a gift.
 
 | Upgrade        | What it removes                      | Levels        | Cost            |
 |----------------|--------------------------------------|---------------|-----------------|
-| Furn slots     | serialization — bake in parallel     | 2>3>4>6       | 500/1,400/4,000 |
+| Peel capacity  | serialization — bake in one load     | 2>3>4         | 500/1,400/4,000 |
 | Oven           | waiting (table above)                | 5             | 350 -> 5,000    |
 | Burn guard     | panic — holds at perfect longer      | 3             | 600/1,800/4,500 |
 | Paper feeder   | wrapping happens on pull-out         | 1             | 800             |
@@ -215,7 +243,7 @@ It should read as the reward for mastery, not an early convenience.
 | Half and half           | day 4   |    18 | two spreads, split disc       |
 | Kishk                   | day 7   |    16 | needs topping-bar upgrade     |
 | Lahm bi ajin            | day 10  |    22 | meat prep step                |
-| Fatayer sbanekh         | day 3   |    12 | folded into a triangle        |
+| Fatayer sbanekh         | day 3   |    12 | off the plate, 8 a day, no bake |
 | Mini pizza (safiha)     | day 6   |    16 | shorter bake than cheese      |
 
 ### Ingredients and shop
@@ -246,7 +274,7 @@ keeps someone playing in week two, and the natural end of the tree.
 ### Retention around the tree
 
 1. A persistent **next-unlock progress bar** on the HUD and the end-of-day
-   screen ("240 coins to furn slot 3"). Highest-impact element in the genre and
+   screen ("240 coins to a wider peel"). Highest-impact element in the genre and
    it is a progress indicator.
 2. **Daily goal** ("serve 20 cheese today") for a bonus — a reason to play a day
    you would otherwise skip.
@@ -280,7 +308,7 @@ engine reads:
 
 ```kotlin
 data class GameParams(
-    val furnSlots: Int,
+    val peelCapacity: Int,
     val bakeMs: Long,
     val perfectWindowMs: Long,
     val burnGraceMs: Long,

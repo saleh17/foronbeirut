@@ -77,7 +77,7 @@
   <div style="position: absolute; left: 0; top: 0; width: 224px; height: 390px; background: repeating-linear-gradient(180deg, #C6B9A2 0 40px, #A99878 40px 44px), repeating-linear-gradient(90deg, #C6B9A2 0 58px, #A99878 58px 62px); background-blend-mode: multiply; box-shadow: inset -16px 0 24px rgba(0,0,0,.22);"></div>
   <div class="spill" style="position: absolute; left: 0; top: 40px; width: 340px; height: 320px; background: radial-gradient(46% 42% at 30% 44%, rgba(255,168,60,.42) 0%, rgba(255,140,40,.16) 44%, rgba(0,0,0,0) 72%); pointer-events: none;"></div>
 
-  <div style="position: absolute; left: 16px; top: 30px; width: 186px; height: 172px;">
+  <div onClick="{{onOven}}" style="position: absolute; left: 16px; top: 30px; width: 186px; height: 172px; cursor: pointer;">
     <div style="position: absolute; inset: 0; border-radius: 93px 93px 7px 7px; background: repeating-linear-gradient(180deg, #BE7A5E 0 16px, #9E5C44 16px 19px), repeating-linear-gradient(90deg, #BE7A5E 0 32px, #9E5C44 32px 35px); background-blend-mode: multiply; border: 4px solid #2A1B12; box-shadow: inset 0 7px 13px rgba(255,220,180,.2), inset 0 -10px 16px rgba(0,0,0,.3), 0 6px 12px rgba(0,0,0,.32);"></div>
     <div style="position: absolute; left: -6px; top: 84px; width: 198px; height: 11px; border-radius: 3px; background: linear-gradient(180deg, #D9C7A6, #A98F6C); border: 3px solid #2A1B12;"></div>
     <div style="position: absolute; left: 24px; top: 28px; right: 24px; bottom: 28px; border-radius: 69px 69px 4px 4px; background: radial-gradient(72% 62% at 50% 110%, #FFB23C 0%, #E8801F 18%, #8A3A12 44%, #35190C 76%, #1C0C06 100%); border: 3px solid #1C0C06; box-shadow: inset 0 0 26px rgba(0,0,0,.8);"></div>
@@ -88,7 +88,7 @@
     <div class="h3" style="position: absolute; left: 118px; top: 20px; width: 24px; height: 28px; border-radius: 50%; background: radial-gradient(circle, rgba(255,225,190,.4), rgba(255,225,190,0) 70%);"></div>
 
     <sc-for list="{{slotViews}}" as="s" hint-placeholder-count="2">
-      <div onClick="{{s.onTap}}" style="position: absolute; left: {{s.left}}; bottom: 34px; width: 54px; height: 54px; cursor: pointer;">
+      <div style="position: absolute; left: {{s.left}}; bottom: 34px; width: {{s.size}}; height: {{s.size}};">
         <div style="position: absolute; inset: 0; border-radius: 50%; background: {{s.arc}};"></div>
         <div style="position: absolute; inset: 4px; border-radius: 50%; background: #2E1810;"></div>
         <div style="position: absolute; inset: 5px; border-radius: 50%; background: {{s.ring}};"></div>
@@ -99,12 +99,6 @@
     <div style="position: absolute; left: 0; bottom: -22px; width: 186px; text-align: center;">
       <span class="dsp" style="font-size: 10.5px; font-weight: 800; color: {{sajColor}}; text-shadow: 0 1px 0 rgba(255,240,215,.75);">{{sajLabel}}</span>
     </div>
-  </div>
-
-  <!-- long-handled peel leaning on the wall -->
-  <div style="position: absolute; left: 196px; top: 96px; width: 12px; height: 128px; transform: rotate(7deg); transform-origin: 50% 100%;">
-    <div style="position: absolute; left: 3px; top: 22px; width: 6px; height: 106px; background: linear-gradient(90deg, #A9754E, #6F4A2E); border: 2px solid #2A1B12; border-radius: 2px;"></div>
-    <div style="position: absolute; left: -6px; top: 0; width: 24px; height: 26px; border-radius: 3px 3px 10px 10px; background: linear-gradient(180deg, #9DA2A8, #6A6F76); border: 2.5px solid #2A1B12;"></div>
   </div>
 
   <!-- ===== HUD PROPS ===== -->
@@ -222,8 +216,33 @@
   <div style="position: absolute; left: 0; top: 220px; width: 844px; height: 26px; background: linear-gradient(180deg, rgba(40,26,14,.26), rgba(0,0,0,0));"></div>
   <div class="spill" style="position: absolute; left: 0; top: 210px; width: 300px; height: 180px; background: radial-gradient(58% 70% at 22% 30%, rgba(255,170,70,.3) 0%, rgba(0,0,0,0) 74%); pointer-events: none;"></div>
 
+  <!-- ===== THE PEEL ===== -->
+  <div onClick="{{onPeel}}" style="position: absolute; left: 14px; top: 228px; width: 268px; height: 62px; cursor: pointer;">
+    <div style="position: absolute; left: 10px; bottom: -2px; width: 160px; height: 13px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
+    <div style="position: absolute; left: 158px; top: 24px; width: 110px; height: 13px; border-radius: 3px; background: linear-gradient(180deg, #C08E5C, #8A6242 50%, #5E4028); border: 3px solid #2A1B12;"></div>
+    <div style="position: absolute; left: 250px; top: 17px; width: 18px; height: 27px; border-radius: 4px; background: linear-gradient(180deg, #A9754E, #6F4A2E); border: 3px solid #2A1B12;"></div>
+    <div style="position: absolute; left: 0; top: 4px; width: 164px; height: 54px; border-radius: 10px 4px 4px 10px; background: linear-gradient(180deg, #DCE0E4 0%, #AEB3B9 40%, #83888E 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.55);"></div>
+    <sc-for list="{{peelViews}}" as="pv" hint-placeholder-count="3">
+      <div style="position: absolute; left: {{pv.left}}; top: {{pv.top}}; width: {{pv.size}}; height: {{pv.size}}; border-radius: 50%; clip-path: {{pv.clip}}; background: {{pv.fill}}; border: {{pv.border}}; box-shadow: {{pv.shadow}};"></div>
+    </sc-for>
+    <span class="dsp" style="position: absolute; left: 0; bottom: -16px; width: 164px; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">{{peelLabel}}</span>
+  </div>
+
+  <!-- ===== FATAYER PLATE — made this morning, no baking ===== -->
+  <div onClick="{{onFatayer}}" style="position: absolute; left: 296px; top: 230px; width: 118px; height: 58px; cursor: pointer; opacity: {{plateOpacity}};">
+    <div style="position: absolute; left: 6px; bottom: -5px; right: 6px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
+    <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #F6F1E6 0%, #DFD8C6 46%, #BFB6A0 100%); border: 3px solid #6E6659; box-shadow: 0 4px 0 rgba(0,0,0,.24), inset 0 2px 0 rgba(255,255,255,.7);"></div>
+    <sc-for list="{{plateViews}}" as="fv" hint-placeholder-count="4">
+      <div style="position: absolute; left: {{fv.left}}; top: {{fv.top}}; width: 30px; height: 27px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: radial-gradient(circle at 36% 26%, #E8D3A6, #C9A870 62%, #A8894F 100%); border: 2.5px solid #2A1B12; transform: rotate({{fv.rot}});"></div>
+    </sc-for>
+    <div style="position: absolute; right: -8px; top: -9px; min-width: 24px; height: 24px; padding: 0 5px; border-radius: 999px; background: #4A7038; border: 2.5px solid #2A1B12; display: flex; align-items: center; justify-content: center;">
+      <span class="dsp" style="font-size: 11px; font-weight: 800; color: #F2F7E4;">{{fatayerStock}}</span>
+    </div>
+    <span class="dsp" style="position: absolute; left: 0; bottom: -17px; width: 100%; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">SBANEKH</span>
+  </div>
+
   <!-- ===== TOPPING TRAYS ===== -->
-  <sc-for list="{{trays}}" as="t" hint-placeholder-count="4">
+  <sc-for list="{{trays}}" as="t" hint-placeholder-count="3">
     <div onClick="{{t.onTap}}" style="position: absolute; left: {{t.left}}; top: 234px; width: {{t.w}}; height: 50px; cursor: pointer; opacity: {{t.opacity}};">
       <div style="position: absolute; left: 4px; bottom: -7px; right: 4px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
       <div style="position: absolute; inset: 0; border-radius: 7px; background: linear-gradient(180deg, #DCE0E4 0%, #B4B9BF 38%, #8A9096 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6); padding: 5px;">
@@ -324,14 +343,16 @@
 </div>
 </x-dc>
 
-<script data-dc-script data-props='{"ovenLevel":{"editor":"enum","options":["Clay saj","Gas furn","Stone furn","Pro deck"],"default":"Clay saj","section":"Upgrades"},"sajSlots":{"editor":"int","min":2,"max":3,"default":2,"section":"Upgrades"},"$preview":{"width":844,"height":390}}'>
+<script data-dc-script data-props='{"ovenLevel":{"editor":"enum","options":["Clay saj","Gas furn","Stone furn","Pro deck"],"default":"Clay saj","section":"Upgrades"},"peelSlots":{"editor":"int","min":2,"max":4,"default":3,"section":"Upgrades"},"$preview":{"width":844,"height":390}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.state = {
       coins: 262, day: 3, timeLeft: 47,
       prep: null,
-      slots: [{ item: null }, { item: null }, { item: null }],
+      peel: [],
+      oven: null,
+      fatayerStock: 8,
       ready: [],
       drops: [{ id: 1, amt: 14, life: 3.4, max: 4, slot: 1 }],
       queue: [
@@ -373,10 +394,10 @@ class Component extends DCLogic {
 
   tick() {
     const s = this.state;
-    const slots = s.slots.map((sl) => (sl.item ? { item: { topping: sl.item.topping, t: sl.item.t + 0.1 } } : sl));
+    const oven = s.oven ? { items: s.oven.items, t: s.oven.t + 0.1 } : null;
     const drops = s.drops.map((d) => ({ id: d.id, amt: d.amt, life: d.life - 0.1, max: d.max, slot: d.slot })).filter((d) => d.life > 0);
     const queue = s.queue.map((c, i) => ({ id: c.id, name: c.name, want: c.want, pat: Math.max(0.05, c.pat - (i === 0 ? 0.0022 : 0.0009)) }));
-    this.setState({ slots: slots, drops: drops, queue: queue, timeLeft: Math.max(0, s.timeLeft - 0.1) });
+    this.setState({ oven: oven, drops: drops, queue: queue, timeLeft: Math.max(0, s.timeLeft - 0.1) });
   }
 
   newCustomer() {
@@ -395,37 +416,61 @@ class Component extends DCLogic {
     const p = this.state.prep;
     if (!p) { this.setState({ hint: 'Take dough from the bowl' }); return; }
     if (p.stage === 'flat') { this.setState({ hint: 'It needs a topping first' }); return; }
-    this.setState({ hint: 'Into the furn with it' });
+    this.setState({ hint: 'Onto the peel with it' });
   }
 
   tapTopping(t) {
     const p = this.state.prep;
     if (!p) { this.setState({ hint: 'Take dough from the bowl first' }); return; }
     if (p.stage !== 'flat') { this.setState({ hint: 'That one is already topped' }); return; }
-    this.setState({ prep: { stage: 'topped', topping: t }, hint: 'Into the furn with it' });
+    this.setState({ prep: { stage: 'topped', topping: t }, hint: 'Onto the peel with it' });
   }
 
-  tapSlot(i) {
+  peelMax() {
+    return Math.max(2, Math.min(4, this.props.peelSlots || 3));
+  }
+
+  quality(topping, tt) {
+    const r = this.recipe(topping);
+    if (tt >= r.total) return 'burnt';
+    if (tt >= r.bake) return 'done';
+    if (tt >= r.bake - r.perfect) return 'perfect';
+    return 'raw';
+  }
+
+  loadPeel() {
     const s = this.state;
-    const slots = s.slots.map((x) => ({ item: x.item }));
-    const sl = slots[i];
-    if (sl.item) {
-      const r = this.recipe(sl.item.topping);
-      const t = sl.item.t;
-      let q = 'raw';
-      if (t >= r.bake - r.perfect && t < r.bake) q = 'perfect';
-      else if (t >= r.bake && t < r.total) q = 'done';
-      else if (t >= r.total) q = 'burnt';
-      slots[i] = { item: null };
-      const ready = s.ready.concat([{ id: s.nextId, topping: sl.item.topping, q: q, wrapped: false }]).slice(-3);
-      const msg = q === 'perfect' ? 'Perfect — roll it in paper' : q === 'raw' ? 'Too pale, but wrap it' : q === 'done' ? 'A touch dark — wrap it' : 'Burnt. Bin it';
-      this.setState({ slots: slots, ready: ready, nextId: s.nextId + 1, hint: msg });
+    if (s.oven) { this.setState({ hint: 'The peel is in the furn' }); return; }
+    const p = s.prep;
+    if (!p || p.stage !== 'topped') { this.setState({ hint: 'Nothing topped to load' }); return; }
+    if (s.peel.length >= this.peelMax()) { this.setState({ hint: 'Peel is full — into the furn' }); return; }
+    const peel = s.peel.concat([{ topping: p.topping }]);
+    const full = peel.length >= this.peelMax();
+    this.setState({ peel: peel, prep: null, hint: full ? 'Peel is loaded — into the furn' : 'Room for one more on the peel' });
+  }
+
+  tapOven() {
+    const s = this.state;
+    if (s.oven) {
+      let id = s.nextId;
+      const items = s.oven.items.map((it) => { const o = { id: id, topping: it.topping, q: this.quality(it.topping, s.oven.t), wrapped: false }; id += 1; return o; });
+      const ready = s.ready.concat(items).slice(-4);
+      const perfect = items.filter((x) => x.q === 'perfect').length;
+      const burnt = items.filter((x) => x.q === 'burnt').length;
+      const msg = burnt ? 'Burnt ones straight in the bin' : perfect === items.length ? 'All of them perfect — wrap them' : 'Out they come — wrap them';
+      this.setState({ oven: null, ready: ready, nextId: id, hint: msg });
       return;
     }
-    const p = s.prep;
-    if (!p || p.stage !== 'topped') { this.setState({ hint: 'Nothing topped and ready to bake' }); return; }
-    slots[i] = { item: { topping: p.topping, t: 0 } };
-    this.setState({ slots: slots, prep: null, hint: 'Pull it inside the green band' });
+    if (!s.peel.length) { this.setState({ hint: 'Load the peel first' }); return; }
+    this.setState({ oven: { items: s.peel, t: 0 }, peel: [], hint: 'They share one bake — watch the bands' });
+  }
+
+  takeFatayer() {
+    const s = this.state;
+    if (s.fatayerStock <= 0) { this.setState({ hint: 'Sbanekh finished for today' }); return; }
+    if (s.ready.length >= 4) { this.setState({ hint: 'Counter is full — serve some' }); return; }
+    const ready = s.ready.concat([{ id: s.nextId, topping: 'sbanekh', q: 'perfect', wrapped: true }]);
+    this.setState({ ready: ready, fatayerStock: s.fatayerStock - 1, nextId: s.nextId + 1, hint: 'Straight off the plate — hand it over' });
   }
 
   tapReady(i) {
@@ -458,6 +503,7 @@ class Component extends DCLogic {
   trash() {
     const s = this.state;
     if (s.ready.length) { this.setState({ ready: s.ready.slice(0, -1), hint: 'Binned it' }); return; }
+    if (s.peel.length) { this.setState({ peel: s.peel.slice(0, -1), hint: 'Off the peel and into the bin' }); return; }
     if (s.prep) { this.setState({ prep: null, hint: 'Binned it — start again' }); return; }
     this.setState({ hint: 'Nothing to bin' });
   }
@@ -479,42 +525,76 @@ class Component extends DCLogic {
 
   renderVals() {
     const s = this.state;
-    const n = Math.max(2, Math.min(3, this.props.sajSlots || 2));
-    const gap = n === 2 ? 24 : 7;
-    const startX = n === 2 ? 28 : 13;
-
+    const n = this.peelMax();
     const blister = 'radial-gradient(circle at 30% 26%, rgba(255,240,200,.34) 0 12%, rgba(0,0,0,0) 13%), radial-gradient(circle at 68% 40%, rgba(0,0,0,.24) 0 9%, rgba(0,0,0,0) 10%), radial-gradient(circle at 44% 72%, rgba(0,0,0,.2) 0 11%, rgba(0,0,0,0) 12%), radial-gradient(circle at 76% 74%, rgba(255,240,200,.22) 0 8%, rgba(0,0,0,0) 9%)';
 
+    // the furn interior: whatever the peel carried in, sharing one bake
+    const size = Math.min(54, Math.floor((138 - 6 * (n - 1)) / n));
+    const originX = 24 + Math.round((138 - (size * n + 6 * (n - 1))) / 2);
     const slotViews = [];
-    let sajLabel = 'Furn', sajColor = '#7A4A2A';
-    for (let i = 0; i < n; i++) {
-      const sl = s.slots[i];
-      const left = startX + i * (54 + gap) + 'px';
-      if (!sl.item) {
-        slotViews.push({ left: left, arc: 'transparent', ring: 'rgba(255,215,170,.10)', disc: 'transparent', discBorder: '2px dashed rgba(255,210,160,.36)', discShadow: 'none', blister: 'none', clip: 'none', onTap: () => this.tapSlot(i) });
-        continue;
+    let sajLabel = 'Furn — empty', sajColor = '#7A4A2A';
+    if (!s.oven) {
+      sajLabel = s.peel.length ? 'Slide the peel in' : 'Furn — empty';
+      for (let i = 0; i < n; i++) {
+        slotViews.push({
+          left: originX + i * (size + 6) + 'px', size: size + 'px',
+          arc: 'transparent', ring: 'rgba(255,215,170,.08)', disc: 'transparent',
+          discBorder: '2px dashed rgba(255,210,160,.3)', discShadow: 'none', blister: 'none', clip: 'none'
+        });
       }
-      const r = this.recipe(sl.item.topping);
-      const t = sl.item.t;
-      const deg = Math.min(360, (t / r.total) * 360);
-      const pStart = ((r.bake - r.perfect) / r.total) * 360;
-      const pEnd = (r.bake / r.total) * 360;
-      let col = '#E0A339', label = 'Baking', lc = '#8A5A12';
-      if (t >= r.bake - r.perfect && t < r.bake) { col = '#7CA646'; label = 'Perfect!'; lc = '#3F6420'; }
-      else if (t >= r.bake && t < r.total) { col = '#E08A24'; label = 'Careful'; lc = '#A8501F'; }
-      else if (t >= r.total) { col = '#6F4B2C'; label = 'Burnt'; lc = '#6F4B2C'; }
-      if (label !== 'Baking' || sajLabel === 'Furn') { sajLabel = label; sajColor = lc; }
-      slotViews.push({
-        left: left,
-        arc: 'conic-gradient(from -90deg, rgba(0,0,0,0) 0deg ' + pStart + 'deg, #B5D086 ' + pStart + 'deg ' + pEnd + 'deg, rgba(0,0,0,0) ' + pEnd + 'deg 360deg)',
-        ring: 'conic-gradient(from -90deg, ' + col + ' 0deg ' + deg + 'deg, rgba(255,215,170,.14) ' + deg + 'deg 360deg)',
-        disc: this.discColorFor(sl.item.topping, Math.min(1.06, t / r.total)),
-        discBorder: '0 solid transparent',
-        discShadow: 'inset 0 -4px 7px rgba(50,28,8,.5), 0 0 12px rgba(255,150,50,.4)',
-        blister: blister,
-        clip: this.recipes[sl.item.topping].clip,
-        onTap: () => this.tapSlot(i)
+    } else {
+      const tt = s.oven.t;
+      let worst = 0;
+      s.oven.items.forEach((it, i) => {
+        const r = this.recipe(it.topping);
+        const deg = Math.min(360, (tt / r.total) * 360);
+        const pStart = ((r.bake - r.perfect) / r.total) * 360;
+        const pEnd = (r.bake / r.total) * 360;
+        const q = this.quality(it.topping, tt);
+        let col = '#E0A339', rank = 0;
+        if (q === 'perfect') { col = '#7CA646'; rank = 2; }
+        else if (q === 'done') { col = '#E08A24'; rank = 3; }
+        else if (q === 'burnt') { col = '#6F4B2C'; rank = 4; }
+        if (rank > worst) worst = rank;
+        slotViews.push({
+          left: originX + i * (size + 6) + 'px', size: size + 'px',
+          arc: 'conic-gradient(from -90deg, rgba(0,0,0,0) 0deg ' + pStart + 'deg, #B5D086 ' + pStart + 'deg ' + pEnd + 'deg, rgba(0,0,0,0) ' + pEnd + 'deg 360deg)',
+          ring: 'conic-gradient(from -90deg, ' + col + ' 0deg ' + deg + 'deg, rgba(255,215,170,.14) ' + deg + 'deg 360deg)',
+          disc: this.discColorFor(it.topping, Math.min(1.06, tt / r.total)),
+          discBorder: '0 solid transparent',
+          discShadow: 'inset 0 -4px 7px rgba(50,28,8,.5), 0 0 12px rgba(255,150,50,.4)',
+          blister: blister,
+          clip: r.clip
+        });
       });
+      sajLabel = worst === 4 ? 'Burnt — pull them!' : worst === 3 ? 'Careful' : worst === 2 ? 'Perfect — pull!' : 'Baking';
+      sajColor = worst === 4 ? '#6F4B2C' : worst === 3 ? '#A8501F' : worst === 2 ? '#3F6420' : '#8A5A12';
+    }
+
+    // the peel waiting on the counter
+    const pSize = Math.min(44, Math.floor((152 - 5 * (n - 1)) / n));
+    const pOrigin = 6 + Math.round((152 - (pSize * n + 5 * (n - 1))) / 2);
+    const peelViews = [];
+    for (let i = 0; i < n; i++) {
+      const it = s.peel[i];
+      peelViews.push({
+        left: pOrigin + i * (pSize + 5) + 'px',
+        top: 4 + Math.round((54 - pSize) / 2) + 'px',
+        size: pSize + 'px',
+        clip: it ? this.recipes[it.topping].clip : 'none',
+        fill: it ? 'radial-gradient(circle at 34% 28%, ' + this.recipes[it.topping].disc + ', ' + this.recipes[it.topping].dark + ')' : 'transparent',
+        border: it ? '2.5px solid #2A1B12' : '2px dashed rgba(42,27,18,.35)',
+        shadow: it ? 'inset 0 0 0 3px #EDD7A9, 0 2px 3px rgba(0,0,0,.3)' : 'none'
+      });
+    }
+    const peelLabel = s.oven ? 'IN THE FURN' : s.peel.length + '/' + n + ' ON THE PEEL';
+
+    // this morning's tray of sbanekh
+    const plateViews = [];
+    const shown = Math.min(4, s.fatayerStock);
+    const rots = ['-8deg', '6deg', '-4deg', '9deg'];
+    for (let i = 0; i < shown; i++) {
+      plateViews.push({ left: 8 + i * 26 + 'px', top: (i % 2 === 0 ? 12 : 18) + 'px', rot: rots[i] });
     }
 
     const customers = s.queue.slice(0, 3).map((c, i) => {
@@ -542,10 +622,9 @@ class Component extends DCLogic {
         : { size: '60px', fill: 'radial-gradient(circle at 34% 28%, ' + this.recipes[p.topping].disc + ', ' + this.recipes[p.topping].dark + ')', shadow: 'inset 0 0 0 4px #EDD7A9, 0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: this.recipes[p.topping].clip };
 
     const trays = [
-      { label: 'Pizza', w: '92px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '398px', opacity: '0.5', onTap: () => this.setState({ hint: 'Mini pizza unlocks on day 6' }) },
-      { label: 'Sbanekh', w: '92px', fill: 'radial-gradient(circle at 30% 26%, #5F8C42, #335024 66%, #26401B 100%)', left: '498px', opacity: '1', onTap: () => this.tapTopping('sbanekh') },
-      { label: 'Zaatar', w: '92px', fill: 'radial-gradient(circle at 30% 26%, #6A8C3E, #3C5522 68%, #2E421A 100%)', left: '598px', opacity: '1', onTap: () => this.tapTopping('zaatar') },
-      { label: 'Cheese', w: '92px', fill: 'radial-gradient(circle at 30% 26%, #FAEEC2, #DFC177 68%, #C9A75C 100%)', left: '698px', opacity: '1', onTap: () => this.tapTopping('cheese') }
+      { label: 'Pizza', w: '96px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '448px', opacity: '0.5', onTap: () => this.setState({ hint: 'Mini pizza unlocks on day 6' }) },
+      { label: 'Zaatar', w: '96px', fill: 'radial-gradient(circle at 30% 26%, #6A8C3E, #3C5522 68%, #2E421A 100%)', left: '552px', opacity: '1', onTap: () => this.tapTopping('zaatar') },
+      { label: 'Cheese', w: '96px', fill: 'radial-gradient(circle at 30% 26%, #FAEEC2, #DFC177 68%, #C9A75C 100%)', left: '656px', opacity: '1', onTap: () => this.tapTopping('cheese') }
     ];
 
     const ready = s.ready.map((rd, i) => ({
@@ -579,6 +658,14 @@ class Component extends DCLogic {
       trays: trays, prep: prep, ready: ready,
       readyHint: s.ready.length ? '' : 'nothing baked',
       drops: drops,
+      peelViews: peelViews,
+      peelLabel: peelLabel,
+      plateViews: plateViews,
+      fatayerStock: s.fatayerStock,
+      plateOpacity: s.fatayerStock ? '1' : '0.45',
+      onPeel: () => this.loadPeel(),
+      onOven: () => this.tapOven(),
+      onFatayer: () => this.takeFatayer(),
       radioDial: s.radioOn ? '#8AECAE' : '#3E4A44',
       radioNotes: s.radioOn ? '1' : '0',
       onRadio: () => this.toggleRadio(),
