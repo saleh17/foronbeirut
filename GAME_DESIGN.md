@@ -11,8 +11,10 @@ worth taking, and the rest is dressing:
    fingers at once — filling two trays, building three items, wrapping them
    together. No single step is hard; the optimal play is pipelining. That is
    the whole reason it feels good.
-2. **Collecting money is a manual action.** Coins left on the counter when the
-   timer hits zero are lost. Cheap to implement, and it is the main source of
+2. **Collecting money is a manual action.** Coins land on the **counter lip in
+   front of the customer who paid**, up to three side by side, popping in and
+   bobbing so they cannot be missed, and they sit there for six seconds. Coins
+   left on the counter when the timer hits zero are lost. Cheap to implement, and it is the main source of
    tension.
 
 Mechanics are not protectable; art and copy are. All assets here are original.
@@ -92,7 +94,18 @@ A **six-compartment box, 3x2**, sitting on the counter right beside the dough
 bowl — tomato, cucumber, olives, pickles, mint, and labneh in the sixth cell.
 It goes **on the baked manousheh, before the paper**, exactly where it goes in
 life, and it sits beside the dough because those are the two things the right
-hand reaches for without looking. It is never required: it adds **+4 coins** to anything it touches, and
+hand reaches for without looking.
+
+**Each vegetable is its own ingredient.** Six separate sources, six separate
+drags, named on the compartment in Arabic — banadura, khiar, zaytoun, kabees,
+naanaa, labneh. A customer asks for one or two *by name*, their ticket lists
+exactly which, and each line takes its own tick the moment that vegetable lands
+on a manousheh on the counter. **+2 coins each**; every requested vegetable you
+miss costs 22% of the payout.
+
+This is where the difficulty should come from as the days go on — not a faster
+timer, but a longer order. "Zaatar" is one drag. "Zaatar, tomato, mint" is
+three, and you have to read which three. It is never required: it adds **+4 coins** to anything it touches, and
 roughly a third of customers ask for it. Serve one of those without khodra and
 they pay 30% less; put it on someone who did not ask and nobody minds.
 
@@ -108,8 +121,10 @@ and it made the busiest moment of the day worse.
 **Pastries replace them**, and they work differently from each other:
 
 - **Fatayer sbanekh sit finished on a plate on the counter**, folded that
-  morning like the kibbeh tray in any real shop. One tap and it goes straight to
-  a customer — no dough, no topping, no furn, no wrap. It is the item you reach
+  morning like the kibbeh tray in any real shop. They are sold as a **set of
+  four**, wrapped together, and they go out **plain — never with khodra**. One
+  tap takes a whole set straight to a customer: no dough, no topping, no furn,
+  no wrap. It is the item you reach
   for when the queue is about to walk, and it is the reason the plate is the
   only thing on the counter with a **stock count**: eight a day, and when they
   are gone they are gone. Without that limit a one-tap 12 coins would beat
@@ -350,7 +365,7 @@ It should read as the reward for mastery, not an early convenience.
 | Half and half           | day 4   |    18 | two spreads, split disc       |
 | Kishk                   | day 7   |    16 | needs topping-bar upgrade     |
 | Lahm bi ajin            | day 10  |    22 | meat prep step                |
-| Fatayer sbanekh         | day 3   |    12 | off the plate, 8 a day, no bake |
+| Fatayer sbanekh ×4      | day 3   |    12 | a set of four off the plate, plain |
 | Mini pizza (safiha)     | day 6   |    16 | shorter bake than cheese      |
 
 ### Ingredients and shop

@@ -36,6 +36,9 @@
     .anxious { animation: idleB 1.05s ease-in-out infinite }
     @keyframes blink { 0%,93%,100% { transform: scaleY(1) } 95.5% { transform: scaleY(.08) } 97.5% { transform: scaleY(1) } }
     .eye { transform-box: fill-box; transform-origin: 50% 50%; animation: blink 5.6s infinite }
+@keyframes coinpop { 0% { transform: translateY(-14px) scale(.5); opacity: 0 } 60% { transform: translateY(2px) scale(1.1); opacity: 1 } 100% { transform: translateY(0) scale(1); opacity: 1 } }
+    @keyframes coinbob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
+    .coin { animation: coinpop .34s cubic-bezier(.3,1.5,.5,1) both, coinbob 1.5s ease-in-out .34s infinite }
     @keyframes hb { 0%,100% { transform: scale(1) } 22% { transform: scale(1.14) } 44% { transform: scale(1) } }
     .beat { animation: hb 1.5s ease-in-out infinite; transform-origin: 50% 60% }
   </style>
@@ -184,20 +187,30 @@
       </div>
       <div style="width: 58px; border-radius: 9px; background: linear-gradient(180deg, #FDF8ED, #EFE6D2); border: {{c.cardBorder}}; box-shadow: {{c.cardShadow}}; padding: 4px 4px 5px; display: flex; flex-direction: column; align-items: center; gap: 2px;">
         <span style="font-size: 7px; font-weight: 800; letter-spacing: .1em; color: {{c.tagInk}}; background: {{c.tagBg}}; border-radius: 999px; padding: 1px 7px;">{{c.tag}}</span>
-        <div style="position: relative; margin-top: 1px;">
-          <div style="position: relative; width: 30px; height: 30px; border-radius: 50%; clip-path: {{c.clip}}; background: {{c.bread}}; border: 2.5px solid #2A1B12;">
-            <div style="position: absolute; inset: 15%; border-radius: 50%; clip-path: {{c.clip}}; background: {{c.surface}};"></div>
-          </div>
+        <div style="position: relative; margin-top: 1px; width: 34px; height: 32px;">
+          <sc-if value="{{c.isSet}}" hint-placeholder-val="{{true}}">
+            <div style="position: absolute; left: 1px; top: 0; width: 16px; height: 15px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: {{c.surface}}; border: 2px solid #2A1B12; transform: rotate(-7deg);"></div>
+            <div style="position: absolute; left: 17px; top: 0; width: 16px; height: 15px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: {{c.surface}}; border: 2px solid #2A1B12; transform: rotate(7deg);"></div>
+            <div style="position: absolute; left: 1px; top: 16px; width: 16px; height: 15px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: {{c.surface}}; border: 2px solid #2A1B12; transform: rotate(5deg);"></div>
+            <div style="position: absolute; left: 17px; top: 16px; width: 16px; height: 15px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: {{c.surface}}; border: 2px solid #2A1B12; transform: rotate(-5deg);"></div>
+          </sc-if>
+          <sc-if value="{{c.isDisc}}" hint-placeholder-val="{{true}}">
+            <div style="position: relative; left: 2px; width: 30px; height: 30px; border-radius: 50%; background: {{c.bread}}; border: 2.5px solid #2A1B12;">
+              <div style="position: absolute; inset: 15%; border-radius: 50%; background: {{c.surface}};"></div>
+            </div>
+          </sc-if>
           <svg width="18" height="18" viewBox="0 0 24 24" style="position: absolute; right: -7px; bottom: -5px; opacity: {{c.check1}};" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#4E7A2E" stroke="#2A1B12" stroke-width="2"></circle><path d="M6.6 12.4l3.8 3.8 7.2-8" stroke="#FDFBF6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
         </div>
         <span style="font-size: 8px; font-weight: 800; color: #2A1B12; letter-spacing: .03em; line-height: 1;">{{c.wantLabel}}</span>
         <sc-if value="{{c.veg}}" hint-placeholder-val="{{true}}">
-          <div style="width: 42px; height: 1.5px; background: rgba(42,27,18,.2); margin: 2px 0 1px;"></div>
-          <div style="position: relative;">
-            <div style="width: 24px; height: 24px; border-radius: 5px; background: linear-gradient(120deg, #C0392B 0 26%, #7FA84C 26% 48%, #2C3A18 48% 68%, #C9B84E 68% 86%, #4E8C42 86% 100%); border: 2.5px solid #2A1B12;"></div>
-            <svg width="16" height="16" viewBox="0 0 24 24" style="position: absolute; right: -6px; bottom: -5px; opacity: {{c.check2}};" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#4E7A2E" stroke="#2A1B12" stroke-width="2"></circle><path d="M6.6 12.4l3.8 3.8 7.2-8" stroke="#FDFBF6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
-          </div>
-          <span style="font-size: 7.5px; font-weight: 800; color: #3F6420; letter-spacing: .03em; line-height: 1;">KHODRA</span>
+          <div style="width: 44px; height: 1.5px; background: rgba(42,27,18,.2); margin: 3px 0 2px;"></div>
+          <sc-for list="{{c.vegList}}" as="vg" hint-placeholder-count="2">
+            <div style="display: flex; align-items: center; gap: 3px; width: 100%; padding: 0 2px;">
+              <div style="position: relative; width: 17px; height: 17px; border-radius: 4px; background: {{vg.fill}}; border: 2px solid #2A1B12; flex-shrink: 0;"></div>
+              <span style="font-size: 6.5px; font-weight: 800; color: #3F4A20; letter-spacing: .02em; line-height: 1; flex-grow: 1;">{{vg.label}}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" style="opacity: {{vg.check}}; flex-shrink: 0;" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#4E7A2E" stroke="#2A1B12" stroke-width="2"></circle><path d="M6.6 12.4l3.8 3.8 7.2-8" stroke="#FDFBF6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
+            </div>
+          </sc-for>
         </sc-if>
         <div style="display: flex; align-items: center; gap: 3px; margin-top: 2px;">
           <div style="width: 11px; height: 11px; border-radius: 50%; background: radial-gradient(circle at 34% 30%, #F7D477, #C79020); border: 1.5px solid #2A1B12;"></div>
@@ -327,18 +340,17 @@
   </div>
 
   <!-- ===== KHODRA BOX — six compartments, beside the dough ===== -->
-  <div onClick="{{onVeg}}" onPointerDown="{{onVegDown}}" style="position: absolute; left: 456px; top: 300px; width: 128px; height: 82px; cursor: pointer;">
+  <div style="position: absolute; left: 456px; top: 300px; width: 128px; height: 82px;">
     <div style="position: absolute; left: 6px; bottom: -5px; right: 6px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 7px; background: linear-gradient(180deg, #DCE0E4 0%, #B4B9BF 34%, #8A9096 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.26), inset 0 2px 0 rgba(255,255,255,.6); padding: 5px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 4px;">
-      <div style="border-radius: 3px; background: radial-gradient(circle at 26% 24%, #E05B42 0 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 68% 40%, #C0392B 0 24%, rgba(0,0,0,0) 25%), radial-gradient(circle at 40% 74%, #D14A34 0 22%, rgba(0,0,0,0) 23%), linear-gradient(180deg, #8E2A1E, #6E2016); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
-      <div style="border-radius: 3px; background: radial-gradient(circle at 30% 30%, #C7E39A 0 12%, #8FBE5A 13% 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 66% 62%, #C7E39A 0 12%, #8FBE5A 13% 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 32% 74%, #C7E39A 0 10%, #8FBE5A 11% 19%, rgba(0,0,0,0) 20%), linear-gradient(180deg, #4E7A2E, #38601F); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
-      <div style="border-radius: 3px; background: radial-gradient(circle at 28% 28%, #6B7A46 0 20%, rgba(0,0,0,0) 21%), radial-gradient(circle at 66% 46%, #55632F 0 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 40% 76%, #4A5828 0 20%, rgba(0,0,0,0) 21%), linear-gradient(180deg, #38431E, #262E14); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
-      <div style="border-radius: 3px; background: repeating-linear-gradient(74deg, rgba(0,0,0,.22) 0 2px, rgba(0,0,0,0) 2px 6px), radial-gradient(circle at 34% 34%, #DCCE62 0 26%, rgba(0,0,0,0) 27%), linear-gradient(180deg, #A8A038, #7E7826); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
-      <div style="border-radius: 3px; background: radial-gradient(ellipse 34% 22% at 32% 32%, #7FD066 0 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 32% 20% at 68% 56%, #6BBF52 0 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 30% 20% at 38% 74%, #8EDC74 0 100%, rgba(0,0,0,0) 100%), linear-gradient(180deg, #2F6B2A, #1F4A1C); box-shadow: inset 0 2px 5px rgba(0,0,0,.55);"></div>
-      <div style="border-radius: 3px; background: radial-gradient(circle at 34% 30%, rgba(255,255,255,.6) 0 26%, rgba(0,0,0,0) 27%), radial-gradient(circle at 62% 64%, rgba(120,150,60,.5) 0 12%, rgba(0,0,0,0) 13%), linear-gradient(180deg, #F6F1E2, #DED7C2); box-shadow: inset 0 2px 5px rgba(0,0,0,.4);"></div>
+      <sc-for list="{{vegCells}}" as="vc" hint-placeholder-count="6">
+        <div onClick="{{vc.onTap}}" onPointerDown="{{vc.onDown}}" style="position: relative; border-radius: 3px; background: {{vc.fill}}; box-shadow: inset 0 2px 5px rgba(0,0,0,.5); cursor: pointer;">
+          <span style="position: absolute; left: 0; right: 0; bottom: 1px; text-align: center; font-size: 5.5px; font-weight: 800; letter-spacing: .04em; color: {{vc.ink}}; text-shadow: 0 1px 2px rgba(0,0,0,.8);">{{vc.label}}</span>
+        </div>
+      </sc-for>
     </div>
     <div style="position: absolute; right: -7px; top: -8px; min-width: 22px; height: 20px; padding: 0 6px; border-radius: 999px; background: #4A7038; border: 2.5px solid #2A1B12; display: flex; align-items: center; justify-content: center;">
-      <span class="dsp" style="font-size: 10px; font-weight: 800; color: #F4F0E2;">+4</span>
+      <span class="dsp" style="font-size: 9px; font-weight: 800; color: #F4F0E2;">+2 ea</span>
     </div>
     <span class="dsp" style="position: absolute; left: 0; bottom: -17px; width: 100%; text-align: center; font-size: 9px; font-weight: 800; color: #4A4038; text-shadow: 0 1px 0 rgba(255,255,255,.8);">KHODRA</span>
   </div>
@@ -372,7 +384,13 @@
     <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #F4ECD9 0%, #DFD3B8 54%, #C6B896 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.28); display: flex; align-items: center; justify-content: center; gap: 8px;">
       <sc-for list="{{ready}}" as="rd" hint-placeholder-count="2">
         <div onClick="{{rd.onTap}}" onPointerDown="{{rd.onDown}}" style="position: relative; width: 46px; height: 54px; cursor: pointer;">
-          <sc-if value="{{rd.isWrapped}}" hint-placeholder-val="{{true}}">
+          <sc-if value="{{rd.isSet}}" hint-placeholder-val="{{true}}">
+            <div style="position: absolute; left: 1px; top: 4px; width: 44px; height: 46px; border-radius: 4px; background: linear-gradient(104deg, #FDFBF4, #E9DFC6 60%, #FBF5E6); border: 2.5px solid #2A1B12; transform: rotate(-5deg); box-shadow: 0 3px 0 rgba(0,0,0,.2);"></div>
+            <sc-for list="{{setCluster}}" as="sc" hint-placeholder-count="4">
+              <div style="position: absolute; left: {{sc.left}}; top: {{sc.top}}; width: 24px; height: 22px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: radial-gradient(circle at 36% 26%, #E8D3A6, #C9A870 62%, #A8894F 100%); border: 2px solid #2A1B12; transform: rotate({{sc.rot}});"></div>
+            </sc-for>
+        </sc-if>
+        <sc-if value="{{rd.isWrapped}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 10px; top: 3px; width: 26px; height: 50px; border-radius: 8px; background: linear-gradient(102deg, #FDFBF4 0%, #E6DBC2 46%, #FCF7EA 78%, #DCD0B4 100%); border: 2.5px solid #2A1B12; transform: rotate(-13deg); box-shadow: 0 3px 0 rgba(0,0,0,.22);"></div>
             <div style="position: absolute; left: 6px; top: 25px; width: 34px; height: 12px; background: linear-gradient(180deg, #E8D6B0, #D2BC90); border: 2.5px solid #2A1B12; transform: rotate(-13deg);"></div>
             <div style="position: absolute; left: 13px; top: 1px; width: 20px; height: 17px; border-radius: 50%; background: {{rd.surface}}; border: 2.5px solid #2A1B12; transform: rotate(-13deg); box-shadow: inset 0 -2px 3px rgba(0,0,0,.35);"></div>
@@ -402,13 +420,13 @@
 
   <!-- ===== COIN DROPS ===== -->
   <sc-for list="{{drops}}" as="d" hint-placeholder-count="1">
-    <div onClick="{{d.onTap}}" style="position: absolute; left: {{d.left}}; top: 226px; width: 50px; height: 50px; cursor: pointer;">
-      <div style="position: absolute; left: 4px; bottom: -4px; right: 4px; height: 10px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.34), rgba(0,0,0,0));"></div>
+    <div onClick="{{d.onTap}}" class="coin" style="position: absolute; left: {{d.left}}; top: 194px; width: 58px; height: 58px; cursor: pointer; z-index: 20;">
+      <div style="position: absolute; left: 7px; bottom: -3px; right: 7px; height: 11px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.4), rgba(0,0,0,0));"></div>
       <div style="position: absolute; inset: 0; border-radius: 50%; background: {{d.ring}};"></div>
-      <div style="position: absolute; inset: 5px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 34% 28%, #F7D477, #E0A339 54%, #B77C1F 100%); border: 3px solid #2A1B12; display: flex; align-items: center; justify-content: center;">
+      <div style="position: absolute; inset: 6px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 34% 28%, #F7D477, #E0A339 54%, #B77C1F 100%); border: 3px solid #2A1B12; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 14px rgba(235,187,78,.6);">
         <div style="position: absolute; inset: 5px; border-radius: 50%; border: 2px solid rgba(140,86,20,.55);"></div>
-        <span class="dsp" style="font-size: 14px; font-weight: 800; color: #5B3B0C;">{{d.amt}}</span>
-        <div class="sheen" style="position: absolute; top: -8px; left: 0; width: 11px; height: 56px; background: rgba(255,255,255,.5);"></div>
+        <span class="dsp" style="font-size: 16px; font-weight: 800; color: #5B3B0C;">{{d.amt}}</span>
+        <div class="sheen" style="position: absolute; top: -8px; left: 0; width: 12px; height: 64px; background: rgba(255,255,255,.55);"></div>
       </div>
     </div>
   </sc-for>
@@ -439,15 +457,15 @@ class Component extends DCLogic {
       prep: null,
       peel: [],
       oven: null,
-      fatayerStock: 8,
+      fatayerStock: 6,
       trays: { zaatar: 5, cheese: 5 },
       drag: null,
       ready: [],
-      drops: [{ id: 1, amt: 14, life: 3.4, max: 4, slot: 1 }],
+      drops: [{ id: 1, amt: 14, life: 5.2, max: 6, slot: 0 }],
       queue: [
-        { id: 2, name: 'Im Georges', want: 'zaatar', veg: true, pat: 0.74 },
-        { id: 3, name: 'Ziad', want: 'cheese', veg: false, pat: 0.9 },
-        { id: 4, name: 'Karim', want: 'sbanekh', veg: true, pat: 1 }
+        { id: 2, name: 'Im Georges', want: 'zaatar', veg: ['tomato', 'mint'], pat: 0.74 },
+        { id: 3, name: 'Ziad', want: 'cheese', veg: ['pickles'], pat: 0.9 },
+        { id: 4, name: 'Karim', want: 'sbanekh', veg: [], pat: 1 }
       ],
       hint: 'Take dough from the bowl',
       radioOn: true,
@@ -459,7 +477,7 @@ class Component extends DCLogic {
     return {
       zaatar: { bake: 6, perfect: 1.4, grace: 0.8, price: 8, label: 'Zaatar', disc: '#4E6B2E', dark: '#3C5522', clip: 'none' },
       cheese: { bake: 7.5, perfect: 1.5, grace: 1.1, price: 14, label: 'Cheese', disc: '#EFD79B', dark: '#D9B45E', clip: 'none' },
-      sbanekh: { bake: 7, perfect: 1.3, grace: 0.9, price: 12, label: 'Sbanekh', disc: '#4A7038', dark: '#335024', clip: 'polygon(50% 2%, 98% 94%, 2% 94%)' },
+      sbanekh: { bake: 7, perfect: 1.3, grace: 0.9, price: 12, label: 'Sbanekh', set: true, noVeg: true, disc: '#4A7038', dark: '#335024', clip: 'polygon(50% 2%, 98% 94%, 2% 94%)' },
       pizza: { bake: 6.6, perfect: 1.35, grace: 0.9, price: 16, label: 'Mini pizza', disc: '#D4643F', dark: '#A8452D', clip: 'none' }
     };
   }
@@ -493,7 +511,11 @@ class Component extends DCLogic {
     const names = ['Abou Elias', 'Yara', 'Im Georges', 'Ziad', 'Karim', 'Nour', 'Hanna', 'Rita'];
     const id = this.state.nextId + 1;
     const pool = ['zaatar', 'cheese', 'sbanekh', 'zaatar', 'cheese'];
-    return { id: id, name: names[id % names.length], want: pool[id % pool.length], veg: id % 3 === 0, pat: 1 };
+    const w = pool[id % pool.length];
+    const all = ['tomato', 'cucumber', 'olives', 'pickles', 'mint', 'labneh'];
+    let veg = [];
+    if (w !== 'sbanekh' && id % 3 !== 1) { veg = [all[id % 6]]; if (id % 4 === 0) veg.push(all[(id + 3) % 6]); }
+    return { id: id, name: names[id % names.length], want: w, veg: veg, pat: 1 };
   }
 
   takeDough() {
@@ -530,7 +552,7 @@ class Component extends DCLogic {
 
   dragArt(kind) {
     if (kind === 'dough') return { bread: this.breadBg(0.05), surface: 'transparent', clip: 'none', w: '52px' };
-    if (kind === 'veg') return { bread: 'rgba(0,0,0,0)', surface: 'linear-gradient(90deg, #C0392B 0 33%, #7FA84C 33% 66%, #2C3A18 66% 100%)', clip: 'none', w: '40px' };
+    if (kind.indexOf('veg:') === 0) { const vk = this.vegKinds[kind.split(':')[1]]; return { bread: 'rgba(0,0,0,0)', surface: vk.fill, clip: 'none', w: '38px' }; }
     if (kind === 'zaatar' || kind === 'cheese' || kind === 'sbanekh') {
       return { bread: 'rgba(0,0,0,0)', surface: this.toppingBg(kind, 0.05), clip: kind === 'sbanekh' ? 'polygon(50% 2%, 98% 94%, 2% 94%)' : 'none', w: '44px' };
     }
@@ -575,7 +597,7 @@ class Component extends DCLogic {
     if (hit === 'bin') { this.trash(); return; }
     if (kind === 'dough') { if (hit === 'board') this.takeDough(); else this.setState({ hint: 'Dough goes on the board' }); return; }
     if (kind === 'zaatar' || kind === 'cheese') { if (hit === 'board') this.tapTopping(kind); else this.setState({ hint: 'Spread it on the board' }); return; }
-    if (kind === 'veg') { if (hit === 'ready') this.addVeg(); else this.setState({ hint: 'Khodra goes on a baked one' }); return; }
+    if (kind.indexOf('veg:') === 0) { if (hit === 'ready') this.addVeg(kind.split(':')[1]); else this.setState({ hint: 'Khodra goes on a baked one' }); return; }
     if (kind === 'sbanekh') { this.takeFatayer(); if (hit === 'cust0') { const i = this.state.ready.length - 1; if (i >= 0) this.tapReady(i); } return; }
     if (kind === 'topped') { if (hit === 'peel') this.loadPeel(); else this.setState({ hint: 'Topped ones go on the peel' }); return; }
     if (kind === 'peel') { if (hit === 'furn') this.tapOven(); else this.setState({ hint: 'The peel goes into the furn' }); return; }
@@ -649,7 +671,7 @@ class Component extends DCLogic {
     const s = this.state;
     if (s.oven) {
       let id = s.nextId;
-      const items = s.oven.items.map((it) => { const o = { id: id, topping: it.topping, q: this.quality(it.topping, s.oven.t), wrapped: false, veg: false }; id += 1; return o; });
+      const items = s.oven.items.map((it) => { const o = { id: id, topping: it.topping, q: this.quality(it.topping, s.oven.t), wrapped: false, veg: [] }; id += 1; return o; });
       const ready = s.ready.concat(items).slice(-4);
       const perfect = items.filter((x) => x.q === 'perfect').length;
       const burnt = items.filter((x) => x.q === 'burnt').length;
@@ -661,23 +683,39 @@ class Component extends DCLogic {
     this.setState({ oven: { items: s.peel, t: 0 }, peel: [], hint: 'They share one bake — watch the bands' });
   }
 
-  addVeg() {
+  get vegKinds() {
+    return {
+      tomato: { label: 'BANADURA', short: 'Tomato', ink: '#FFE2DA', fill: 'radial-gradient(circle at 26% 22%, #E05B42 0 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 68% 38%, #C0392B 0 24%, rgba(0,0,0,0) 25%), radial-gradient(circle at 40% 68%, #D14A34 0 22%, rgba(0,0,0,0) 23%), linear-gradient(180deg, #8E2A1E, #6E2016)', dot: '#D14A34' },
+      cucumber: { label: 'KHIAR', short: 'Cucumber', ink: '#EAF6D6', fill: 'radial-gradient(circle at 30% 26%, #C7E39A 0 12%, #8FBE5A 13% 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 66% 56%, #C7E39A 0 12%, #8FBE5A 13% 22%, rgba(0,0,0,0) 23%), linear-gradient(180deg, #4E7A2E, #38601F)', dot: '#8FBE5A' },
+      olives: { label: 'ZAYTOUN', short: 'Olives', ink: '#E4E8D6', fill: 'radial-gradient(circle at 28% 24%, #6B7A46 0 20%, rgba(0,0,0,0) 21%), radial-gradient(circle at 66% 42%, #55632F 0 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 40% 70%, #4A5828 0 20%, rgba(0,0,0,0) 21%), linear-gradient(180deg, #38431E, #262E14)', dot: '#55632F' },
+      pickles: { label: 'KABEES', short: 'Pickles', ink: '#F6F2D4', fill: 'repeating-linear-gradient(74deg, rgba(0,0,0,.22) 0 2px, rgba(0,0,0,0) 2px 6px), radial-gradient(circle at 34% 30%, #DCCE62 0 26%, rgba(0,0,0,0) 27%), linear-gradient(180deg, #A8A038, #7E7826)', dot: '#DCCE62' },
+      mint: { label: 'NAANAA', short: 'Mint', ink: '#DFF6D8', fill: 'radial-gradient(ellipse 34% 22% at 32% 30%, #7FD066 0 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 32% 20% at 68% 52%, #6BBF52 0 100%, rgba(0,0,0,0) 100%), linear-gradient(180deg, #2F6B2A, #1F4A1C)', dot: '#7FD066' },
+      labneh: { label: 'LABNEH', short: 'Labneh', ink: '#5E5647', fill: 'radial-gradient(circle at 34% 28%, rgba(255,255,255,.6) 0 26%, rgba(0,0,0,0) 27%), linear-gradient(180deg, #F6F1E2, #DED7C2)', dot: '#F2ECDC' }
+    };
+  }
+
+  addVeg(k) {
     const s = this.state;
     let idx = -1;
     for (let i = s.ready.length - 1; i >= 0; i--) {
-      if (!s.ready[i].wrapped && !s.ready[i].veg) { idx = i; break; }
+      if (!s.ready[i].wrapped && !this.recipes[s.ready[i].topping].noVeg) { idx = i; break; }
     }
-    if (idx < 0) { this.setState({ hint: 'Bake one first — khodra goes on before the paper' }); return; }
-    const ready = s.ready.map((x, j) => (j === idx ? { id: x.id, topping: x.topping, q: x.q, wrapped: x.wrapped, veg: true } : x));
-    this.setState({ ready: ready, hint: 'Tomato, cucumber, mint, olives — now wrap it' });
+    if (idx < 0) {
+      const onlySets = s.ready.length > 0 && s.ready.filter((x) => !this.recipes[x.topping].noVeg).length === 0;
+      this.setState({ hint: onlySets ? 'Sbanekh goes out plain — no khodra on those' : 'Bake one first — khodra goes on before the paper' });
+      return;
+    }
+    if (s.ready[idx].veg.indexOf(k) >= 0) { this.setState({ hint: this.vegKinds[k].short + ' is already on it' }); return; }
+    const ready = s.ready.map((x, j) => (j === idx ? { id: x.id, topping: x.topping, q: x.q, wrapped: x.wrapped, veg: x.veg.concat([k]) } : x));
+    this.setState({ ready: ready, hint: this.vegKinds[k].short + ' on — what else did they ask for?' });
   }
 
   takeFatayer() {
     const s = this.state;
     if (s.fatayerStock <= 0) { this.setState({ hint: 'Sbanekh finished for today' }); return; }
     if (s.ready.length >= 4) { this.setState({ hint: 'Counter is full — serve some' }); return; }
-    const ready = s.ready.concat([{ id: s.nextId, topping: 'sbanekh', q: 'perfect', wrapped: true, veg: false }]);
-    this.setState({ ready: ready, fatayerStock: s.fatayerStock - 1, nextId: s.nextId + 1, hint: 'Straight off the plate — hand it over' });
+    const ready = s.ready.concat([{ id: s.nextId, topping: 'sbanekh', q: 'perfect', wrapped: true, veg: [] }]);
+    this.setState({ ready: ready, fatayerStock: s.fatayerStock - 1, nextId: s.nextId + 1, hint: 'Four of them, wrapped together — hand it over' });
   }
 
   tapReady(i) {
@@ -695,13 +733,19 @@ class Component extends DCLogic {
     let mult = item.q === 'perfect' ? 1.25 : item.q === 'done' ? 1 : item.q === 'raw' ? 0.5 : 0.25;
     const match = item.topping === cust.want;
     if (!match) mult = mult * 0.4;
-    if (cust.veg && !item.veg) mult = mult * 0.7;
-    const extra = item.veg ? 4 : 0;
+    const want = cust.veg || [];
+    let missing = 0;
+    for (let k = 0; k < want.length; k++) { if (item.veg.indexOf(want[k]) < 0) missing += 1; }
+    if (missing) mult = mult * Math.pow(0.78, missing);
+    const extra = item.veg.length * 2;
     const amt = Math.max(1, Math.round((r.price + extra) * mult * (0.8 + cust.pat * 0.4)));
     const ready = s.ready.filter((x, j) => j !== i);
     const queue = s.queue.slice(1).concat([this.newCustomer()]);
-    const drops = s.drops.concat([{ id: s.nextId, amt: amt, life: 4, max: 4, slot: 0 }]);
-    this.setState({ ready: ready, queue: queue, drops: drops, nextId: s.nextId + 2, hint: (cust.veg && !item.veg) ? 'They wanted khodra on it' : match ? 'Order matched — take the money' : 'Wrong topping, they paid less' });
+    const used = s.drops.map((d) => d.slot);
+    let free = 0;
+    while (used.indexOf(free) >= 0 && free < 3) free += 1;
+    const drops = s.drops.concat([{ id: s.nextId, amt: amt, life: 6, max: 6, slot: free % 3 }]);
+    this.setState({ ready: ready, queue: queue, drops: drops, nextId: s.nextId + 2, hint: missing ? 'Missing ' + missing + ' of the khodra they asked for' : match ? 'Order matched — take the money' : 'Wrong topping, they paid less' });
   }
 
   toggleRadio() {
@@ -805,10 +849,22 @@ class Component extends DCLogic {
     return '#6F4B2C';
   }
 
+  vegOverlay(list) {
+    if (!list || !list.length) return 'none';
+    const spots = [[32, 34], [64, 28], [70, 64], [34, 68], [50, 48], [22, 52]];
+    const k = this.vegKinds;
+    const out = [];
+    for (let i = 0; i < list.length && i < 6; i++) {
+      const c = k[list[i]].dot;
+      out.push('radial-gradient(circle at ' + spots[i][0] + '% ' + spots[i][1] + '%, ' + c + ' 0 11%, rgba(0,0,0,0) 12%)');
+    }
+    return out.join(', ');
+  }
+
   dropOk(kind, hit) {
     if (hit === 'bin') return true;
     if (kind === 'dough' || kind === 'zaatar' || kind === 'cheese') return hit === 'board';
-    if (kind === 'veg') return hit === 'ready';
+    if (kind.indexOf('veg:') === 0) return hit === 'ready';
     if (kind === 'sbanekh') return hit === 'ready' || hit === 'cust0';
     if (kind === 'topped') return hit === 'peel';
     if (kind === 'peel') return hit === 'furn';
@@ -906,13 +962,18 @@ class Component extends DCLogic {
     for (let i = 0; i < shown; i++) {
       plateViews.push({ left: 8 + i * 26 + 'px', top: (i % 2 === 0 ? 12 : 18) + 'px', rot: rots[i] });
     }
+    const setCluster = [
+      { left: '2px', top: '2px', rot: '-7deg' }, { left: '20px', top: '0px', rot: '8deg' },
+      { left: '0px', top: '20px', rot: '5deg' }, { left: '19px', top: '19px', rot: '-6deg' }
+    ];
 
     const customers = s.queue.slice(0, 3).map((c, i) => {
       const kind = c.id % 8;
       const matches = s.ready.filter((x) => x.topping === c.want);
       const hasItem = i === 0 && matches.length > 0;
-      const hasVeg = i === 0 && matches.filter((x) => x.veg).length > 0;
-      const price = this.recipes[c.want].price + (c.veg ? 4 : 0);
+      const on = i === 0 && matches.length ? matches[matches.length - 1].veg : [];
+      const wantVeg = c.veg || [];
+      const price = this.recipes[c.want].price + wantVeg.length * 2;
       return {
         left: 218 + i * 118 + 'px',
         isA: kind === 0, isB: kind === 1, isC: kind === 2, isD: kind === 3,
@@ -926,8 +987,11 @@ class Component extends DCLogic {
         sideColor: 'linear-gradient(120deg, #C0392B 0 30%, #7FA84C 30% 55%, #2C3A18 55% 78%, #C9B84E 78% 100%)',
         sideOpacity: c.veg ? '1' : '0.18',
         heart: c.pat > 0.55 ? '#D4643F' : c.pat > 0.28 ? '#E0A339' : '#8F8C88',
-        wantLabel: c.want === 'cheese' ? 'JIBNEH' : c.want === 'sbanekh' ? 'SBANEKH' : 'ZAATAR',
-        veg: !!c.veg,
+        wantLabel: c.want === 'cheese' ? 'JIBNEH' : c.want === 'sbanekh' ? 'SBANEKH ×4' : 'ZAATAR',
+        isSet: !!this.recipes[c.want].set,
+        isDisc: !this.recipes[c.want].set,
+        veg: wantVeg.length > 0,
+        vegList: wantVeg.map((k) => ({ fill: this.vegKinds[k].fill, label: this.vegKinds[k].label, check: on.indexOf(k) >= 0 ? '1' : '0.12' })),
         price: price,
         tag: i === 0 ? 'NOW' : i === 1 ? 'NEXT' : 'AFTER',
         tagBg: i === 0 ? '#C2593C' : 'rgba(42,27,18,.12)',
@@ -935,7 +999,7 @@ class Component extends DCLogic {
         cardBorder: i === 0 ? '3px solid #C2593C' : '2.5px solid #2A1B12',
         cardShadow: i === 0 ? '0 0 0 2px rgba(235,187,78,.6), 3px 5px 0 rgba(0,0,0,.3)' : '3px 4px 0 rgba(0,0,0,.22)',
         check1: hasItem ? '1' : '0.1',
-        check2: hasVeg ? '1' : '0.1'
+        check2: '0'
       };
     });
 
@@ -953,9 +1017,10 @@ class Component extends DCLogic {
     ];
 
     const ready = s.ready.map((rd, i) => ({
-      isWrapped: rd.wrapped,
-      isBaked: !rd.wrapped,
-      veg: rd.veg ? 'radial-gradient(circle at 32% 34%, #C0392B 0 12%, rgba(0,0,0,0) 13%), radial-gradient(circle at 62% 28%, #7FA84C 0 11%, rgba(0,0,0,0) 12%), radial-gradient(circle at 70% 62%, #2C3A18 0 10%, rgba(0,0,0,0) 11%), radial-gradient(circle at 38% 68%, #C9B84E 0 10%, rgba(0,0,0,0) 11%), radial-gradient(circle at 52% 50%, #4E8C42 0 8%, rgba(0,0,0,0) 9%)' : 'none',
+      isSet: !!this.recipes[rd.topping].set,
+      isWrapped: rd.wrapped && !this.recipes[rd.topping].set,
+      isBaked: !rd.wrapped && !this.recipes[rd.topping].set,
+      veg: this.vegOverlay(rd.veg),
       clip: this.recipes[rd.topping].clip,
       fill: this.breadBg(rd.q === 'raw' ? 0.45 : rd.q === 'perfect' ? 0.9 : rd.q === 'done' ? 0.98 : 1.05),
       surface: this.toppingBg(rd.topping, rd.q === 'raw' ? 0.45 : rd.q === 'perfect' ? 0.9 : rd.q === 'done' ? 0.98 : 1.05),
@@ -968,7 +1033,7 @@ class Component extends DCLogic {
       const deg = (d.life / d.max) * 360;
       return {
         amt: d.amt,
-        left: 240 + (d.slot % 3) * 118 + 'px',
+        left: 236 + (d.slot % 3) * 118 + 'px',
         ring: 'conic-gradient(from -90deg, #D4643F 0deg ' + deg + 'deg, rgba(42,27,18,.4) ' + deg + 'deg 360deg)',
         onTap: () => this.collect(d.id)
       };
@@ -998,8 +1063,8 @@ class Component extends DCLogic {
       menu: [
         { name: 'Zaatar', price: this.recipes.zaatar.price, swatch: this.toppingBg('zaatar', 0.9), clip: 'none' },
         { name: 'Jibneh', price: this.recipes.cheese.price, swatch: this.toppingBg('cheese', 0.9), clip: 'none' },
-        { name: 'Sbanekh', price: this.recipes.sbanekh.price, swatch: this.toppingBg('sbanekh', 0.9), clip: 'polygon(50% 2%, 98% 94%, 2% 94%)' },
-        { name: 'Khodra', price: '+4', swatch: 'linear-gradient(120deg, #C0392B 0 30%, #7FA84C 30% 55%, #2C3A18 55% 78%, #C9B84E 78% 100%)', clip: 'none' }
+        { name: 'Sbanekh ×4', price: this.recipes.sbanekh.price, swatch: this.toppingBg('sbanekh', 0.9), clip: 'polygon(50% 2%, 98% 94%, 2% 94%)' },
+        { name: 'Khodra', price: '+2', swatch: 'linear-gradient(120deg, #C0392B 0 30%, #7FA84C 30% 55%, #2C3A18 55% 78%, #C9B84E 78% 100%)', clip: 'none' }
       ],
       soon: [
         { name: 'Mini pizza', when: 'DAY 6', swatch: this.toppingBg('pizza', 0.9), clip: 'none' },
@@ -1028,11 +1093,15 @@ class Component extends DCLogic {
       dragging: !!s.drag,
       drag: s.drag ? { hx: (s.drag.x - parseInt(s.drag.w, 10) / 2) + 'px', hy: (s.drag.y - parseInt(s.drag.w, 10) / 2) + 'px', w: s.drag.w, bread: s.drag.bread, surface: s.drag.surface, clip: s.drag.clip } : { hx: '0px', hy: '0px', w: '0px', bread: 'none', surface: 'none', clip: 'none' },
       drop: dropZone,
+      setCluster: setCluster,
+      vegCells: ['tomato', 'cucumber', 'olives', 'pickles', 'mint', 'labneh'].map((k) => ({
+        fill: this.vegKinds[k].fill, label: this.vegKinds[k].label, ink: this.vegKinds[k].ink,
+        onTap: () => this.addVeg(k), onDown: (e) => this.startDrag('veg:' + k, e)
+      })),
       onMove: (e) => this.moveDrag(e),
       onUp: () => this.endDrag(),
       onDoughDown: (e) => this.startDrag('dough', e),
-      onVeg: () => this.addVeg(),
-      onVegDown: (e) => this.startDrag('veg', e),
+
       onFatayerDown: (e) => this.startDrag('sbanekh', e),
       onPrepDown: (e) => { if (s.prep && s.prep.stage === 'topped') this.startDrag('topped', e); },
       onPeelDown: (e) => { if (s.peel.length && !s.oven) this.startDrag('peel', e); },
