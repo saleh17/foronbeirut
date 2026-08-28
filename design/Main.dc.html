@@ -41,7 +41,7 @@
   </style>
 </helmet>
 
-<div style="position: relative; width: 844px; height: 390px; overflow: hidden; background: #A8B2AE; font-family: 'Cairo', 'Segoe UI', sans-serif;">
+<div onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerLeave="{{onUp}}" style="position: relative; width: 844px; height: 390px; overflow: hidden; background: #A8B2AE; font-family: 'Cairo', 'Segoe UI', sans-serif; touch-action: none; user-select: none;">
 
   <!-- ===== BACK WALL ===== -->
   <div style="position: absolute; left: 0; top: 0; width: 844px; height: 214px; background: repeating-linear-gradient(90deg, #E7DCC2 0 44px, #CFC0A0 44px 47px), repeating-linear-gradient(180deg, #E7DCC2 0 38px, #CFC0A0 38px 41px); background-blend-mode: multiply;"></div>
@@ -84,7 +84,7 @@
   <div style="position: absolute; left: 0; top: 0; width: 224px; height: 390px; background: repeating-linear-gradient(180deg, #C6B9A2 0 40px, #A99878 40px 44px), repeating-linear-gradient(90deg, #C6B9A2 0 58px, #A99878 58px 62px); background-blend-mode: multiply; box-shadow: inset -16px 0 24px rgba(0,0,0,.22);"></div>
   <div class="spill" style="position: absolute; left: 0; top: 40px; width: 340px; height: 320px; background: radial-gradient(46% 42% at 30% 44%, rgba(255,168,60,.42) 0%, rgba(255,140,40,.16) 44%, rgba(0,0,0,0) 72%); pointer-events: none;"></div>
 
-  <div onClick="{{onOven}}" style="position: absolute; left: 16px; top: 30px; width: 186px; height: 172px; cursor: pointer;">
+  <div onClick="{{onOven}}" onPointerDown="{{onOvenDown}}" style="position: absolute; left: 16px; top: 30px; width: 186px; height: 172px; cursor: pointer;">
     <div style="position: absolute; inset: 0; border-radius: 93px 93px 7px 7px; background: repeating-linear-gradient(180deg, #BE7A5E 0 16px, #9E5C44 16px 19px), repeating-linear-gradient(90deg, #BE7A5E 0 32px, #9E5C44 32px 35px); background-blend-mode: multiply; border: 4px solid #2A1B12; box-shadow: inset 0 7px 13px rgba(255,220,180,.2), inset 0 -10px 16px rgba(0,0,0,.3), 0 6px 12px rgba(0,0,0,.32);"></div>
     <div style="position: absolute; left: -6px; top: 84px; width: 198px; height: 11px; border-radius: 3px; background: linear-gradient(180deg, #D9C7A6, #A98F6C); border: 3px solid #2A1B12;"></div>
     <div style="position: absolute; left: 24px; top: 28px; right: 24px; bottom: 28px; border-radius: 69px 69px 4px 4px; background: radial-gradient(72% 62% at 50% 110%, #FFB23C 0%, #E8801F 18%, #8A3A12 44%, #35190C 76%, #1C0C06 100%); border: 3px solid #1C0C06; box-shadow: inset 0 0 26px rgba(0,0,0,.8);"></div>
@@ -173,7 +173,7 @@
           <svg width="12" height="12" viewBox="0 0 24 24" style="opacity: {{c.check1}};" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11" stroke="#4E7A2E" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
         </div>
         <div style="display: flex; align-items: center; gap: 1px;">
-          <div style="width: 18px; height: 18px; clip-path: polygon(50% 2%, 98% 94%, 2% 94%); background: {{c.sideColor}}; border: 2px solid #2A1B12;"></div>
+          <div style="width: 18px; height: 18px; border-radius: 4px; background: {{c.sideColor}}; border: 2px solid #2A1B12; opacity: {{c.sideOpacity}};"></div>
           <svg width="12" height="12" viewBox="0 0 24 24" style="opacity: {{c.check2}};" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11" stroke="#4E7A2E" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
         </div>
       </div>
@@ -239,7 +239,7 @@
   <div class="spill" style="position: absolute; left: 0; top: 210px; width: 300px; height: 180px; background: radial-gradient(58% 70% at 22% 30%, rgba(255,170,70,.3) 0%, rgba(0,0,0,0) 74%); pointer-events: none;"></div>
 
   <!-- ===== THE PEEL ===== -->
-  <div onClick="{{onPeel}}" style="position: absolute; left: 14px; top: 228px; width: 268px; height: 62px; cursor: pointer;">
+  <div onClick="{{onPeel}}" onPointerDown="{{onPeelDown}}" style="position: absolute; left: 14px; top: 228px; width: 268px; height: 62px; cursor: pointer;">
     <div style="position: absolute; left: 10px; bottom: -2px; width: 160px; height: 13px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
     <div style="position: absolute; left: 158px; top: 24px; width: 110px; height: 13px; border-radius: 3px; background: linear-gradient(180deg, #C08E5C, #8A6242 50%, #5E4028); border: 3px solid #2A1B12;"></div>
     <div style="position: absolute; left: 250px; top: 17px; width: 18px; height: 27px; border-radius: 4px; background: linear-gradient(180deg, #A9754E, #6F4A2E); border: 3px solid #2A1B12;"></div>
@@ -253,7 +253,7 @@
   </div>
 
   <!-- ===== FATAYER PLATE — made this morning, no baking ===== -->
-  <div onClick="{{onFatayer}}" style="position: absolute; left: 296px; top: 230px; width: 118px; height: 58px; cursor: pointer; opacity: {{plateOpacity}};">
+  <div onClick="{{onFatayer}}" onPointerDown="{{onFatayerDown}}" style="position: absolute; left: 296px; top: 230px; width: 118px; height: 58px; cursor: pointer; opacity: {{plateOpacity}};">
     <div style="position: absolute; left: 6px; bottom: -5px; right: 6px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #F6F1E6 0%, #DFD8C6 46%, #BFB6A0 100%); border: 3px solid #6E6659; box-shadow: 0 4px 0 rgba(0,0,0,.24), inset 0 2px 0 rgba(255,255,255,.7);"></div>
     <sc-for list="{{plateViews}}" as="fv" hint-placeholder-count="4">
@@ -266,8 +266,8 @@
   </div>
 
   <!-- ===== TOPPING TRAYS ===== -->
-  <sc-for list="{{trays}}" as="t" hint-placeholder-count="3">
-    <div onClick="{{t.onTap}}" style="position: absolute; left: {{t.left}}; top: 234px; width: {{t.w}}; height: 50px; cursor: pointer; opacity: {{t.opacity}};">
+  <sc-for list="{{trays}}" as="t" hint-placeholder-count="4">
+    <div onClick="{{t.onTap}}" onPointerDown="{{t.onDown}}" style="position: absolute; left: {{t.left}}; top: 234px; width: {{t.w}}; height: 50px; cursor: pointer; opacity: {{t.opacity}};">
       <div style="position: absolute; left: 4px; bottom: -7px; right: 4px; height: 12px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.3), rgba(0,0,0,0));"></div>
       <div style="position: absolute; inset: 0; border-radius: 7px; background: linear-gradient(180deg, #DCE0E4 0%, #B4B9BF 38%, #8A9096 100%); border: 3px solid #4E5359; box-shadow: 0 4px 0 rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6); padding: 5px;">
         <div style="width: 100%; height: 100%; border-radius: 4px; background: linear-gradient(180deg, #4E5359, #6E747A); box-shadow: inset 0 3px 8px rgba(0,0,0,.65); position: relative; overflow: hidden;">
@@ -285,7 +285,7 @@
   </sc-for>
 
   <!-- ===== DOUGH BOWL ===== -->
-  <div onClick="{{onDough}}" style="position: absolute; left: 594px; top: 300px; width: 124px; height: 82px; cursor: pointer;">
+  <div onClick="{{onDough}}" onPointerDown="{{onDoughDown}}" style="position: absolute; left: 594px; top: 300px; width: 124px; height: 82px; cursor: pointer;">
     <div style="position: absolute; left: 6px; bottom: -6px; right: 6px; height: 14px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.34), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 10px 10px 48px 48px; background: linear-gradient(180deg, #B98252 0%, #8A6242 44%, #5E4028 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.3), inset 0 3px 0 rgba(255,225,180,.25); overflow: hidden;">
       <div style="position: absolute; left: 5px; top: 5px; right: 5px; height: 24px; border-radius: 6px; background: linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.16));"></div>
@@ -300,7 +300,7 @@
   </div>
 
   <!-- ===== WORK BOARD ===== -->
-  <div onClick="{{onPrep}}" style="position: absolute; left: 318px; top: 300px; width: 134px; height: 82px; cursor: pointer;">
+  <div onClick="{{onPrep}}" onPointerDown="{{onPrepDown}}" style="position: absolute; left: 318px; top: 300px; width: 134px; height: 82px; cursor: pointer;">
     <div style="position: absolute; left: 6px; bottom: -6px; right: 6px; height: 13px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #D6BC94 0%, #B99B70 52%, #977B52 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.28); display: flex; align-items: center; justify-content: center; overflow: hidden;">
       <div style="position: absolute; inset: 0; opacity: .35; background: repeating-linear-gradient(88deg, rgba(90,60,30,.4) 0 1px, rgba(0,0,0,0) 1px 9px);"></div>
@@ -327,7 +327,7 @@
     <div style="position: absolute; left: 6px; bottom: -6px; right: 6px; height: 13px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.32), rgba(0,0,0,0));"></div>
     <div style="position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(180deg, #F4ECD9 0%, #DFD3B8 54%, #C6B896 100%); border: 4px solid #2A1B12; box-shadow: 0 5px 0 rgba(0,0,0,.28); display: flex; align-items: center; justify-content: center; gap: 8px;">
       <sc-for list="{{ready}}" as="rd" hint-placeholder-count="2">
-        <div onClick="{{rd.onTap}}" style="position: relative; width: 46px; height: 54px; cursor: pointer;">
+        <div onClick="{{rd.onTap}}" onPointerDown="{{rd.onDown}}" style="position: relative; width: 46px; height: 54px; cursor: pointer;">
           <sc-if value="{{rd.isWrapped}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 10px; top: 3px; width: 26px; height: 50px; border-radius: 8px; background: linear-gradient(102deg, #FDFBF4 0%, #E6DBC2 46%, #FCF7EA 78%, #DCD0B4 100%); border: 2.5px solid #2A1B12; transform: rotate(-13deg); box-shadow: 0 3px 0 rgba(0,0,0,.22);"></div>
             <div style="position: absolute; left: 6px; top: 25px; width: 34px; height: 12px; background: linear-gradient(180deg, #E8D6B0, #D2BC90); border: 2.5px solid #2A1B12; transform: rotate(-13deg);"></div>
@@ -337,6 +337,7 @@
           <sc-if value="{{rd.isBaked}}" hint-placeholder-val="{{true}}">
             <div style="position: absolute; left: 3px; top: 7px; width: 40px; height: 40px; border-radius: 50%; clip-path: {{rd.clip}}; background: {{rd.fill}}; border: 3px solid {{rd.edge}}; box-shadow: 0 3px 0 rgba(0,0,0,.22);">
               <div style="position: absolute; inset: 14%; border-radius: 50%; clip-path: {{rd.clip}}; background: {{rd.surface}}; box-shadow: inset 0 2px 4px rgba(0,0,0,.3);"></div>
+              <div style="position: absolute; inset: 10%; border-radius: 50%; background: {{rd.veg}}; pointer-events: none;"></div>
             </div>
           </sc-if>
         </div>
@@ -368,6 +369,13 @@
     </div>
   </sc-for>
 
+  <sc-if value="{{dragging}}" hint-placeholder-val="{{true}}">
+    <div style="position: absolute; left: {{drag.hx}}; top: {{drag.hy}}; width: {{drag.w}}; height: {{drag.w}}; border-radius: 50%; clip-path: {{drag.clip}}; background: {{drag.bread}}; border: 3px solid #2A1B12; box-shadow: 0 8px 14px rgba(0,0,0,.45); pointer-events: none; opacity: .92; z-index: 40;">
+      <div style="position: absolute; inset: 14%; border-radius: 50%; clip-path: {{drag.clip}}; background: {{drag.surface}};"></div>
+    </div>
+    <div style="position: absolute; left: {{drop.x}}; top: {{drop.y}}; width: {{drop.w}}; height: {{drop.h}}; border-radius: 12px; border: 3px dashed {{drop.color}}; background: {{drop.glow}}; pointer-events: none; z-index: 30;"></div>
+  </sc-if>
+
   <!-- ===== GRADE + VIGNETTE ===== -->
   <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(90% 76% at 42% 46%, rgba(255,214,150,.10) 0%, rgba(0,0,0,0) 52%), radial-gradient(115% 96% at 50% 50%, rgba(0,0,0,0) 52%, rgba(30,18,8,.42) 100%);"></div>
 
@@ -385,12 +393,13 @@ class Component extends DCLogic {
       oven: null,
       fatayerStock: 8,
       trays: { zaatar: 5, cheese: 5 },
+      drag: null,
       ready: [],
       drops: [{ id: 1, amt: 14, life: 3.4, max: 4, slot: 1 }],
       queue: [
-        { id: 2, name: 'Im Georges', want: 'zaatar', pat: 0.74 },
-        { id: 3, name: 'Ziad', want: 'cheese', pat: 0.9 },
-        { id: 4, name: 'Karim', want: 'sbanekh', pat: 1 }
+        { id: 2, name: 'Im Georges', want: 'zaatar', veg: true, pat: 0.74 },
+        { id: 3, name: 'Ziad', want: 'cheese', veg: false, pat: 0.9 },
+        { id: 4, name: 'Karim', want: 'sbanekh', veg: true, pat: 1 }
       ],
       hint: 'Take dough from the bowl',
       radioOn: true,
@@ -428,7 +437,7 @@ class Component extends DCLogic {
     const s = this.state;
     const oven = s.oven ? { items: s.oven.items, t: s.oven.t + 0.1 } : null;
     const drops = s.drops.map((d) => ({ id: d.id, amt: d.amt, life: d.life - 0.1, max: d.max, slot: d.slot })).filter((d) => d.life > 0);
-    const queue = s.queue.map((c, i) => ({ id: c.id, name: c.name, want: c.want, pat: Math.max(0.05, c.pat - (i === 0 ? 0.0022 : 0.0009)) }));
+    const queue = s.queue.map((c, i) => ({ id: c.id, name: c.name, want: c.want, veg: c.veg, pat: Math.max(0.05, c.pat - (i === 0 ? 0.0022 : 0.0009)) }));
     this.setState({ oven: oven, drops: drops, queue: queue, timeLeft: Math.max(0, s.timeLeft - 0.1) });
   }
 
@@ -436,7 +445,7 @@ class Component extends DCLogic {
     const names = ['Abou Elias', 'Yara', 'Im Georges', 'Ziad', 'Karim', 'Nour', 'Hanna', 'Rita'];
     const id = this.state.nextId + 1;
     const pool = ['zaatar', 'cheese', 'sbanekh', 'zaatar', 'cheese'];
-    return { id: id, name: names[id % names.length], want: pool[id % pool.length], pat: 1 };
+    return { id: id, name: names[id % names.length], want: pool[id % pool.length], veg: id % 3 === 0, pat: 1 };
   }
 
   takeDough() {
@@ -452,6 +461,83 @@ class Component extends DCLogic {
   }
 
   trayMax() { return 5; }
+
+  zones() {
+    return {
+      board: [318, 300, 452, 382], peel: [14, 228, 282, 290], furn: [16, 30, 202, 202],
+      ready: [40, 300, 214, 382], paper: [230, 312, 310, 380], bin: [766, 294, 830, 382],
+      cust0: [222, 62, 338, 216], cust1: [338, 62, 454, 216], cust2: [454, 62, 570, 216]
+    };
+  }
+
+  hitZone(x, y) {
+    const z = this.zones();
+    const keys = Object.keys(z);
+    for (let i = 0; i < keys.length; i++) {
+      const r = z[keys[i]];
+      if (x >= r[0] && x <= r[2] && y >= r[1] && y <= r[3]) return keys[i];
+    }
+    return null;
+  }
+
+  dragArt(kind) {
+    if (kind === 'dough') return { bread: this.breadBg(0.05), surface: 'transparent', clip: 'none', w: '52px' };
+    if (kind === 'veg') return { bread: 'rgba(0,0,0,0)', surface: 'linear-gradient(90deg, #C0392B 0 33%, #7FA84C 33% 66%, #2C3A18 66% 100%)', clip: 'none', w: '40px' };
+    if (kind === 'zaatar' || kind === 'cheese' || kind === 'sbanekh') {
+      return { bread: 'rgba(0,0,0,0)', surface: this.toppingBg(kind, 0.05), clip: kind === 'sbanekh' ? 'polygon(50% 2%, 98% 94%, 2% 94%)' : 'none', w: '44px' };
+    }
+    if (kind === 'topped' && this.state.prep) {
+      const k = this.state.prep.topping;
+      return { bread: this.breadBg(0.05), surface: this.toppingBg(k, 0.05), clip: this.recipes[k].clip, w: '56px' };
+    }
+    if (kind === 'peel') return { bread: 'linear-gradient(180deg, #DCE0E4, #83888E)', surface: 'transparent', clip: 'none', w: '56px' };
+    if (kind === 'furn') return { bread: this.breadBg(0.9), surface: this.toppingBg('zaatar', 0.9), clip: 'none', w: '52px' };
+    if (kind.indexOf('ready:') === 0) {
+      const rd = this.state.ready[Number(kind.split(':')[1])];
+      if (rd) {
+        const f = rd.q === 'raw' ? 0.45 : rd.q === 'perfect' ? 0.9 : rd.q === 'done' ? 0.98 : 1.05;
+        return { bread: this.breadBg(f), surface: this.toppingBg(rd.topping, f), clip: this.recipes[rd.topping].clip, w: '48px' };
+      }
+    }
+    return { bread: this.breadBg(0.05), surface: 'transparent', clip: 'none', w: '48px' };
+  }
+
+  startDrag(kind, e) {
+    const host = e.currentTarget.closest ? e.currentTarget.closest('[data-dc-stage]') : null;
+    const art = this.dragArt(kind);
+    this.setState({ drag: { kind: kind, x: -999, y: -999, bread: art.bread, surface: art.surface, clip: art.clip, w: art.w } });
+  }
+
+  moveDrag(e) {
+    const d = this.state.drag;
+    if (!d) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 844;
+    const y = ((e.clientY - r.top) / r.height) * 390;
+    this.setState({ drag: { kind: d.kind, x: x, y: y, bread: d.bread, surface: d.surface, clip: d.clip, w: d.w } });
+  }
+
+  endDrag() {
+    const d = this.state.drag;
+    if (!d) return;
+    const kind = d.kind;
+    const hit = d.x < -100 ? null : this.hitZone(d.x, d.y);
+    this.setState({ drag: null });
+    if (!hit) { if (d.x > -100) this.setState({ hint: 'Nothing there to drop it on' }); return; }
+    if (hit === 'bin') { this.trash(); return; }
+    if (kind === 'dough') { if (hit === 'board') this.takeDough(); else this.setState({ hint: 'Dough goes on the board' }); return; }
+    if (kind === 'zaatar' || kind === 'cheese') { if (hit === 'board') this.tapTopping(kind); else this.setState({ hint: 'Spread it on the board' }); return; }
+    if (kind === 'veg') { if (hit === 'ready') this.addVeg(); else this.setState({ hint: 'Khodra goes on a baked one' }); return; }
+    if (kind === 'sbanekh') { this.takeFatayer(); if (hit === 'cust0') { const i = this.state.ready.length - 1; if (i >= 0) this.tapReady(i); } return; }
+    if (kind === 'topped') { if (hit === 'peel') this.loadPeel(); else this.setState({ hint: 'Topped ones go on the peel' }); return; }
+    if (kind === 'peel') { if (hit === 'furn') this.tapOven(); else this.setState({ hint: 'The peel goes into the furn' }); return; }
+    if (kind === 'furn') { if (hit === 'ready' || hit === 'board' || hit === 'peel') this.tapOven(); else this.setState({ hint: 'Pull them out onto the counter' }); return; }
+    if (kind.indexOf('ready:') === 0) {
+      const i = Number(kind.split(':')[1]);
+      if (hit === 'paper' || hit === 'ready' || hit === 'cust0') this.tapReady(i);
+      else this.setState({ hint: 'Wrap it, then hand it over' });
+    }
+  }
 
   tapTopping(k) {
     const s = this.state;
@@ -515,7 +601,7 @@ class Component extends DCLogic {
     const s = this.state;
     if (s.oven) {
       let id = s.nextId;
-      const items = s.oven.items.map((it) => { const o = { id: id, topping: it.topping, q: this.quality(it.topping, s.oven.t), wrapped: false }; id += 1; return o; });
+      const items = s.oven.items.map((it) => { const o = { id: id, topping: it.topping, q: this.quality(it.topping, s.oven.t), wrapped: false, veg: false }; id += 1; return o; });
       const ready = s.ready.concat(items).slice(-4);
       const perfect = items.filter((x) => x.q === 'perfect').length;
       const burnt = items.filter((x) => x.q === 'burnt').length;
@@ -527,11 +613,22 @@ class Component extends DCLogic {
     this.setState({ oven: { items: s.peel, t: 0 }, peel: [], hint: 'They share one bake — watch the bands' });
   }
 
+  addVeg() {
+    const s = this.state;
+    let idx = -1;
+    for (let i = s.ready.length - 1; i >= 0; i--) {
+      if (!s.ready[i].wrapped && !s.ready[i].veg) { idx = i; break; }
+    }
+    if (idx < 0) { this.setState({ hint: 'Bake one first — khodra goes on before the paper' }); return; }
+    const ready = s.ready.map((x, j) => (j === idx ? { id: x.id, topping: x.topping, q: x.q, wrapped: x.wrapped, veg: true } : x));
+    this.setState({ ready: ready, hint: 'Tomato, cucumber, mint, olives — now wrap it' });
+  }
+
   takeFatayer() {
     const s = this.state;
     if (s.fatayerStock <= 0) { this.setState({ hint: 'Sbanekh finished for today' }); return; }
     if (s.ready.length >= 4) { this.setState({ hint: 'Counter is full — serve some' }); return; }
-    const ready = s.ready.concat([{ id: s.nextId, topping: 'sbanekh', q: 'perfect', wrapped: true }]);
+    const ready = s.ready.concat([{ id: s.nextId, topping: 'sbanekh', q: 'perfect', wrapped: true, veg: false }]);
     this.setState({ ready: ready, fatayerStock: s.fatayerStock - 1, nextId: s.nextId + 1, hint: 'Straight off the plate — hand it over' });
   }
 
@@ -540,7 +637,7 @@ class Component extends DCLogic {
     const item = s.ready[i];
     if (!item) return;
     if (!item.wrapped) {
-      const ready = s.ready.map((x, j) => (j === i ? { id: x.id, topping: x.topping, q: x.q, wrapped: true } : x));
+      const ready = s.ready.map((x, j) => (j === i ? { id: x.id, topping: x.topping, q: x.q, wrapped: true, veg: x.veg } : x));
       this.setState({ ready: ready, hint: 'Wrapped — hand it over' });
       return;
     }
@@ -550,11 +647,13 @@ class Component extends DCLogic {
     let mult = item.q === 'perfect' ? 1.25 : item.q === 'done' ? 1 : item.q === 'raw' ? 0.5 : 0.25;
     const match = item.topping === cust.want;
     if (!match) mult = mult * 0.4;
-    const amt = Math.max(1, Math.round(r.price * mult * (0.8 + cust.pat * 0.4)));
+    if (cust.veg && !item.veg) mult = mult * 0.7;
+    const extra = item.veg ? 4 : 0;
+    const amt = Math.max(1, Math.round((r.price + extra) * mult * (0.8 + cust.pat * 0.4)));
     const ready = s.ready.filter((x, j) => j !== i);
     const queue = s.queue.slice(1).concat([this.newCustomer()]);
     const drops = s.drops.concat([{ id: s.nextId, amt: amt, life: 4, max: 4, slot: 0 }]);
-    this.setState({ ready: ready, queue: queue, drops: drops, nextId: s.nextId + 2, hint: match ? 'Order matched — take the money' : 'Wrong topping, they paid less' });
+    this.setState({ ready: ready, queue: queue, drops: drops, nextId: s.nextId + 2, hint: (cust.veg && !item.veg) ? 'They wanted khodra on it' : match ? 'Order matched — take the money' : 'Wrong topping, they paid less' });
   }
 
   toggleRadio() {
@@ -658,18 +757,31 @@ class Component extends DCLogic {
     return '#6F4B2C';
   }
 
+  dropOk(kind, hit) {
+    if (hit === 'bin') return true;
+    if (kind === 'dough' || kind === 'zaatar' || kind === 'cheese') return hit === 'board';
+    if (kind === 'veg') return hit === 'ready';
+    if (kind === 'sbanekh') return hit === 'ready' || hit === 'cust0';
+    if (kind === 'topped') return hit === 'peel';
+    if (kind === 'peel') return hit === 'furn';
+    if (kind === 'furn') return hit === 'ready' || hit === 'board' || hit === 'peel';
+    if (kind.indexOf('ready:') === 0) return hit === 'paper' || hit === 'ready' || hit === 'cust0';
+    return false;
+  }
+
   trayView(k, label, left) {
     const have = this.state.trays[k] || 0;
     const m = this.trayMax();
     const pct = Math.round((have / m) * 100);
     return {
-      label: label, w: '96px', left: left, opacity: '1',
+      label: label, w: '88px', left: left, opacity: '1',
       fill: this.toppingBg(k, 0.05),
       level: (have ? Math.max(18, pct) : 0) + '%',
       count: have,
       badgeBg: have === 0 ? '#C2593C' : have <= 2 ? '#E0A339' : '#4A7038',
       badgeInk: have <= 2 && have > 0 ? '#5B3B0C' : '#F4F0E2',
-      onTap: () => this.tapTopping(k)
+      onTap: () => this.tapTopping(k),
+      onDown: (e) => this.startDrag(k, e)
     };
   }
 
@@ -760,10 +872,11 @@ class Component extends DCLogic {
         bread: this.breadBg(0.9),
         surface: this.toppingBg(c.want, 0.9),
         clip: this.recipes[c.want].clip,
-        sideColor: this.breadBg(0.92),
+        sideColor: 'linear-gradient(120deg, #C0392B 0 30%, #7FA84C 30% 55%, #2C3A18 55% 78%, #C9B84E 78% 100%)',
+        sideOpacity: c.veg ? '1' : '0.18',
         heart: c.pat > 0.55 ? '#D4643F' : c.pat > 0.28 ? '#E0A339' : '#8F8C88',
         check1: wrapped ? '1' : '0.12',
-        check2: '0.12'
+        check2: c.veg ? '0.12' : '0'
       };
     });
 
@@ -775,19 +888,24 @@ class Component extends DCLogic {
         : { size: '62px', fill: this.breadBg(0.05), surface: this.toppingBg(p.topping, 0.05), inner: 'inset 0 2px 5px rgba(0,0,0,.3)', shadow: '0 3px 5px rgba(0,0,0,.28)', border: '3px solid #2A1B12', clip: this.recipes[p.topping].clip };
 
     const trays = [
-      { label: 'Pizza', w: '96px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '448px', opacity: '0.5', level: '0%', count: '—', badgeBg: '#6E747A', badgeInk: '#D9D4C8', onTap: () => this.setState({ hint: 'Mini pizza unlocks on day 6' }) },
-      this.trayView('zaatar', 'Zaatar', '552px'),
-      this.trayView('cheese', 'Cheese', '656px')
+      { label: 'Pizza', w: '88px', fill: 'linear-gradient(180deg, #9DA2A8, #6E747A)', left: '424px', opacity: '0.5', level: '0%', count: '—', badgeBg: '#6E747A', badgeInk: '#D9D4C8', onTap: () => this.setState({ hint: 'Mini pizza unlocks on day 6' }), onDown: () => {} },
+      this.trayView('zaatar', 'Zaatar', '520px'),
+      this.trayView('cheese', 'Cheese', '616px'),
+      { label: 'Khodra', w: '88px', left: '712px', opacity: '1', level: '100%', count: '+4', badgeBg: '#4A7038', badgeInk: '#F4F0E2',
+        fill: 'linear-gradient(90deg, #C0392B 0 19%, #2E4A1C 19% 20%, #7FA84C 20% 39%, #2E4A1C 39% 40%, #2C3A18 40% 59%, #2E4A1C 59% 60%, #C9B84E 60% 79%, #2E4A1C 79% 80%, #4E8C42 80% 100%)',
+        onTap: () => this.addVeg(), onDown: (e) => this.startDrag('veg', e) }
     ];
 
     const ready = s.ready.map((rd, i) => ({
       isWrapped: rd.wrapped,
       isBaked: !rd.wrapped,
+      veg: rd.veg ? 'radial-gradient(circle at 32% 34%, #C0392B 0 12%, rgba(0,0,0,0) 13%), radial-gradient(circle at 62% 28%, #7FA84C 0 11%, rgba(0,0,0,0) 12%), radial-gradient(circle at 70% 62%, #2C3A18 0 10%, rgba(0,0,0,0) 11%), radial-gradient(circle at 38% 68%, #C9B84E 0 10%, rgba(0,0,0,0) 11%), radial-gradient(circle at 52% 50%, #4E8C42 0 8%, rgba(0,0,0,0) 9%)' : 'none',
       clip: this.recipes[rd.topping].clip,
       fill: this.breadBg(rd.q === 'raw' ? 0.45 : rd.q === 'perfect' ? 0.9 : rd.q === 'done' ? 0.98 : 1.05),
       surface: this.toppingBg(rd.topping, rd.q === 'raw' ? 0.45 : rd.q === 'perfect' ? 0.9 : rd.q === 'done' ? 0.98 : 1.05),
       edge: rd.q === 'perfect' ? '#4E7A2E' : rd.q === 'done' ? '#B86A1E' : rd.q === 'raw' ? '#B5A176' : '#2A1B12',
-      onTap: () => this.tapReady(i)
+      onTap: () => this.tapReady(i),
+      onDown: (e) => this.startDrag('ready:' + i, e)
     }));
 
     const drops = s.drops.map((d) => {
@@ -799,6 +917,20 @@ class Component extends DCLogic {
         onTap: () => this.collect(d.id)
       };
     });
+
+    let dropZone = { x: '0px', y: '0px', w: '0px', h: '0px', color: 'transparent', glow: 'transparent' };
+    if (s.drag && s.drag.x > -100) {
+      const hit = this.hitZone(s.drag.x, s.drag.y);
+      if (hit) {
+        const r = this.zones()[hit];
+        const good = this.dropOk(s.drag.kind, hit);
+        dropZone = {
+          x: r[0] + 'px', y: r[1] + 'px', w: (r[2] - r[0]) + 'px', h: (r[3] - r[1]) + 'px',
+          color: good ? '#8AECAE' : '#E8654A',
+          glow: good ? 'rgba(138,236,174,.18)' : 'rgba(232,101,74,.14)'
+        };
+      }
+    }
 
     const secs = Math.floor(s.timeLeft);
     const timeText = Math.floor(secs / 60) + ':' + (secs % 60 < 10 ? '0' : '') + (secs % 60);
@@ -826,6 +958,16 @@ class Component extends DCLogic {
       jeddoAlert: (s.trays.zaatar <= 0 || s.trays.cheese <= 0) ? '1' : '0',
       jeddoGlow: (s.trays.zaatar <= 0 || s.trays.cheese <= 0) ? '0 0 0 3px rgba(235,187,78,.85), 0 0 26px rgba(235,187,78,.6)' : 'none',
       onJeddo: () => this.askJeddo(),
+      dragging: !!s.drag,
+      drag: s.drag ? { hx: (s.drag.x - parseInt(s.drag.w, 10) / 2) + 'px', hy: (s.drag.y - parseInt(s.drag.w, 10) / 2) + 'px', w: s.drag.w, bread: s.drag.bread, surface: s.drag.surface, clip: s.drag.clip } : { hx: '0px', hy: '0px', w: '0px', bread: 'none', surface: 'none', clip: 'none' },
+      drop: dropZone,
+      onMove: (e) => this.moveDrag(e),
+      onUp: () => this.endDrag(),
+      onDoughDown: (e) => this.startDrag('dough', e),
+      onFatayerDown: (e) => this.startDrag('sbanekh', e),
+      onPrepDown: (e) => { if (s.prep && s.prep.stage === 'topped') this.startDrag('topped', e); },
+      onPeelDown: (e) => { if (s.peel.length && !s.oven) this.startDrag('peel', e); },
+      onOvenDown: (e) => { if (s.oven) this.startDrag('furn', e); },
       onDough: () => this.takeDough(),
       onPrep: () => this.tapPrep(),
       onTrash: () => this.trash()

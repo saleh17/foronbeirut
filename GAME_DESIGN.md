@@ -67,6 +67,17 @@ same construction with a pale melted field and golden-brown bubbles. The splash
 and the serve moment use the full drawing: wavy crust, seventeen puffed domes,
 some three hundred sesame seeds.
 
+### Khodra is an add-on, not a step
+
+One tray with five compartments — tomato, cucumber, olives, pickles, mint — and
+it goes **on the baked manousheh, before the paper**, exactly where it goes in
+life. It is never required: it adds **+4 coins** to anything it touches, and
+roughly a third of customers ask for it. Serve one of those without khodra and
+they pay 30% less; put it on someone who did not ask and nobody minds.
+
+The tray does not run out. Zaatar and cheese already carry the scarcity, and a
+second thing to run to jeddo for would turn a bonus into a chore.
+
 ### Sbanekh comes off a plate, not out of the furn
 
 **Drinks are cut.** Ayran, tea and juice each needed their own cooler, their own
@@ -151,8 +162,8 @@ setting than a menu toggle ever would.
 
 ## 1. The station
 
-    dough bowl -> topping trays -> PEEL -> furn -> paper -> serve
-    sbanekh plate ------------------------------> serve
+    dough bowl -> topping trays -> PEEL -> furn -> khodra -> paper -> serve
+    sbanekh plate ---------------------------------------------------> serve
     (laid out RIGHT to LEFT on screen — see "Layout")
 
 Manakish suits this better than shawarma: the prep is a clean ordered pipeline
@@ -165,7 +176,7 @@ Keep it small — this is the data model.
     base:     dough
     topping:  zaatar | cheese (akkawi) | half-and-half | kishk | lahm bi ajin
     pastry:   fatayer sbanekh | mini pizza (safiha)
-    extras:   tomato, cucumber, mint, olives, labneh   (0..n)
+    khodra:   tomato, cucumber, olives, pickles, mint  (one add-on, +4)
     fold:     rolled | flat | triangle (fatayer)
 
 ### Interaction map
@@ -177,9 +188,22 @@ Keep it small — this is the data model.
 | Load the peel | tap the peel — holds 3              | peel full, or left half empty |
 | Refill        | tap jeddo when a tray runs dry      | caught empty mid-rush         |
 | Bake          | slide the peel in, timing rings     | raw / perfect / burnt         |
-| Extras        | drag onto the baked piece           | wrong or missing item         |
+| Khodra        | drag the veg tray onto a baked one  | order asked for it and got none |
 | Wrap          | tap to roll it in a sheet of paper  | served bare, no tip           |
 | Serve+collect | hand it over, tap the coins         | uncollected coins expire      |
+
+### Everything drags
+
+Every action is a drag as well as a tap: dough to the board, a topping across
+it, the topped disc onto the peel, the peel into the furn, the baked ones back
+out, khodra over them, then paper, then into a customer's hands — and anything
+into the bin. A ghost of what you are carrying follows your finger and the
+target you are over lights up **green when the drop is legal and red when it is
+not**, so the rules are learned by moving rather than by being told.
+
+Tapping still works for everything, and should keep working: it is the
+accessible path, and the faster one once you know the layout. Drag is what makes
+it feel like cooking; tap is what makes it playable one-handed on a bus.
 
 **Nothing goes into the furn by hand.** Manakish are loaded onto the **peel** —
 the long-handled paddle — up to three at a time, and the whole peel slides in
