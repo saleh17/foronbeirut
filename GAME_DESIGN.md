@@ -1,4 +1,4 @@
-# Forn Beirut — design spec
+# Manakich Beirut — design spec
 
 A single-station cooking game: one saj, a queue of customers, a
 90-second day, and an upgrade tree that keeps you coming back.
@@ -36,6 +36,13 @@ The shop *is* the UI —
 
 Anything drawn as a rounded card on a flat background is wrong for this game.
 
+**The oven is a furn, not a saj** — the arched brick mouth a real manakish shop
+bakes in, with embers at the back and a metal deck the pieces sit on. It stands
+on the **right**, with the topping trays under it and the dough bowl under those.
+
+**Jeddo leans in from the archway on the right**, behind the counter. He is
+decor and personality, not a control.
+
 ### Two more mechanics worth taking
 
 - **The order card is a live checklist.** Each item on it gets a green check the
@@ -46,7 +53,8 @@ Anything drawn as a rounded card on a flat background is wrong for this game.
 
 ## 1. The station
 
-    dough tray -> rolling surface -> topping bar -> saj -> wrap & serve
+    dough bowl -> topping trays -> furn -> paper -> serve
+    (laid out RIGHT to LEFT on screen — see "Layout")
 
 Manakish suits this better than shawarma: the prep is a clean ordered pipeline
 with a natural failure mode (the oven).
@@ -65,13 +73,17 @@ Keep it small — this is the data model.
 
 | Step          | Gesture                             | Fail state                    |
 |---------------|-------------------------------------|-------------------------------|
-| Take dough    | tap / drag from tray                | wrong count                   |
-| Flatten       | press-and-hold, or short circular drag | too thin tears, too thick doughy |
+| Take dough    | tap the bowl — comes out flat       | wrong count                   |
 | Spread        | drag the ladle across the disc      | patchy coverage, lower rating |
-| Bake          | drop on the saj, timing ring        | raw / perfect / burnt         |
+| Bake          | into the furn, timing ring          | raw / perfect / burnt         |
 | Extras        | drag onto the baked piece           | wrong or missing item         |
-| Fold + wrap   | swipe to roll, tap paper            | —                             |
-| Serve+collect | drag to customer, tap the coins     | uncollected coins expire      |
+| Wrap          | tap to roll it in a sheet of paper  | served bare, no tip           |
+| Serve+collect | hand it over, tap the coins         | uncollected coins expire      |
+
+**Dough comes out of the bowl already flattened.** Pressing it out was a tap
+that taught nothing and got boring by day two. **Wrapping replaced it**: after
+the furn, the manousheh is rolled and wrapped in a sheet of paper the way a real
+one is handed over, and only then is it servable. Same tap count, a better tap.
 
 **Scoring:** accuracy (order match) x doneness (bake window) x speed
 -> coins + tip, three stars per customer. That is the whole economy.
@@ -89,7 +101,7 @@ correct bake times, pick a compromise.
 
 Count the taps in one manousheh on day 1:
 
-    take dough -> flatten -> spread -> place on saj -> pull off -> serve -> collect  = 7
+    dough -> spread -> into furn -> pull out -> wrap in paper -> serve -> collect  = 7
 
 That number is the progression curve. By late game it should be ~3 while
 throughput triples. Every equipment upgrade should be expressible as "this
@@ -114,8 +126,8 @@ goes **up**, always. Split into two visible upgrades so the trade reads:
 
 | Oven level        | Cost  | Bake | Perfect window | Burn grace |
 |-------------------|------:|-----:|---------------:|-----------:|
-| Clay saj (start)  |     — | 6.0s |           1.4s |       0.8s |
-| Seasoned saj      |   350 | 5.2s |           1.4s |       0.9s |
+| Wood furn (start) |     — | 6.0s |           1.4s |       0.8s |
+| Lined furn        |   350 | 5.2s |           1.4s |       0.9s |
 | Gas furn          |   900 | 4.4s |           1.5s |       1.1s |
 | Stone furn        | 2,200 | 3.6s |           1.6s |       1.4s |
 | Pro deck oven     | 5,000 | 3.0s |           1.8s |       2.0s |
@@ -126,10 +138,10 @@ Bake time -50%, forgiveness +29%. The upgrade always feels like a gift.
 
 | Upgrade        | What it removes                      | Levels        | Cost            |
 |----------------|--------------------------------------|---------------|-----------------|
-| Saj slots      | serialization — bake in parallel     | 2>3>4>6       | 500/1,400/4,000 |
+| Furn slots     | serialization — bake in parallel     | 2>3>4>6       | 500/1,400/4,000 |
 | Oven           | waiting (table above)                | 5             | 350 -> 5,000    |
 | Burn guard     | panic — holds at perfect longer      | 3             | 600/1,800/4,500 |
-| Dough press    | flatten becomes one tap              | 1             | 800             |
+| Paper feeder   | wrapping happens on pull-out         | 1             | 800             |
 | Wide ladle     | spread in one stroke, not three      | 3             | 400/1,100/2,800 |
 | Prep buffer    | pre-flattened discs in a rack        | 3             | 900/2,400/6,000 |
 | Serving tray   | batch-serve three customers          | 2             | 1,600/4,200     |
@@ -178,7 +190,7 @@ keeps someone playing in week two, and the natural end of the tree.
 ### Retention around the tree
 
 1. A persistent **next-unlock progress bar** on the HUD and the end-of-day
-   screen ("240 coins to Saj slot 3"). Highest-impact element in the genre and
+   screen ("240 coins to furn slot 3"). Highest-impact element in the genre and
    it is a progress indicator.
 2. **Daily goal** ("serve 20 cheese today") for a bonus — a reason to play a day
    you would otherwise skip.
@@ -212,7 +224,7 @@ engine reads:
 
 ```kotlin
 data class GameParams(
-    val sajSlots: Int,
+    val furnSlots: Int,
     val bakeMs: Long,
     val perfectWindowMs: Long,
     val burnGraceMs: Long,
@@ -278,21 +290,22 @@ satisfying.
 
 ## 5. Layout
 
-Landscape gives two thumbs, which settles the layout: the pipeline runs **left
-to right** across the counter — dough, topping, saj, serve — the same direction
-a baker actually works.
+Landscape gives two thumbs, and the pipeline runs **right to left** across the
+counter — dough bowl, topping trays, furn, then paper and serve — the direction
+an Arabic reader's eye already moves.
 
 - Everything you only **read** sits above the counter line: day, timer, coins,
-  the queue and its order cards.
-- Everything you **touch** sits below it, inside one thumb arc or the other:
-  saj on the left, trays and work board in the middle, ready/serve and the bin
-  on the right.
+  the queue and its order cards, and jeddo in his archway.
+- Everything you **touch** sits below or beside it. **The right thumb cooks**
+  (dough, toppings, furn); **the left thumb wraps and serves** (paper, ready
+  board, bin). The two busiest actions never fight for one hand.
 - Coins land on the counter where the customer stood — reachable by either
   hand, never free.
 
-The zone map on the prototype canvas's second page draws this out. Watch the
-left thumb at three saj slots: that is the point where the prep buffer upgrade
-starts to earn its cost.
+The zone map on the prototype canvas's second page draws this out, numbered 1-5
+along the path. One thing to watch in testing: the furn sits high on the right,
+which is the longest reach on the screen and the only tap with a deadline. If
+that tests badly, drop it lower behind the counter.
 
 ## 6. Open decisions
 
