@@ -18,31 +18,27 @@ that makes the same seven taps steadily easier.
 
 ## Where it is
 
-**Phases 1 to 3 are in.** A ninety-second day, a queue of three with a heart
-each, coins that land on the counter and are gone in six seconds, and now the
-depth: **jibneh alongside zaatar**, the **peel carrying three under one shared
-clock**, and **khodra as add-ons**.
+**Phases 1 to 4 are in.** The loop runs inside a ninety-second day with a queue,
+patience, expiring coins and a shop between days. Jibneh alongside zaatar, a peel
+carrying a shared-clock load, khodra as add-ons, six upgrades, and a save.
 
-Four rules in there are the game, rather than features on it:
+Rules that are the game rather than features on it:
 
 - **One clock, two windows.** Zaatar wants 6.0s, jibneh 7.5s, and their perfect
-  windows never overlap — there is a test that asserts exactly that. A whole peel
-  bakes on a single timer, so a mixed load has no right moment: pull for the
-  zaatar and the jibneh is raw, wait for the jibneh and the zaatar has gone dark.
-  Loading the peel is the decision; the furn just charges you for it.
-- **Difficulty is a longer order, not a faster clock.** Khodra pays +2 a piece
-  and each one you were asked for and missed takes 22% off the lot. Khodra
-  nobody asked for is free and harmless.
-- **Collecting is a move you spend.** Serving drops coins on the counter; picking
-  them up is a separate action. Earned and collected are reported apart.
-- **Speed is a tip, not the wage.** And the bake puts a ceiling on it — nobody
-  can be served faster than their manousheh bakes, so the top coin is unreachable
-  by construction.
+  windows never overlap — there is a test asserting exactly that. A whole peel
+  bakes on one timer, so a mixed load has no right moment.
+- **A better furn is always a gift.** Bake time goes down and the window goes up
+  at every level, tested at every level. A faster oven that narrowed the window
+  would be a stealth difficulty rise the player pays for and cannot articulate.
+- **Difficulty is a longer order, not a faster clock.** Khodra pays +2 each and
+  each one missed takes 22% off; how often tickets carry khodra grows with the
+  day. The bake and the day length never shorten.
+- **Collecting is a move you spend.** Serving drops coins on the counter. Earned
+  and collected are reported apart, and the tip jar that removes the chore is the
+  most expensive thing in the shop for that reason.
 
-The tap grammar on the counter: **pick one up** (tap it on the bench), **dress
-it** (tap khodra), **hand it over** (tap the customer).
-
-Still no upgrades, no fatayer, no mini pizza. That is phase 4.
+Priced by simulation, not arithmetic: a headless bot plays whole days at three
+skill levels, and the tree is set against what it actually earns.
 
 ### On the art
 

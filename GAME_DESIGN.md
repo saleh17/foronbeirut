@@ -647,7 +647,15 @@ budget real time for it.
    the peel carries three under one shared clock, so a mixed load is a real
    choice; khodra pays +2 each and every requested one missed takes 22% off.
    Half-and-half and the saj-slot upgrades wait for the economy in phase 4.
-4. **Economy.** Upgrade tree, save/load, day progression.
+4. **Economy.** ~~Upgrade tree, save/load, day progression.~~ **Built** — six
+   upgrades compiling into `GameParams`; days roll over carrying coins and
+   equipment; the profile saves as one string. Priced against a headless bot
+   rather than arithmetic: a steady player takes ~125 coins on day 1 and the
+   350-coin furn lands at the end of day 3, which is exactly what the pacing
+   note below predicted. Cheese unlocks on day 2 and order length grows with
+   the day, so difficulty comes from longer tickets rather than a faster clock.
+   Patience is the one number the bot could not price, and it is still a guess:
+   see `WhatTheBotCannotSee` in the engine tests.
 5. **Polish + iOS.** Move the UI into `composeApp`, and the iOS target pays off.
 
 Two tuning notes from the start: keep the perfect window generous (~1.2s on a 4s

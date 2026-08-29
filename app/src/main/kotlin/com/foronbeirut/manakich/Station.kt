@@ -56,6 +56,7 @@ import com.foronbeirut.manakich.engine.GameParams
 import com.foronbeirut.manakich.engine.GameState
 import com.foronbeirut.manakich.engine.Khodra
 import com.foronbeirut.manakich.engine.Topping
+import com.foronbeirut.manakich.engine.Upgrade
 import kotlin.math.sin
 
 /**
@@ -136,7 +137,7 @@ fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Un
 
                 Hud(state)
                 Hint(state)
-                Curtain(state) { onAction(Action.OpenShop) }
+                Curtain(state, onAction)
             }
         }
     }
@@ -494,7 +495,7 @@ private fun heartPath(w: Float, h: Float): Path = Path().apply {
 private fun Hud(state: GameState) {
     Box(Modifier.at(CALENDAR).offset(0.dp, 22.dp), contentAlignment = Alignment.Center) {
         BasicText(
-            "1",
+            "${state.day}",
             style = TextStyle(color = Palette.Ink, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold),
         )
     }
@@ -574,46 +575,119 @@ private fun Hint(state: GameState) {
 }
 
 @Composable
-private fun Curtain(state: GameState, onOpen: () -> Unit) {
+private fun Curtain(state: GameState, onAction: (Action) -> Unit) {
     if (state.phase == DayPhase.RUNNING) return
+    val report = state.report
     Box(
-        Modifier.requiredSize(STAGE_W.dp, STAGE_H.dp).background(Color(0xE61C120A)).noRippleClickable(onOpen),
+        Modifier
+            .requiredSize(STAGE_W.dp, STAGE_H.dp)
+            .background(Color(0xE61C120A))
+            // Before the first day, anywhere opens up. After one, the shop is on
+            // screen and a stray tap must not skip it.
+            .then(if (report == null) Modifier.noRippleClickable { onAction(Action.OpenShop) } else Modifier),
         contentAlignment = Alignment.Center,
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            val report = state.report
-            if (report == null) {
+        if (report == null) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 BasicText(
                     "Sabah el kheir",
                     style = TextStyle(color = Palette.Paper, fontSize = 34.sp, fontWeight = FontWeight.ExtraBold),
                 )
                 BasicText(
-                    "Ninety seconds. Tap to open the shop.",
+                    if (state.day > 1) "Day ${state.day}. Tap to open the shop." else "Ninety seconds. Tap to open the shop.",
                     style = TextStyle(color = Color(0xFFF4EDDD), fontSize = 15.sp),
                 )
-            } else {
+            }
+            return@Box
+        }
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            BasicText(
+                "Day ${state.day} — that is the morning gone",
+                style = TextStyle(color = Palette.Paper, fontSize = 22.sp, fontWeight = FontWeight.ExtraBold),
+            )
+            Box(Modifier.requiredSize(1.dp, 8.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(22.dp)) {
+                Tally("SERVED", "${report.served}")
+                Tally("WALKED OUT", "${report.walkedOut}", warn = report.walkedOut > 0)
+                Tally("BINNED", "${report.binned}", warn = report.binned > 0)
+                Tally("BEST RUN", "${report.bestStreak}")
+                Tally("LEFT BEHIND", "${report.dropped}", warn = report.dropped > 0)
+                Tally("IN THE PURSE", "${state.purse}", big = true)
+            }
+            Box(Modifier.requiredSize(1.dp, 12.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Upgrade.entries.forEach { u -> ShopCard(u, state) { onAction(Action.Buy(u)) } }
+            }
+            Box(Modifier.requiredSize(1.dp, 10.dp))
+            Box(
+                Modifier
+                    .background(Palette.Good, RoundedCornerShape(16.dp))
+                    .border(2.dp, Palette.Ink, RoundedCornerShape(16.dp))
+                    .noRippleClickable { onAction(Action.OpenShop) }
+                    .padding(22.dp, 7.dp),
+            ) {
                 BasicText(
-                    "That is the morning gone",
-                    style = TextStyle(color = Palette.Paper, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold),
-                )
-                Box(Modifier.requiredSize(1.dp, 14.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(26.dp)) {
-                    Tally("SERVED", "${report.served}")
-                    Tally("WALKED OUT", "${report.walkedOut}", warn = report.walkedOut > 0)
-                    Tally("BINNED", "${report.binned}", warn = report.binned > 0)
-                    Tally("BEST RUN", "${report.bestStreak}")
-                }
-                Box(Modifier.requiredSize(1.dp, 16.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(26.dp)) {
-                    Tally("IN THE PURSE", "${report.collected}", big = true)
-                    Tally("LEFT ON THE COUNTER", "${report.dropped}", warn = report.dropped > 0)
-                }
-                Box(Modifier.requiredSize(1.dp, 18.dp))
-                BasicText(
-                    "Tap for another day",
-                    style = TextStyle(color = Color(0xFFF4EDDD), fontSize = 15.sp, fontWeight = FontWeight.Bold),
+                    "Open day ${state.day + 1}",
+                    style = TextStyle(color = Palette.Paper, fontSize = 15.sp, fontWeight = FontWeight.ExtraBold),
                 )
             }
+            BasicText(
+                state.note,
+                style = TextStyle(color = Color(0xFF9A8A72), fontSize = 10.sp),
+            )
+        }
+    }
+}
+
+/** One thing on the board: what it does, what it costs, how far you have taken it. */
+@Composable
+private fun ShopCard(upgrade: Upgrade, state: GameState, onBuy: () -> Unit) {
+    val level = state.upgrades.level(upgrade)
+    val price = state.upgrades.priceOf(upgrade)
+    val affordable = price != null && state.purse >= price
+    Box(
+        Modifier
+            .requiredSize(128.dp, 104.dp)
+            .background(if (affordable) Color(0xFF2E2418) else Color(0xFF241C13), RoundedCornerShape(8.dp))
+            .border(
+                2.dp,
+                if (affordable) Palette.Coin else Color(0xFF463829),
+                RoundedCornerShape(8.dp),
+            )
+            .then(if (affordable) Modifier.noRippleClickable(onBuy) else Modifier)
+            .padding(8.dp),
+    ) {
+        Column {
+            BasicText(
+                upgrade.label,
+                style = TextStyle(
+                    color = if (affordable) Palette.Paper else Color(0xFF8A7A62),
+                    fontSize = 12.sp, fontWeight = FontWeight.ExtraBold,
+                ),
+            )
+            BasicText(
+                upgrade.blurb,
+                style = TextStyle(color = Color(0xFF9A8A72), fontSize = 8.sp, lineHeight = 10.sp),
+            )
+            Box(Modifier.requiredSize(1.dp, 4.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                repeat(upgrade.maxLevel) { i ->
+                    Box(
+                        Modifier.size(7.dp).clip(CircleShape)
+                            .background(if (i < level) Palette.Good else Color(0xFF463829))
+                    )
+                }
+            }
+        }
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomStart) {
+            BasicText(
+                price?.let { "$it coins" } ?: "owned",
+                style = TextStyle(
+                    color = if (price == null) Palette.Good else if (affordable) Palette.Coin else Color(0xFF7A6A52),
+                    fontSize = 11.sp, fontWeight = FontWeight.ExtraBold,
+                ),
+            )
         }
     }
 }

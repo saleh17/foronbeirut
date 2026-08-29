@@ -29,7 +29,7 @@ private fun tick(state: GameState, params: GameParams, dt: Double): GameState {
     next.furn?.let { next = next.copy(furn = it.copy(elapsed = it.elapsed + dt)) }
 
     next = drainPatience(next, dt)
-    next = expireDrops(next, dt)
+    next = expireDrops(next, params, dt)
     next = spawn(next, params, dt)
 
     val timeLeft = next.timeLeft - dt
@@ -51,10 +51,16 @@ private fun drainPatience(state: GameState, dt: Double): GameState {
     )
 }
 
-private fun expireDrops(state: GameState, dt: Double): GameState {
+private fun expireDrops(state: GameState, params: GameParams, dt: Double): GameState {
     if (state.drops.isEmpty()) return state
     val aged = state.drops.map { it.copy(left = it.left - dt) }
-    return state.copy(drops = aged.filter { it.left > 0.0 })
+    val after = params.autoCollectAfter
+    if (after == null) return state.copy(drops = aged.filter { it.left > 0.0 })
+    val (taken, waiting) = aged.partition { params.coinLife - it.left >= after }
+    return state.copy(
+        drops = waiting.filter { it.left > 0.0 },
+        purse = state.purse + taken.sumOf { it.amount },
+    )
 }
 
 private fun spawn(state: GameState, params: GameParams, dt: Double): GameState {
@@ -70,10 +76,10 @@ private fun spawn(state: GameState, params: GameParams, dt: Double): GameState {
         return ((seed ushr 11).toDouble() / (1L shl 53).toDouble()).let { if (it < 0) it + 1.0 else it }
     }
 
-    val wants = if (roll() < params.jibnehShare) Topping.JIBNEH else Topping.ZAATAR
-    // Difficulty comes from a longer order, not a faster clock: about a third ask
-    // for one vegetable and a few ask for two.
-    val extras = roll().let { if (it < 0.30) 1 else if (it < 0.42) 2 else 0 }
+    val menu = params.menu.ifEmpty { listOf(Topping.ZAATAR) }
+    val wants = if (menu.size > 1 && roll() < params.jibnehShare) Topping.JIBNEH else menu.first()
+    // Difficulty comes from a longer order, not a faster clock.
+    val extras = roll().let { if (it < params.khodraOne) 1 else if (it < params.khodraOne + params.khodraTwo) 2 else 0 }
     val khodra = if (extras == 0) emptySet() else {
         val all = Khodra.entries
         buildSet { while (size < extras) add(all[(roll() * all.size).toInt().coerceIn(0, all.size - 1)]) }
@@ -112,19 +118,39 @@ private fun close(state: GameState): GameState = state.copy(
 
 private fun apply(state: GameState, params: GameParams, action: Action): GameState {
     if (action is Action.OpenShop) {
-        return if (state.phase == DayPhase.RUNNING) state else GameState(
+        if (state.phase == DayPhase.RUNNING) return state
+        // A finished day rolls over; a fresh one opens where it is. Coins, upgrades
+        // and the day count are the only things that survive the night.
+        val nextDay = if (state.phase == DayPhase.OVER) state.day + 1 else state.day
+        return GameState(
             phase = DayPhase.RUNNING,
-            timeLeft = params.dayLength,
+            day = nextDay,
+            upgrades = state.upgrades,
+            purse = state.purse,
+            timeLeft = nextDay.let { state.upgrades.compile(it).dayLength },
             spawnIn = params.firstCustomerAfter,
             seed = state.seed + 1,
-            note = "Doors open",
+            note = if (nextDay > 1) "Day $nextDay — doors open" else "Doors open",
         )
     }
+
+    // The shop is open between days, not during them.
+    if (action is Action.Buy) {
+        if (state.phase == DayPhase.RUNNING) return state.nag("Not while the queue is waiting")
+        val price = state.upgrades.priceOf(action.upgrade) ?: return state.nag("Nothing left to buy there")
+        if (state.purse < price) return state.nag("That is ${price - state.purse} short")
+        return state.copy(
+            upgrades = state.upgrades.bought(action.upgrade),
+            purse = state.purse - price,
+            note = "${action.upgrade.label} — bought",
+        )
+    }
+
     if (state.phase != DayPhase.RUNNING) return state
 
     return when (action) {
 
-        Action.OpenShop -> state // handled above
+        Action.OpenShop, is Action.Buy -> state // handled above
 
         Action.TakeDough -> when (state.board) {
             Board.Empty -> state.copy(board = Board.Ball, note = "Press it flat")

@@ -94,6 +94,8 @@ public data class DayReport(
  */
 public data class GameState(
     val phase: DayPhase = DayPhase.READY,
+    val day: Int = 1,
+    val upgrades: Upgrades = Upgrades(),
     val timeLeft: Double = 0.0,
     val board: Board = Board.Empty,
     val peel: List<Topping> = emptyList(),
@@ -117,7 +119,17 @@ public data class GameState(
     val seed: Long = 20260829L,
 ) {
     public val front: Customer? get() = queue.firstOrNull()
+
+    /** The tuning this day is played under. Recompiled whenever the shop changes. */
+    public fun params(): GameParams = upgrades.compile(day)
+
+    public fun toProfile(bestDay: Int = 0): Profile =
+        Profile(day = day, purse = purse, upgrades = upgrades, bestDay = bestDay)
 }
+
+/** Where a saved game picks up: the morning of the day they had reached. */
+public fun Profile.toState(): GameState =
+    GameState(day = day, purse = purse, upgrades = upgrades, note = "Tap to open the shop")
 
 /**
  * The tuning, pulled out of the engine so upgrades can compile into a snapshot of
@@ -141,6 +153,16 @@ public data class GameParams(
     val khodraBonus: Int = 2,
     val khodraMissPenalty: Double = 0.22,
     val jibnehShare: Double = 0.4,
+    /** What the shop is selling today. Orders can only ask for what is on it. */
+    val menu: List<Topping> = listOf(Topping.ZAATAR, Topping.JIBNEH),
+    /** Seconds before a coin walks itself to the till; null means pick it up yourself. */
+    val autoCollectAfter: Double? = null,
+    /**
+     * How often an order carries khodra. The difficulty curve lives here rather
+     * than in the clock: as the days go on the orders get longer, not faster.
+     */
+    val khodraOne: Double = 0.30,
+    val khodraTwo: Double = 0.12,
 ) {
     public fun recipe(topping: Topping): Recipe = recipes.getValue(topping)
 
@@ -202,4 +224,5 @@ public sealed interface Action {
     public data class BinBaked(val benchIndex: Int) : Action
     public data object BinBoard : Action
     public data class Collect(val dropId: Int) : Action
+    public data class Buy(val upgrade: Upgrade) : Action
 }
