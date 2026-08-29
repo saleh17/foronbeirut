@@ -26,7 +26,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,8 +36,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.sin
 import com.foronbeirut.manakich.engine.Action
 import com.foronbeirut.manakich.engine.Board
+import com.foronbeirut.manakich.engine.Customer
+import com.foronbeirut.manakich.engine.DayPhase
 import com.foronbeirut.manakich.engine.Doneness
 import com.foronbeirut.manakich.engine.GameParams
 import com.foronbeirut.manakich.engine.GameState
@@ -58,7 +63,8 @@ fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Un
                 Wall()
                 Furn(state, params) { onAction(Action.IntoFurn) }
                 FurnOut(state) { onAction(Action.OutOfFurn) }
-                CustomerBox { onAction(Action.Serve) }
+                Queue(state) { onAction(Action.Serve) }
+                DayClock(state, params)
                 Coins(state)
                 Counter()
                 Bin { onAction(Action.Bin) }
@@ -72,7 +78,9 @@ fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Un
                 }
                 ZaatarTray { onAction(Action.Spread(Topping.ZAATAR)) }
                 DoughBowl { onAction(Action.TakeDough) }
+                Drops(state) { onAction(Action.Collect(it)) }
                 Hint(state)
+                Curtain(state) { onAction(Action.OpenShop) }
             }
         }
     }
@@ -197,38 +205,208 @@ private fun BakeRing(elapsed: Double, params: GameParams) {
     }
 }
 
+/**
+ * Up to three of them, in the order they arrived. Only the one at the counter can
+ * be served, so the others are drawn a step back and dimmer.
+ */
 @Composable
-private fun CustomerBox(onTap: () -> Unit) {
-    Prop(x = 300, y = 54, w = 130, h = 196, label = "WAITING", onTap = onTap) {
-        Column(
-            Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom,
+private fun Queue(state: GameState, onServe: () -> Unit) {
+    state.queue.take(3).forEachIndexed { index, customer ->
+        val front = index == 0
+        Box(
+            Modifier
+                .offset((300 + index * 132).dp, (54 + index * 8).dp)
+                .requiredSize(124.dp, 196.dp)
+                .then(if (front) Modifier.noRippleClickable(onServe) else Modifier)
+                .graphicsLayer(alpha = if (front) 1f else 0.72f),
+        ) {
+            CustomerFigure(customer, front)
+        }
+    }
+}
+
+@Composable
+private fun CustomerFigure(customer: Customer, front: Boolean) {
+    Column(
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom,
+    ) {
+        Heart(customer.patience)
+        Box(
+            Modifier
+                .size(if (front) 58.dp else 50.dp)
+                .clip(CircleShape)
+                .background(Color(0xFFC89A6E))
+                .border(3.dp, Palette.Ink, CircleShape)
+        )
+        Box(
+            Modifier
+                .requiredSize(if (front) 96.dp else 84.dp, if (front) 92.dp else 82.dp)
+                .background(Color(0xFF6FA3C4), RoundedCornerShape(topStart = 44.dp, topEnd = 44.dp))
+                .border(3.dp, Palette.Ink, RoundedCornerShape(topStart = 44.dp, topEnd = 44.dp)),
+            contentAlignment = Alignment.Center,
+        ) {
+            Manousheh(size = if (front) 40.dp else 34.dp, doneness = Doneness.PERFECT)
+        }
+    }
+}
+
+/**
+ * Patience is a heart, not a bar — the fill drops and the colour goes with it, so
+ * it is readable in the corner of the eye mid-rush.
+ */
+@Composable
+private fun Heart(patience: Float) {
+    val colour = when {
+        patience > 0.55f -> Palette.Good
+        patience > 0.25f -> Palette.Coin
+        else -> Color(0xFFC4432B)
+    }
+    Canvas(Modifier.requiredSize(26.dp, 24.dp).padding(bottom = 4.dp)) {
+        val path = heartPath(size.width, size.height)
+        drawPath(path, Color(0x33000000))
+        clipRect(top = size.height * (1f - patience)) {
+            drawPath(path, colour)
+        }
+        drawPath(path, Palette.Ink, style = Stroke(width = 2.5.dp.toPx()))
+    }
+}
+
+private fun heartPath(w: Float, h: Float): Path = Path().apply {
+    moveTo(w * 0.5f, h * 0.96f)
+    cubicTo(w * -0.10f, h * 0.62f, w * 0.06f, h * 0.02f, w * 0.5f, h * 0.30f)
+    cubicTo(w * 0.94f, h * 0.02f, w * 1.10f, h * 0.62f, w * 0.5f, h * 0.96f)
+    close()
+}
+
+/** The day, as a bar that empties. It turns red for the last ten seconds. */
+@Composable
+private fun DayClock(state: GameState, params: GameParams) {
+    val fraction = (state.timeLeft / params.dayLength).coerceIn(0.0, 1.0).toFloat()
+    val urgent = state.timeLeft <= 10.0 && state.phase == DayPhase.RUNNING
+    Box(
+        Modifier
+            .offset(18.dp, 16.dp)
+            .requiredSize(240.dp, 26.dp)
+            .background(Palette.HintBg, RoundedCornerShape(13.dp))
+            .padding(4.dp),
+    ) {
+        Box(
+            Modifier
+                .requiredSize((232 * fraction).dp.coerceAtLeast(0.dp), 18.dp)
+                .background(
+                    if (urgent) Color(0xFFC4432B) else Palette.Good,
+                    RoundedCornerShape(9.dp),
+                )
+        )
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            BasicText(
+                "${state.timeLeft.toInt()}s",
+                style = TextStyle(color = Palette.HintInk, fontSize = 12.sp, fontWeight = FontWeight.Bold),
+            )
+        }
+    }
+}
+
+/**
+ * Coins land on the counter lip and sit there for six seconds. Collecting is a
+ * move you have to spend, which is exactly what the tip-jar upgrade later sells.
+ */
+@Composable
+private fun Drops(state: GameState, onCollect: (Int) -> Unit) {
+    state.drops.forEach { drop ->
+        val bob = sin(drop.left * 7.0).toFloat() * 3f
+        val fading = drop.left < 2.0
+        Box(
+            Modifier
+                .offset((296 + (drop.id % 4) * 62).dp, (250 + bob).dp)
+                .requiredSize(46.dp, 46.dp)
+                .graphicsLayer(alpha = if (fading) 0.45f + 0.55f * (drop.left / 2.0).toFloat() else 1f)
+                .noRippleClickable { onCollect(drop.id) },
+            contentAlignment = Alignment.Center,
         ) {
             Box(
                 Modifier
-                    .size(58.dp)
+                    .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFC89A6E))
-                    .border(3.dp, Palette.Ink, CircleShape)
-            )
-            Box(
-                Modifier
-                    .requiredSize(96.dp, 92.dp)
-                    .background(
-                        Color(0xFF6FA3C4),
-                        RoundedCornerShape(topStart = 44.dp, topEnd = 44.dp),
-                    )
-                    .border(
-                        3.dp,
-                        Palette.Ink,
-                        RoundedCornerShape(topStart = 44.dp, topEnd = 44.dp),
-                    ),
+                    .background(Palette.Coin)
+                    .border(3.dp, Palette.Ink, CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
-                Manousheh(size = 40.dp, doneness = Doneness.PERFECT)
+                BasicText(
+                    "${drop.amount}",
+                    style = TextStyle(color = Palette.Ink, fontSize = 15.sp, fontWeight = FontWeight.ExtraBold),
+                )
             }
         }
+    }
+}
+
+/** Before the doors open, and after they shut. */
+@Composable
+private fun Curtain(state: GameState, onOpen: () -> Unit) {
+    if (state.phase == DayPhase.RUNNING) return
+    Box(
+        Modifier
+            .requiredSize(STAGE_W.dp, STAGE_H.dp)
+            .background(Color(0xE61C120A))
+            .noRippleClickable(onOpen),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            val report = state.report
+            if (report == null) {
+                BasicText(
+                    "Sabah el kheir",
+                    style = TextStyle(color = Palette.Paper, fontSize = 34.sp, fontWeight = FontWeight.ExtraBold),
+                )
+                BasicText(
+                    "Ninety seconds. Tap to open the shop.",
+                    style = TextStyle(color = Palette.HintInk, fontSize = 15.sp),
+                )
+            } else {
+                BasicText(
+                    "That is the morning gone",
+                    style = TextStyle(color = Palette.Paper, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold),
+                )
+                Box(Modifier.requiredSize(1.dp, 14.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(28.dp)) {
+                    Tally("SERVED", "${report.served}")
+                    Tally("WALKED OUT", "${report.walkedOut}", warn = report.walkedOut > 0)
+                    Tally("BINNED", "${report.binned}", warn = report.binned > 0)
+                    Tally("BEST RUN", "${report.bestStreak}")
+                }
+                Box(Modifier.requiredSize(1.dp, 16.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(28.dp)) {
+                    Tally("IN THE PURSE", "${report.collected}", big = true)
+                    Tally("LEFT ON THE COUNTER", "${report.dropped}", warn = report.dropped > 0)
+                }
+                Box(Modifier.requiredSize(1.dp, 18.dp))
+                BasicText(
+                    "Tap for another day",
+                    style = TextStyle(color = Palette.HintInk, fontSize = 15.sp, fontWeight = FontWeight.Bold),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun Tally(label: String, value: String, warn: Boolean = false, big: Boolean = false) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        BasicText(
+            value,
+            style = TextStyle(
+                color = if (warn) Color(0xFFE0805E) else if (big) Palette.Coin else Palette.Paper,
+                fontSize = if (big) 32.sp else 26.sp,
+                fontWeight = FontWeight.ExtraBold,
+            ),
+        )
+        BasicText(
+            label,
+            style = TextStyle(color = Color(0xFF9A8A72), fontSize = 9.sp, fontWeight = FontWeight.Bold),
+        )
     }
 }
 
@@ -244,7 +422,7 @@ private fun Coins(state: GameState) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(20.dp).clip(CircleShape).background(Palette.Coin))
             BasicText(
-                "  ${state.coins}   ·   ${state.served} served",
+                "  ${state.purse}   ·   ${state.served} served",
                 style = TextStyle(color = Palette.HintInk, fontSize = 14.sp, fontWeight = FontWeight.Bold),
             )
         }

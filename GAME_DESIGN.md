@@ -636,8 +636,11 @@ budget real time for it.
    test; `app/` is the Compose station over it. Android only for now; the engine
    has no Android in it, so the iOS target is a module move rather than a
    rewrite.
-2. **The shift.** 90-second day, queue with patience meters, expiring coin
-   drops, end-of-day summary.
+2. **The shift.** ~~90-second day, queue with patience meters, expiring coin
+   drops, end-of-day summary.~~ **Built** — patience is a heart per customer that
+   drains and breaks the streak when it empties; coins land on the counter and
+   expire after six seconds, with earned and collected reported separately;
+   speed pays as a tip on top of the doneness wage rather than as the wage.
 3. **Depth.** Cheese and half-and-half with distinct bake windows, extras,
    multi-touch batching, 2 -> 4 saj slots.
 4. **Economy.** Upgrade tree, save/load, day progression.
