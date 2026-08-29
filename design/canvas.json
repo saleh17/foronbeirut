@@ -77,7 +77,7 @@
       "w": 1040,
       "h": 760,
       "page": "page-3",
-      "title": "Ingredients \u2014 asset sheet"
+      "title": "Ingredients — asset sheet"
     },
     {
       "file": "Doneness.dc.html",
@@ -86,16 +86,16 @@
       "w": 1040,
       "h": 620,
       "page": "page-3",
-      "title": "Manousheh \u2014 every state"
+      "title": "Manousheh — every state"
     },
     {
       "file": "Cast.dc.html",
       "x": 0,
       "y": 880,
       "w": 1040,
-      "h": 700,
+      "h": 1020,
       "page": "page-3",
-      "title": "The cast \u2014 eight regulars"
+      "title": "The cast — twelve regulars"
     }
   ],
   "annotations": [
@@ -105,7 +105,7 @@
       "y": -170,
       "w": 844,
       "page": "page-1",
-      "text": "Landscape, and the screen is a scene rather than a UI \u2014 the day is a calendar on the wall, the timer is a sign, the ingredients are trays on a real counter. The station and the shop are live: tap the dough tray, press it flat on the board, spread zaatar or cheese, drop it on the saj, pull it inside the green band, hand it over, then tap the coins."
+      "text": "Landscape, and the screen is a scene rather than a UI — the day is a calendar on the wall, the timer is a sign, the ingredients are trays on a real counter. The station and the shop are live: tap the dough tray, press it flat on the board, spread zaatar or cheese, drop it on the saj, pull it inside the green band, hand it over, then tap the coins."
     },
     {
       "id": "note-zones",
@@ -126,6 +126,6 @@
   ],
   "launch": {
     "view": "canvas",
-    "page": "page-3"
+    "page": "page-1"
   }
 }

@@ -204,7 +204,7 @@ If an ingredient is only legible in one of the three, it fails.
 
 | | |
 |---|---|
-| **In the bowl** | Five rounds in a floured wooden bowl, 124 × 82, sitting at slightly different heights so the pile has depth. Flour dusted on the rim and the counter around it. Warm off-white `#FAEDD0` → `#DCC291`, soft and slack, not shiny |
+| **In the bowl** | Five rounds in a glazed ceramic bowl, 124 × 82 — terracotta clay body, a cream glaze band and a cobalt stripe near the rim, throwing rings down the side, a rolled rim you can see the far edge of. A folded cloth with a red stripe hangs over the left edge. The rounds sit at slightly different heights inside a dark well so the pile has depth. Warm off-white `#FAEDD0` → `#DCC291`, soft and slack, not shiny |
 | **In the hand** | One ball, ~52 units, with the underside shadow that says it has weight |
 | **On the board** | Two states. **Ball**: domed, taut skin, a floured contact patch under it. **Flattened**: a disc 62 wide with a slightly wavy edge, thicker at the rim, floured, a few finger dimples |
 
@@ -294,10 +294,35 @@ manousheh, the drawing has failed no matter how good it looks at full size.
 
 ---
 
+### 6.10 The vessels
+
+The containers are props, not UI chrome, and each is a different material so
+the counter does not read as one grey tray repeated:
+
+| Vessel | What it is |
+|---|---|
+| **Dough bowl** | Glazed ceramic. Terracotta body, cream glaze band, cobalt stripe, visible throwing rings, rolled rim, cloth over the edge |
+| **Zaatar / jibneh trays** | Brushed stainless insert pans. Rolled rim catching a hard highlight, a dark well with a strong inner shadow, the product filling from the bottom, a spoon resting in the corner with the handle out |
+| **Khodra insert** | The same stainless, divided into six wells with visible walls; each well has its own shadow and lip so the six do not read as one flat grid |
+| **Sbanekh plate** | Domestic ceramic. Round, off-white, a cobalt ring on the rim band, the fatayer casting shadows on it |
+| **Ayran dispenser** | Painted steel and plastic — the soft-drink machine language, not kitchenware |
+
+Every vessel needs the same three things: a rim you can see the far edge of,
+a dark interior, and contact shadow on the counter. That is what makes them
+sit in the scene rather than float on it.
+
+---
+
 ## 7. Character sheet
 
-Eight regulars cycle through the queue. **Each must be identifiable by
+Twelve regulars cycle through the queue. **Each must be identifiable by
 silhouette alone at 56 units wide** — that is the test, not the face.
+
+The cast is Beirut, so it is mixed: Muslim and Christian, headscarf and bare
+head, work clothes and office clothes, and nobody is a type. Religion shows up
+the way it does on a real street — a scarf, a taqiyah, a masbaha, a saint's
+medal — never as the point of the character. What they are doing that morning
+is the point.
 
 | # | Who | Reads by | Palette |
 |---|---|---|---|
@@ -309,6 +334,10 @@ silhouette alone at 56 units wide** — that is the test, not the face.
 | 6 | **Nour** — late for the office | Hair in a bun, blazer over a white shirt, hoop earrings, lanyard | navy blazer, deeper skin tone |
 | 7 | **Hanna** — the painter | Cap on backwards, paint-spattered whites, pencil behind the ear, **keffiyeh** at the neck | off-white overalls |
 | 8 | **Rita** — with the little one | The toddler on her shoulder in yellow | terracotta top |
+| 9 | **Fatmeh** — between lectures | Rose scarf pinned at the temple with a gold pin, denim jacket, one backpack strap, notebook under the arm | rose scarf, denim |
+| 10 | **Hajj Abou Ali** — first one in, every day | White crocheted **taqiyah**, silver beard and moustache, striped shirt under a grey-brown vest, green **masbaha** | ivory cap, olive-grey vest |
+| 11 | **Zeinab** — off the night shift | Ochre scarf tucked into navy scrubs, stethoscope round the neck, badge on a red lanyard | ochre and navy |
+| 12 | **Hussein** — the mechanic from the corner | Cropped hair, heavy moustache, olive workshirt, red rag over the shoulder, spanner in hand | olive drab, red rag |
 
 **Per character, deliver:**
 
@@ -325,6 +354,14 @@ shadow down the side away from the furn. Vary ages, skin tones and body shapes.
 **Warm, never caricature.** Draw each one the way you would draw a neighbour.
 No exaggerated ethnic features, no costume-shop "Middle East" — the specifics
 above (a masbaha, a scrunchie, a keffiyeh, a helmet) do all the work.
+
+**On the scarves.** Three women wear one and they must not read as the same
+drawing recoloured. Im Georges's is a teta's cream scarf tied under the chin,
+loose, worn with a cardigan. Fatmeh's is a young woman's wrap — snug over the
+crown, pinned at the temple, the tail over one shoulder, an underscarf band
+visible at the hairline. Zeinab's is tucked flat into her scrub collar so
+nothing hangs where she works. Different fabric weight, different fall,
+different silhouette.
 
 Also needed: **five to eight extra silhouettes** for later days, and the
 **baker's own hands** if hands are ever shown reaching for the dough.
@@ -368,7 +405,7 @@ If the budget only reaches part of it, this is the order that buys the most:
 2. **Zaatar and cheese**, in tray, in hand and on the bread — the two you touch
    every few seconds
 3. **The furn** — hero prop, the light source, the tension
-4. **The eight characters**
+4. **The twelve characters**
 5. **Dough, paper and the six khodra**
 6. **Counter props** — peel, bowl, trays, khodra box, dispenser, bench
 7. **Sbanekh and ayran**

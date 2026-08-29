@@ -208,7 +208,7 @@ on the plate and in a queue of order cards.
 
 ### The cast
 
-The queue is a Beirut morning, not a row of generic customers. Six regulars,
+The queue is a Beirut morning, not a row of generic customers. Twelve regulars,
 cycling — each readable by silhouette alone at phone size, which is the whole
 test:
 
@@ -222,12 +222,19 @@ test:
 | **Nour** | late for the office | hair in a bun, blazer over a white shirt, hoops |
 | **Hanna** | the painter | cap on backwards, paint-spattered whites, pencil behind the ear |
 | **Rita** | with the little one | the toddler on her shoulder, in yellow |
+| **Fatmeh** | between lectures | rose scarf pinned at the temple, denim jacket, one backpack strap |
+| **Hajj Abou Ali** | first one in, every day | white taqiyah, silver beard, green masbaha |
+| **Zeinab** | off the night shift | ochre scarf tucked into navy scrubs, stethoscope |
+| **Hussein** | the mechanic from the corner | heavy moustache, olive workshirt, red rag on the shoulder |
 
-Each carries one small true detail rather than a costume: Abou Elias's blue
-**masbaha** hanging from his hand, the **cedar badge** on Yara's pinafore, Im
-Georges's thin **gold chain**, the **keffiyeh** round Hanna's neck. Warm, not
-caricature: varied ages, skin tones and dress, each drawn with the same
-affection you would draw a neighbour. Later regulars can carry standing
+Half the queue is Muslim and half is Christian, because that is what a Beirut
+morning looks like, and the game never remarks on it — the mix is simply there
+in the line. Each carries one small true detail rather than a costume: Abou
+Elias's blue **masbaha** hanging from his hand, the **cedar badge** on Yara's
+pinafore, Hajj Abou Ali's green one, Fatmeh's gold scarf pin, the **keffiyeh**
+round Hanna's neck, Zeinab's lanyard. Warm, not caricature: varied ages, skin
+tones and dress, each drawn with the same affection you would draw a
+neighbour. Later regulars can carry standing
 orders — Abou Elias always takes zaatar, and the player learns it.
 
 **The queue is a queue, not a rack.** A new customer **walks in from the right**

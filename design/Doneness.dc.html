@@ -99,11 +99,15 @@ class Component extends DCLogic {
       else if (frac < 1) { a = '#EDD693'; b = '#D2B063'; bub = 'rgba(140,80,22,.6)'; }
       else { a = '#8E6B33'; b = '#6A4A1E'; bub = 'rgba(30,16,5,.7)'; }
       return [
+        'radial-gradient(ellipse 16% 9% at 40% 24%, rgba(255,252,236,.5) 0 100%, rgba(0,0,0,0) 100%)',
         'radial-gradient(circle at 32% 30%, ' + bub + ' 0 9%, rgba(0,0,0,0) 11%)',
         'radial-gradient(circle at 66% 26%, ' + bub + ' 0 7%, rgba(0,0,0,0) 9%)',
         'radial-gradient(circle at 74% 62%, ' + bub + ' 0 8%, rgba(0,0,0,0) 10%)',
         'radial-gradient(circle at 38% 70%, ' + bub + ' 0 7.5%, rgba(0,0,0,0) 9.5%)',
+        'radial-gradient(circle at 22% 46%, ' + bub + ' 0 5%, rgba(0,0,0,0) 7%)',
+        'radial-gradient(circle at 56% 86%, ' + bub + ' 0 5.5%, rgba(0,0,0,0) 7.5%)',
         'radial-gradient(circle at 54% 48%, rgba(255,250,228,.4) 0 10%, rgba(0,0,0,0) 13%)',
+        'radial-gradient(ellipse 34% 22% at 46% 40%, rgba(255,255,246,.22) 0 100%, rgba(0,0,0,0) 100%)',
         'radial-gradient(closest-side, ' + a + ' 0 62%, ' + b + ' 100%)'
       ].join(', ');
     }
@@ -124,7 +128,21 @@ class Component extends DCLogic {
     else if (frac < 0.88) { a = '#61592C'; b = '#4E4724'; c = '#3E381B'; }
     else if (frac < 1) { a = '#514A24'; b = '#3E381B'; c = '#312C15'; }
     else { a = '#2E2712'; b = '#221C0D'; c = '#171207'; }
-    return [oil].concat(sumac).concat(sesame).concat([
+    // the signature of a real manousheh: golden puffed domes pushing up through the zaatar
+    const dome = frac < 0.5 ? 'rgba(232,198,128,.5)' : frac < 0.88 ? 'rgba(224,182,106,.55)' : frac < 1 ? 'rgba(204,158,86,.5)' : 'rgba(120,88,44,.4)';
+    const domes = [
+      'radial-gradient(circle at 34% 36%, ' + dome + ' 0 8%, rgba(0,0,0,0) 12%)',
+      'radial-gradient(circle at 66% 30%, ' + dome + ' 0 6.5%, rgba(0,0,0,0) 10%)',
+      'radial-gradient(circle at 58% 70%, ' + dome + ' 0 7%, rgba(0,0,0,0) 11%)',
+      'radial-gradient(circle at 26% 64%, ' + dome + ' 0 5.5%, rgba(0,0,0,0) 9%)'
+    ];
+    const thyme = [
+      'radial-gradient(ellipse 5% 2.6% at 48% 30%, rgba(74,88,38,.75) 0 100%, rgba(0,0,0,0) 100%)',
+      'radial-gradient(ellipse 4.4% 2.4% at 30% 48%, rgba(64,78,32,.7) 0 100%, rgba(0,0,0,0) 100%)',
+      'radial-gradient(ellipse 5% 2.4% at 70% 52%, rgba(74,88,38,.7) 0 100%, rgba(0,0,0,0) 100%)',
+      'radial-gradient(ellipse 4.6% 2.6% at 50% 78%, rgba(64,78,32,.65) 0 100%, rgba(0,0,0,0) 100%)'
+    ];
+    return [oil].concat(sesame).concat(sumac).concat(thyme).concat(domes).concat([
       'radial-gradient(closest-side, ' + a + ' 0 52%, ' + b + ' 80%, ' + c + ' 100%)'
     ]).join(', ');
   }

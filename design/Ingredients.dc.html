@@ -59,12 +59,12 @@
 class Component extends DCLogic {
   get vegKinds() {
     return {
-      tomato: { fill: 'radial-gradient(circle at 26% 22%, #E05B42 0 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 68% 38%, #C0392B 0 24%, rgba(0,0,0,0) 25%), linear-gradient(180deg, #8E2A1E, #6E2016)', dot: '#D14A34' },
-      cucumber: { fill: 'radial-gradient(circle at 30% 26%, #C7E39A 0 12%, #8FBE5A 13% 22%, rgba(0,0,0,0) 23%), radial-gradient(circle at 66% 56%, #C7E39A 0 12%, #8FBE5A 13% 22%, rgba(0,0,0,0) 23%), linear-gradient(180deg, #4E7A2E, #38601F)', dot: '#8FBE5A' },
-      olives: { fill: 'radial-gradient(circle at 28% 24%, #6B7A46 0 20%, rgba(0,0,0,0) 21%), radial-gradient(circle at 66% 42%, #55632F 0 22%, rgba(0,0,0,0) 23%), linear-gradient(180deg, #38431E, #262E14)', dot: '#55632F' },
-      pickles: { fill: 'repeating-linear-gradient(74deg, rgba(0,0,0,.22) 0 2px, rgba(0,0,0,0) 2px 6px), radial-gradient(circle at 34% 30%, #DCCE62 0 26%, rgba(0,0,0,0) 27%), linear-gradient(180deg, #A8A038, #7E7826)', dot: '#DCCE62' },
-      mint: { fill: 'radial-gradient(ellipse 34% 22% at 32% 30%, #7FD066 0 100%, rgba(0,0,0,0) 100%), linear-gradient(180deg, #2F6B2A, #1F4A1C)', dot: '#7FD066' },
-      labneh: { fill: 'radial-gradient(circle at 34% 28%, rgba(255,255,255,.6) 0 26%, rgba(0,0,0,0) 27%), linear-gradient(180deg, #F6F1E2, #DED7C2)', dot: '#F2ECDC' }
+      tomato: { label: 'BANADURA', short: 'Tomato', ink: '#FFE2DA', fill: 'radial-gradient(circle at 28% 26%, #F2A78E 0 6%, #DE4B31 7% 18%, #A8281A 18% 21%, rgba(0,0,0,0) 22%), radial-gradient(circle at 68% 42%, #F2A78E 0 5.5%, #D9432B 6.5% 17%, #A8281A 17% 20%, rgba(0,0,0,0) 21%), radial-gradient(circle at 42% 72%, #EE9C84 0 5%, #CE3E28 6% 16%, #9E2417 16% 19%, rgba(0,0,0,0) 20%), linear-gradient(180deg, #8E2A1E, #5E1A12)', dot: '#D9432B' },
+      cucumber: { label: 'KHIAR', short: 'Cucumber', ink: '#EAF6D6', fill: 'radial-gradient(circle at 30% 26%, #F0F8DC 0 7%, #BCDE94 8% 16%, #43802C 16% 20%, rgba(0,0,0,0) 21%), radial-gradient(circle at 66% 52%, #F0F8DC 0 6.5%, #BCDE94 7.5% 15%, #43802C 15% 19%, rgba(0,0,0,0) 20%), radial-gradient(circle at 36% 76%, #E8F4D0 0 6%, #B0D688 7% 14%, #3C7226 14% 18%, rgba(0,0,0,0) 19%), linear-gradient(180deg, #3F6B24, #26451A)', dot: '#8FBE5A' },
+      olives: { label: 'ZAYTOUN', short: 'Olives', ink: '#E4E8D6', fill: 'radial-gradient(circle at 30% 28%, #2A3316 0 4%, #7A8A4C 5% 18%, #47542A 18% 21%, rgba(0,0,0,0) 22%), radial-gradient(circle at 66% 44%, #232B12 0 3.6%, #6C7B42 4.6% 17%, #3E4A24 17% 20%, rgba(0,0,0,0) 21%), radial-gradient(circle at 40% 72%, #232B12 0 3.4%, #62703A 4.4% 16%, #384420 16% 19%, rgba(0,0,0,0) 20%), linear-gradient(180deg, #38431E, #202810)', dot: '#6E7C42' },
+      pickles: { label: 'KABEES', short: 'Pickles', ink: '#F6F2D4', fill: 'repeating-linear-gradient(80deg, rgba(255,255,255,.16) 0 1.5px, rgba(0,0,0,0) 1.5px 5px), radial-gradient(ellipse 22% 13% at 32% 30%, #E8DC84 0 74%, #A69A34 75% 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 21% 12% at 66% 56%, #DFD374 0 74%, #9A8F2E 75% 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 20% 12% at 40% 80%, #D6CA6A 0 74%, #8E842A 75% 100%, rgba(0,0,0,0) 100%), linear-gradient(180deg, #A8A038, #6E6820)', dot: '#DCCE62' },
+      mint: { label: 'NAANAA', short: 'Mint', ink: '#DFF6D8', fill: 'radial-gradient(ellipse 2% 9% at 33% 30%, rgba(226,248,214,.75) 0 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 2% 8% at 67% 54%, rgba(226,248,214,.7) 0 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 15% 22% at 33% 30%, #8CDC6E 0 76%, #47913A 77% 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 14% 20% at 67% 54%, #7ECB60 0 76%, #3E8232 77% 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 13% 19% at 42% 80%, #74C058 0 76%, #367A2C 77% 100%, rgba(0,0,0,0) 100%), linear-gradient(180deg, #2F6B2A, #1B421A)', dot: '#7FD066' },
+      labneh: { label: 'LABNEH', short: 'Labneh', ink: '#5E5647', fill: 'radial-gradient(ellipse 16% 10% at 62% 62%, rgba(176,146,42,.6) 0 100%, rgba(0,0,0,0) 100%), radial-gradient(ellipse 10% 6% at 40% 40%, rgba(255,255,255,.85) 0 100%, rgba(0,0,0,0) 100%), radial-gradient(circle at 34% 28%, rgba(255,255,255,.55) 0 26%, rgba(0,0,0,0) 27%), linear-gradient(180deg, #F8F3E6, #DCD5C0)', dot: '#F2ECDC' }
     };
   }
 
@@ -112,11 +112,15 @@ class Component extends DCLogic {
       else if (frac < 1) { a = '#EDD693'; b = '#D2B063'; bub = 'rgba(140,80,22,.6)'; }
       else { a = '#8E6B33'; b = '#6A4A1E'; bub = 'rgba(30,16,5,.7)'; }
       return [
+        'radial-gradient(ellipse 16% 9% at 40% 24%, rgba(255,252,236,.5) 0 100%, rgba(0,0,0,0) 100%)',
         'radial-gradient(circle at 32% 30%, ' + bub + ' 0 9%, rgba(0,0,0,0) 11%)',
         'radial-gradient(circle at 66% 26%, ' + bub + ' 0 7%, rgba(0,0,0,0) 9%)',
         'radial-gradient(circle at 74% 62%, ' + bub + ' 0 8%, rgba(0,0,0,0) 10%)',
         'radial-gradient(circle at 38% 70%, ' + bub + ' 0 7.5%, rgba(0,0,0,0) 9.5%)',
+        'radial-gradient(circle at 22% 46%, ' + bub + ' 0 5%, rgba(0,0,0,0) 7%)',
+        'radial-gradient(circle at 56% 86%, ' + bub + ' 0 5.5%, rgba(0,0,0,0) 7.5%)',
         'radial-gradient(circle at 54% 48%, rgba(255,250,228,.4) 0 10%, rgba(0,0,0,0) 13%)',
+        'radial-gradient(ellipse 34% 22% at 46% 40%, rgba(255,255,246,.22) 0 100%, rgba(0,0,0,0) 100%)',
         'radial-gradient(closest-side, ' + a + ' 0 62%, ' + b + ' 100%)'
       ].join(', ');
     }
@@ -137,7 +141,21 @@ class Component extends DCLogic {
     else if (frac < 0.88) { a = '#61592C'; b = '#4E4724'; c = '#3E381B'; }
     else if (frac < 1) { a = '#514A24'; b = '#3E381B'; c = '#312C15'; }
     else { a = '#2E2712'; b = '#221C0D'; c = '#171207'; }
-    return [oil].concat(sumac).concat(sesame).concat([
+    // the signature of a real manousheh: golden puffed domes pushing up through the zaatar
+    const dome = frac < 0.5 ? 'rgba(232,198,128,.5)' : frac < 0.88 ? 'rgba(224,182,106,.55)' : frac < 1 ? 'rgba(204,158,86,.5)' : 'rgba(120,88,44,.4)';
+    const domes = [
+      'radial-gradient(circle at 34% 36%, ' + dome + ' 0 8%, rgba(0,0,0,0) 12%)',
+      'radial-gradient(circle at 66% 30%, ' + dome + ' 0 6.5%, rgba(0,0,0,0) 10%)',
+      'radial-gradient(circle at 58% 70%, ' + dome + ' 0 7%, rgba(0,0,0,0) 11%)',
+      'radial-gradient(circle at 26% 64%, ' + dome + ' 0 5.5%, rgba(0,0,0,0) 9%)'
+    ];
+    const thyme = [
+      'radial-gradient(ellipse 5% 2.6% at 48% 30%, rgba(74,88,38,.75) 0 100%, rgba(0,0,0,0) 100%)',
+      'radial-gradient(ellipse 4.4% 2.4% at 30% 48%, rgba(64,78,32,.7) 0 100%, rgba(0,0,0,0) 100%)',
+      'radial-gradient(ellipse 5% 2.4% at 70% 52%, rgba(74,88,38,.7) 0 100%, rgba(0,0,0,0) 100%)',
+      'radial-gradient(ellipse 4.6% 2.6% at 50% 78%, rgba(64,78,32,.65) 0 100%, rgba(0,0,0,0) 100%)'
+    ];
+    return [oil].concat(sesame).concat(sumac).concat(thyme).concat(domes).concat([
       'radial-gradient(closest-side, ' + a + ' 0 52%, ' + b + ' 80%, ' + c + ' 100%)'
     ]).join(', ');
   }
