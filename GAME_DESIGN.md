@@ -629,9 +629,13 @@ budget real time for it.
 
 ## 4. Phases
 
-1. **Vertical slice.** One customer, zaatar only: flatten -> spread -> bake ->
+1. **Vertical slice.** ~~One customer, zaatar only: flatten -> spread -> bake ->
    serve -> collect. No timer, no upgrades, no menu. If this is not fun, nothing
-   after it will be.
+   after it will be.~~ **Built** — `engine/` holds the rules as one pure
+   `step(state, params, dt, actions)` function with the timing windows under
+   test; `app/` is the Compose station over it. Android only for now; the engine
+   has no Android in it, so the iOS target is a module move rather than a
+   rewrite.
 2. **The shift.** 90-second day, queue with patience meters, expiring coin
    drops, end-of-day summary.
 3. **Depth.** Cheese and half-and-half with distinct bake windows, extras,
