@@ -38,7 +38,10 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -72,28 +75,83 @@ private const val STAGE_W = 844f
 private const val STAGE_H = 390f
 
 // Measured off the rendered artboard, so every overlay lands on its prop.
-private val FURN = Rect4(16, 30, 186, 172)
-private val PEEL = Rect4(78, 212, 62, 178)
-private val BIN = Rect4(4, 292, 70, 92)
-private val BOARD = Rect4(262, 300, 130, 82)
-private val KHODRA = Rect4(410, 300, 126, 82)
-private val DOUGH = Rect4(554, 300, 124, 82)
-private val TRAY_ZAATAR = Rect4(648, 234, 96, 50)
-private val TRAY_JIBNEH = Rect4(748, 234, 96, 50)
-private val BENCH = Rect4(688, 298, 152, 84)
-private val CUSTOMER_X = listOf(218, 336, 454)
-private val CALENDAR = Rect4(252, 4, 58, 64)
-private val TIMER = Rect4(318, 6, 80, 44)
-private val COINS = Rect4(712, 8, 118, 32)
+val FURN = Rect4(16, 30, 186, 172)
+val PEEL = Rect4(78, 212, 62, 178)
+val BIN = Rect4(4, 292, 70, 92)
+val BOARD = Rect4(262, 300, 130, 82)
+val KHODRA = Rect4(410, 300, 126, 82)
+val DOUGH = Rect4(554, 300, 124, 82)
+val TRAY_ZAATAR = Rect4(648, 234, 96, 50)
+val TRAY_JIBNEH = Rect4(748, 234, 96, 50)
+val BENCH = Rect4(688, 298, 152, 84)
+val CUSTOMER_X = listOf(218, 336, 454)
+val CALENDAR = Rect4(252, 4, 58, 64)
+val TIMER = Rect4(318, 6, 80, 44)
+val COINS = Rect4(712, 8, 118, 32)
 
-private data class Rect4(val x: Int, val y: Int, val w: Int, val h: Int)
+data class Rect4(val x: Int, val y: Int, val w: Int, val h: Int)
 
 private fun Modifier.at(r: Rect4) = offset(r.x.dp, r.y.dp).requiredSize(r.w.dp, r.h.dp)
+
+/**
+ * What is currently in the hand. Held here rather than in the engine, because
+ * carrying something is not a game state — it is a gesture in progress that
+ * resolves into exactly the action the equivalent tap would have sent.
+ */
+class DragHost {
+    var carry: Carry? by mutableStateOf(null)
+        private set
+    var x: Float by mutableStateOf(0f)
+        private set
+    var y: Float by mutableStateOf(0f)
+        private set
+
+    fun begin(what: Carry, atX: Float, atY: Float) {
+        carry = what
+        x = atX
+        y = atY
+    }
+
+    fun moveTo(atX: Float, atY: Float) {
+        x = atX
+        y = atY
+    }
+
+    fun release(): Carry? = carry.also { carry = null }
+}
+
+/**
+ * Makes a prop something you can pick up. Sits alongside the tap handler rather
+ * than replacing it: a press that never moves is still a tap.
+ */
+@Composable
+private fun Modifier.dragSource(origin: Rect4, host: DragHost, pick: () -> Carry?, onDrop: (Carry, Float, Float) -> Unit): Modifier {
+    val density = LocalDensity.current.density
+    return this.pointerInput(origin, host) {
+        detectDragGestures(
+            onDragStart = { at ->
+                pick()?.let { host.begin(it, origin.x + at.x / density, origin.y + at.y / density) }
+            },
+            onDrag = { change, _ ->
+                if (host.carry != null) {
+                    change.consume()
+                    host.moveTo(origin.x + change.position.x / density, origin.y + change.position.y / density)
+                }
+            },
+            onDragEnd = { host.release()?.let { onDrop(it, host.x, host.y) } },
+            onDragCancel = { host.release() },
+        )
+    }
+}
 
 @Composable
 fun StationScreen(state: GameState, params: GameParams, fx: Effects, onAction: (Action) -> Unit) {
     var selected by remember { mutableStateOf(0) }
     val chosen = selected.coerceIn(0, (state.bench.size - 1).coerceAtLeast(0))
+    val host = remember { DragHost() }
+    val drop: (Carry, Float, Float) -> Unit = { carried, x, y ->
+        actionFor(carried, hitTest(x, y, state.bench.size), state)?.let(onAction)
+    }
 
     Box(Modifier.fillMaxSize().background(Color(0xFF1C120A)), contentAlignment = Alignment.Center) {
         BoxWithConstraints(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -110,14 +168,14 @@ fun StationScreen(state: GameState, params: GameParams, fx: Effects, onAction: (
                     contentScale = ContentScale.FillBounds,
                 )
 
-                FurnZone(state, params, onIn = { onAction(Action.IntoFurn) }, onOut = { onAction(Action.OutOfFurn) })
+                FurnZone(state, params, host, drop, onIn = { onAction(Action.IntoFurn) }, onOut = { onAction(Action.OutOfFurn) })
                 Queue(state, state.bench.getOrNull(chosen)?.khodra.orEmpty()) {
                     if (state.bench.isNotEmpty()) onAction(Action.Serve(chosen))
                 }
                 Drops(state) { onAction(Action.Collect(it)) }
 
-                PeelZone(state, params) { onAction(Action.IntoFurn) }
-                BoardZone(state) {
+                PeelZone(state, params, host, drop) { onAction(Action.IntoFurn) }
+                BoardZone(state, host, drop) {
                     when (state.board) {
                         Board.Empty -> onAction(Action.TakeDough)
                         Board.Ball -> onAction(Action.Flatten)
@@ -125,17 +183,18 @@ fun StationScreen(state: GameState, params: GameParams, fx: Effects, onAction: (
                         is Board.Topped -> onAction(Action.LoadPeel)
                     }
                 }
-                BenchZone(state, chosen) { selected = it }
-                KhodraZone(state, chosen) { onAction(Action.AddKhodra(chosen, it)) }
-                Tap(TRAY_ZAATAR) { onAction(Action.Spread(Topping.ZAATAR)) }
-                Tap(TRAY_JIBNEH) { onAction(Action.Spread(Topping.JIBNEH)) }
-                Tap(DOUGH) { onAction(Action.TakeDough) }
+                BenchZone(state, chosen, host, drop) { selected = it }
+                KhodraZone(state, chosen, host, drop) { onAction(Action.AddKhodra(chosen, it)) }
+                Tap(TRAY_ZAATAR, Modifier.dragSource(TRAY_ZAATAR, host, { Carry.Topping(Topping.ZAATAR) }, drop)) { onAction(Action.Spread(Topping.ZAATAR)) }
+                Tap(TRAY_JIBNEH, Modifier.dragSource(TRAY_JIBNEH, host, { Carry.Topping(Topping.JIBNEH) }, drop)) { onAction(Action.Spread(Topping.JIBNEH)) }
+                Tap(DOUGH, Modifier.dragSource(DOUGH, host, { Carry.Dough }, drop)) { onAction(Action.TakeDough) }
                 Tap(BIN) {
                     if (state.bench.isNotEmpty() && state.board == Board.Empty) onAction(Action.BinBaked(chosen))
                     else onAction(Action.BinBoard)
                 }
 
                 Hud(state)
+                DragLayer(host, state)
                 FxLayer(fx)
                 Hint(state)
                 Curtain(state, onAction)
@@ -146,16 +205,19 @@ fun StationScreen(state: GameState, params: GameParams, fx: Effects, onAction: (
 
 /** An invisible hit target over a prop that is already painted in the background. */
 @Composable
-private fun Tap(r: Rect4, onTap: () -> Unit) {
-    Box(Modifier.at(r).noRippleClickable(onTap))
+private fun Tap(r: Rect4, extra: Modifier = Modifier, onTap: () -> Unit) {
+    Box(Modifier.at(r).noRippleClickable(onTap).then(extra))
 }
 
 // ---------------------------------------------------------------- the furn
 
 @Composable
-private fun FurnZone(state: GameState, params: GameParams, onIn: () -> Unit, onOut: () -> Unit) {
+private fun FurnZone(state: GameState, params: GameParams, host: DragHost, drop: (Carry, Float, Float) -> Unit, onIn: () -> Unit, onOut: () -> Unit) {
     val load = state.furn
-    Box(Modifier.at(FURN).noRippleClickable { if (load == null) onIn() else onOut() }) {
+    Box(
+        Modifier.at(FURN).noRippleClickable { if (load == null) onIn() else onOut() }
+            .dragSource(FURN, host, { carryFrom(Zone.FURN, state) }, drop)
+    ) {
         // The plate is painted with the fire low. A load makes the furn work harder.
         if (load != null) {
             Canvas(Modifier.fillMaxSize()) {
@@ -231,9 +293,10 @@ private fun BakeRings(toppings: List<Topping>, elapsed: Double, params: GamePara
 // ---------------------------------------------------------------- the counter
 
 @Composable
-private fun PeelZone(state: GameState, params: GameParams, onSend: () -> Unit) {
+private fun PeelZone(state: GameState, params: GameParams, host: DragHost, drop: (Carry, Float, Float) -> Unit, onSend: () -> Unit) {
     Box(
-        Modifier.at(PEEL).noRippleClickable { if (state.peel.isNotEmpty()) onSend() },
+        Modifier.at(PEEL).noRippleClickable { if (state.peel.isNotEmpty()) onSend() }
+            .dragSource(PEEL, host, { carryFrom(Zone.PEEL, state) }, drop),
         contentAlignment = Alignment.TopCenter,
     ) {
         Column(
@@ -252,8 +315,12 @@ private fun PeelZone(state: GameState, params: GameParams, onSend: () -> Unit) {
 }
 
 @Composable
-private fun BoardZone(state: GameState, onTap: () -> Unit) {
-    Box(Modifier.at(BOARD).noRippleClickable(onTap), contentAlignment = Alignment.Center) {
+private fun BoardZone(state: GameState, host: DragHost, drop: (Carry, Float, Float) -> Unit, onTap: () -> Unit) {
+    Box(
+        Modifier.at(BOARD).noRippleClickable(onTap)
+            .dragSource(BOARD, host, { carryFrom(Zone.BOARD, state) }, drop),
+        contentAlignment = Alignment.Center,
+    ) {
         when (state.board) {
             Board.Empty -> Unit
             Board.Ball -> Box(
@@ -282,22 +349,25 @@ private fun BoardZone(state: GameState, onTap: () -> Unit) {
  * wrap bench only has room for one, and a peel-load is three.
  */
 @Composable
-private fun BenchZone(state: GameState, chosen: Int, onPick: (Int) -> Unit) {
+private fun BenchZone(state: GameState, chosen: Int, host: DragHost, drop: (Carry, Float, Float) -> Unit, onPick: (Int) -> Unit) {
     Box(Modifier.at(BENCH), contentAlignment = Alignment.CenterStart) {
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            state.bench.forEachIndexed { index, baked -> BenchItem(baked, index == chosen) { onPick(index) } }
+            state.bench.forEachIndexed { index, baked ->
+                BenchItem(baked, index == chosen, Modifier.dragSource(BENCH, host, { Carry.BakedItem(index) }, drop)) { onPick(index) }
+            }
         }
     }
     Label(if (state.bench.isEmpty()) "" else "PICK ONE UP", BENCH.x, 384, BENCH.w)
 }
 
 @Composable
-private fun BenchItem(baked: Baked, picked: Boolean, onPick: () -> Unit) {
+private fun BenchItem(baked: Baked, picked: Boolean, extra: Modifier, onPick: () -> Unit) {
     Box(
         Modifier
             .size(48.dp)
             .then(if (picked) Modifier.border(3.dp, Palette.Select, CircleShape) else Modifier)
-            .noRippleClickable(onPick),
+            .noRippleClickable(onPick)
+            .then(extra),
         contentAlignment = Alignment.Center,
     ) {
         Manousheh(size = 42.dp, topping = baked.topping, doneness = baked.doneness)
@@ -314,7 +384,7 @@ private fun BenchItem(baked: Baked, picked: Boolean, onPick: () -> Unit) {
 
 /** Six compartments, already painted. This only marks what is asked for and what is on. */
 @Composable
-private fun KhodraZone(state: GameState, chosen: Int, onAdd: (Khodra) -> Unit) {
+private fun KhodraZone(state: GameState, chosen: Int, host: DragHost, drop: (Carry, Float, Float) -> Unit, onAdd: (Khodra) -> Unit) {
     val on = state.bench.getOrNull(chosen)?.khodra.orEmpty()
     val wanted = state.front?.khodra.orEmpty()
     Box(Modifier.at(KHODRA).padding(5.dp)) {
@@ -333,6 +403,7 @@ private fun KhodraZone(state: GameState, chosen: Int, onAdd: (Khodra) -> Unit) {
                                     }
                                 )
                                 .noRippleClickable { onAdd(k) }
+                                .dragSource(KHODRA, host, { Carry.Veg(k) }, drop)
                         )
                     }
                 }
@@ -556,6 +627,104 @@ private fun Drops(state: GameState, onCollect: (Int) -> Unit) {
                     style = TextStyle(color = Color(0xFF6B4A18), fontSize = 15.sp, fontWeight = FontWeight.ExtraBold),
                 )
             }
+        }
+    }
+}
+
+/**
+ * What is in the hand, and where it may land.
+ *
+ * The ghost is the thing, not a token for it — whatever you picked up is drawn
+ * properly, and for the peel that means the peel, held by its handle with the
+ * blade reaching out ahead toward the furn. The target under your finger goes
+ * green when the drop is legal and red when it is not, so the rules get learned
+ * by moving rather than by being told.
+ */
+@Composable
+private fun DragLayer(host: DragHost, state: GameState) {
+    val carry = host.carry ?: return
+    val target = hitTest(host.x, host.y, state.bench.size)
+    val legal = isLegal(carry, target, state)
+
+    rectFor(target)?.let { r ->
+        val ink = if (legal) Palette.Good else Palette.Warn
+        Box(
+            Modifier
+                .at(r)
+                .background(ink.copy(alpha = 0.18f), RoundedCornerShape(10.dp))
+                .border(3.dp, ink, RoundedCornerShape(10.dp))
+        )
+    }
+
+    if (carry is Carry.PeelLoad) {
+        // Held by the grip, blade ahead of it, swinging level as it nears the mouth.
+        val tilt = ((host.x - (FURN.x + FURN.w / 2f)) * 0.05f).coerceIn(-16f, 16f)
+        Box(
+            Modifier
+                .offset((host.x - 22f).dp, (host.y - 112f).dp)
+                .requiredSize(44.dp, 120.dp)
+                .graphicsLayer(alpha = 0.95f, rotationZ = tilt, transformOrigin = TransformOrigin(0.5f, 0.94f)),
+        ) {
+            Canvas(Modifier.fillMaxSize()) {
+                val u = size.width / 44f
+                drawRoundRect(
+                    Brush.horizontalGradient(listOf(Color(0xFFE4E8EC), Color(0xFF8E939A))),
+                    size = Size(44f * u, 100f * u),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f * u),
+                )
+                drawRoundRect(
+                    Brush.verticalGradient(listOf(Color(0xFFC08E5C), Color(0xFF6F4A2E))),
+                    topLeft = Offset(16f * u, 94f * u),
+                    size = Size(12f * u, 26f * u),
+                    cornerRadius = androidx.compose.ui.geometry.CornerRadius(3f * u),
+                )
+            }
+            Column(
+                Modifier.fillMaxSize().padding(top = 6.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+            ) {
+                state.peel.forEach { Manousheh(size = 28.dp, topping = it, doneness = null, topped = true) }
+            }
+        }
+        return
+    }
+
+    val size = when (carry) {
+        is Carry.Topped -> 60.dp
+        is Carry.BakedItem -> 46.dp
+        Carry.FurnLoad -> 44.dp
+        is Carry.Veg -> 30.dp
+        else -> 46.dp
+    }
+    Box(
+        Modifier
+            .offset((host.x - size.value / 2f).dp, (host.y - size.value / 2f).dp)
+            .graphicsLayer(alpha = 0.92f),
+    ) {
+        when (carry) {
+            Carry.Dough -> Box(
+                Modifier.size(size).clip(CircleShape).background(Palette.DoughPale)
+                    .border(3.dp, Palette.Ink, CircleShape)
+            )
+            is Carry.Topping -> Box(
+                Modifier.size(size).clip(CircleShape).background(toppingInk(carry.topping))
+                    .border(3.dp, Palette.Ink, CircleShape)
+            )
+            is Carry.Topped -> Manousheh(size = size, topping = carry.topping, doneness = null, topped = true)
+            Carry.FurnLoad -> Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                state.furn?.items?.forEach {
+                    Manousheh(size = size, topping = it, doneness = state.params().donenessAt(it, state.furn?.elapsed ?: 0.0))
+                }
+            }
+            is Carry.BakedItem -> state.bench.getOrNull(carry.index)?.let {
+                Manousheh(size = size, topping = it.topping, doneness = it.doneness)
+            }
+            is Carry.Veg -> Box(
+                Modifier.size(size).clip(CircleShape).background(khodraInk(carry.khodra))
+                    .border(2.5.dp, Palette.Ink, CircleShape)
+            )
+            Carry.PeelLoad -> Unit
         }
     }
 }

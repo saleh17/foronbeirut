@@ -346,6 +346,8 @@ into the bin. A ghost of what you are carrying follows your finger and the
 target you are over lights up **green when the drop is legal and red when it is
 not**, so the rules are learned by moving rather than by being told.
 
+**Built.** Nine sources, one drop grammar, and tap still does everything it did.
+
 **The ghost is the thing, not a token for it.** Whatever you pick up, what
 follows your finger is that object drawn properly — and for the peel that means
 the peel: the steel blade, the wooden shaft and grip, and the load still sitting

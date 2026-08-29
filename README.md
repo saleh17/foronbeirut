@@ -37,6 +37,12 @@ Rules that are the game rather than features on it:
   and collected are reported apart, and the tip jar that removes the chore is the
   most expensive thing in the shop for that reason.
 
+- **Everything drags, and everything still taps.** A drop resolves to exactly the
+  action the equivalent tap would send, so both paths are one grammar rather than
+  two code paths that can disagree. What follows your finger is the object drawn
+  properly — for the peel that means the peel, held by its handle — and the target
+  under it goes green when the drop is legal and red when it is not, so the rules
+  are learned by moving.
 - **Feedback confirms, never delays.** The effects layer is *observed*: the UI
   diffs one engine state against the next and draws what that change deserves.
   The engine has no idea animations exist, and an effect can never hold up a tap.
