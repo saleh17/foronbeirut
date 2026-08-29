@@ -120,21 +120,12 @@ fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Un
 
 @Composable
 private fun Wall() {
-    Box(
-        Modifier
-            .requiredSize(STAGE_W.dp, 252.dp)
-            .background(Brush.verticalGradient(listOf(Palette.Wall, Palette.WallDark)))
-    )
+    Canvas(Modifier.requiredSize(STAGE_W.dp, STAGE_H.dp)) { drawWall() }
 }
 
 @Composable
 private fun Counter() {
-    Box(
-        Modifier
-            .offset(0.dp, 250.dp)
-            .requiredSize(STAGE_W.dp, 140.dp)
-            .background(Brush.verticalGradient(listOf(Palette.CounterTop, Palette.CounterEdge)))
-    )
+    Canvas(Modifier.requiredSize(STAGE_W.dp, STAGE_H.dp)) { drawCounter() }
 }
 
 // ---------------------------------------------------------------- the furn
@@ -305,12 +296,13 @@ private fun Peel(state: GameState, params: GameParams, x: Int, w: Int, onSend: (
         Modifier
             .offset(x.dp, 258.dp)
             .requiredSize(w.dp, 100.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(Brush.horizontalGradient(listOf(Palette.Steel, Palette.SteelDark)))
-            .border(if (full) 4.dp else 3.dp, if (full) Palette.Select else Palette.Ink, RoundedCornerShape(8.dp))
             .noRippleClickable { if (state.peel.isNotEmpty()) onSend() },
         contentAlignment = Alignment.Center,
     ) {
+        Canvas(Modifier.fillMaxSize()) {
+            drawPeel(params.peelSlots)
+            if (full) drawRect(Palette.Select, style = Stroke(width = 4.dp.toPx()))
+        }
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             repeat(params.peelSlots) { slot ->
                 val item = state.peel.getOrNull(slot)
@@ -333,12 +325,10 @@ private fun Bench(state: GameState, chosen: Int, x: Int, w: Int, onPick: (Int) -
     Box(
         Modifier
             .offset(x.dp, 258.dp)
-            .requiredSize(w.dp, 100.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(Palette.Paper)
-            .border(3.dp, Palette.Ink, RoundedCornerShape(8.dp)),
+            .requiredSize(w.dp, 100.dp),
         contentAlignment = Alignment.Center,
     ) {
+        Canvas(Modifier.fillMaxSize()) { drawBench() }
         if (state.bench.isEmpty()) {
             BasicText(
                 "nothing baked",
@@ -398,17 +388,12 @@ private fun KhodraBox(state: GameState, chosen: Int, x: Int, w: Int, onAdd: (Kho
                             Modifier
                                 .requiredSize(36.dp, 41.dp)
                                 .clip(RoundedCornerShape(4.dp))
-                                .background(khodraInk(k))
-                                .then(
-                                    when {
-                                        k in on -> Modifier.border(2.5.dp, Palette.Good, RoundedCornerShape(4.dp))
-                                        k in wanted -> Modifier.border(2.5.dp, Palette.Select, RoundedCornerShape(4.dp))
-                                        else -> Modifier
-                                    }
-                                )
                                 .noRippleClickable { onAdd(k) },
                             contentAlignment = Alignment.BottomCenter,
                         ) {
+                            Canvas(Modifier.fillMaxSize()) {
+                                drawKhodraWell(khodraInk(k), wanted = k in wanted, on = k in on)
+                            }
                             BasicText(
                                 k.arabic,
                                 style = TextStyle(color = Color(0xE6FFFFFF), fontSize = 8.sp, fontWeight = FontWeight.Bold),
@@ -467,16 +452,12 @@ private fun Tray(topping: Topping, x: Int, w: Int, onTap: () -> Unit) {
             .offset(x.dp, 272.dp)
             .requiredSize(w.dp, 72.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Palette.Steel)
-            .border(3.dp, Palette.SteelDark, RoundedCornerShape(8.dp))
-            .padding(6.dp)
             .noRippleClickable(onTap),
     ) {
-        Box(
-            Modifier.fillMaxSize().clip(RoundedCornerShape(4.dp))
-                .background(Brush.verticalGradient(listOf(toppingInk(topping), toppingShade(topping)))),
-            contentAlignment = Alignment.BottomCenter,
-        ) {
+        Canvas(Modifier.fillMaxSize()) {
+            drawTray(Brush.verticalGradient(listOf(toppingInk(topping), toppingShade(topping))), level = 0.72f)
+        }
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             BasicText(
                 topping.arabic,
                 style = TextStyle(
@@ -496,20 +477,9 @@ private fun DoughBowl(x: Int, w: Int, onTap: () -> Unit) {
         Modifier
             .offset(x.dp, 272.dp)
             .requiredSize(w.dp, 72.dp)
-            .clip(RoundedCornerShape(12.dp, 12.dp, 40.dp, 40.dp))
-            .background(Brush.verticalGradient(listOf(Color(0xFFC07C51), Color(0xFF63361F))))
-            .border(4.dp, Palette.Ink, RoundedCornerShape(12.dp, 12.dp, 40.dp, 40.dp))
             .noRippleClickable(onTap),
-        contentAlignment = Alignment.Center,
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            repeat(2) {
-                Box(
-                    Modifier.size(24.dp).clip(CircleShape).background(Palette.DoughPale)
-                        .border(2.dp, Palette.Ink, CircleShape)
-                )
-            }
-        }
+        Canvas(Modifier.fillMaxSize()) { drawDoughBowl(balls = 5) }
     }
     Label("DOUGH", x, 348, w)
 }
