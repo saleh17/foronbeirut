@@ -46,63 +46,28 @@ Still no upgrades, no fatayer, no mini pizza. That is phase 4.
 
 ### On the art
 
-The twelve regulars in the app are **not redrawn** — they are the same drawings as
-the design canvas, converted from its inline SVG straight into Android vector
-drawables (`app/src/main/res/drawable/cust_*.xml`). Path data, gradients, groups
-and transforms all carry over, so the person on the phone cannot drift from the
-person on the character sheet. Only the mouth is drawn live in Compose, because
-it is the one part that has to answer to how long they have been waiting.
-
-The scene around them — the furn, the counter, the props — is drawn in Compose
-against the canvas's own 844 x 390 coordinates, so `ART_BRIEF.md` positions drop
-in without being re-measured. Regenerate the cast with
-`tools/svg2vd.py` if the canvas art ever changes.
-
-## Layout
-
-```
-engine/   the game, as pure Kotlin — no Android, no Compose, no coroutines
-app/      the Android app: Compose UI over the engine, nothing more
-design/   the .dc.html artboards behind the published canvas
-```
-
-`engine` is the important boundary. It exposes one function —
-
-```kotlin
-step(state, params, dt, actions) -> state
-```
-
-— and holds every rule: what can follow what, when a manousheh is perfect, what
-a customer will accept, what it pays. It has no clock of its own; the caller says
-how much time passed. That is what makes the whole game testable in milliseconds,
-and it is why `GameParams` is a separate object: upgrades will compile into a
-snapshot of it without the engine ever learning that upgrades exist.
-
-`app` owns the frame clock, the taps and the pixels, and is allowed to know
-nothing else.
-
-## Building
-
-Android Studio (Ladybug or newer), or the command line with `ANDROID_HOME` set:
+The shop is **not drawn in Compose**. It is `station_bg.webp`, rendered straight
+out of `design/Main.dc.html` by `tools/render-artboard.mjs` — a small headless
+renderer for the artboard format that runs the component, expands its template
+and screenshots the result at 3x. Hand-porting an illustrated scene into drawing
+code guarantees drift; this way the app's art *is* the design, by construction,
+and re-exporting after a design change is one command:
 
 ```bash
-./gradlew :app:installDebug     # onto a connected device or emulator
-./gradlew :engine:test          # the rules, no Android toolchain needed
+node tools/render-artboard.mjs design/Main.dc.html station_bg.png 3
 ```
 
-The engine tests need only a JDK — no SDK, no emulator, about ten seconds:
+The twelve regulars come across the same way but as vector drawables
+(`app/src/main/res/drawable/cust_*.xml`), converted from the canvas's inline SVG
+by `tools/svg2vd.py`, so they stay crisp and can be positioned and animated
+individually. Only their mouths are drawn live, because that is the one part
+that answers to how long they have been waiting.
 
-```bash
-gradle :engine:test --configure-on-demand
-```
+`Station.kt` therefore contains no scenery at all. It places what moves — the
+customers, the food, the fire when the furn is working, the coins, the numbers —
+on top of the plate, at the canvas's own coordinates in its own 844 x 390 units,
+measured off the render rather than guessed.
 
-There is deliberately no root `build.gradle.kts` declaring plugins with
-`apply false`; that would drag the Android Gradle Plugin into every build,
-including engine-only ones. Each module declares its own plugins from
-`gradle/libs.versions.toml`.
+Two things on the plate are scenery for now because the engine has not reached
+them: the fatayer plate and the ayran dispenser. They arrive with the menu.
 
-## Next
-
-Phase 4 is the economy: the upgrade tree, save and load, and day progression —
-the point where the coins the player has been collecting start buying the taps
-back. Phases are listed in [GAME_DESIGN.md](GAME_DESIGN.md#4-phases).

@@ -28,17 +28,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -58,45 +58,65 @@ import com.foronbeirut.manakich.engine.Khodra
 import com.foronbeirut.manakich.engine.Topping
 import kotlin.math.sin
 
-/** The design canvas is 844 x 390 units, so the app uses the same numbers the brief does. */
+/**
+ * The station.
+ *
+ * The shop itself is not drawn here: it is `station_bg.webp`, rendered straight
+ * out of the design canvas by tools/render-artboard.mjs. Hand-porting an
+ * illustrated scene into Compose guarantees drift, so the art is the art and this
+ * file only places what moves on top of it — at the canvas's own coordinates, in
+ * its own 844 x 390 units.
+ */
 private const val STAGE_W = 844f
 private const val STAGE_H = 390f
 
-/**
- * The tap grammar, now that a bench holds more than one thing:
- * pick one up (tap it), dress it (tap khodra), hand it over (tap the customer).
- */
+// Measured off the rendered artboard, so every overlay lands on its prop.
+private val FURN = Rect4(16, 30, 186, 172)
+private val PEEL = Rect4(78, 212, 62, 178)
+private val BIN = Rect4(4, 292, 70, 92)
+private val BOARD = Rect4(262, 300, 130, 82)
+private val KHODRA = Rect4(410, 300, 126, 82)
+private val DOUGH = Rect4(554, 300, 124, 82)
+private val TRAY_ZAATAR = Rect4(648, 234, 96, 50)
+private val TRAY_JIBNEH = Rect4(748, 234, 96, 50)
+private val BENCH = Rect4(688, 298, 152, 84)
+private val CUSTOMER_X = listOf(218, 336, 454)
+private val CALENDAR = Rect4(252, 4, 58, 64)
+private val TIMER = Rect4(318, 6, 80, 44)
+private val COINS = Rect4(712, 8, 118, 32)
+
+private data class Rect4(val x: Int, val y: Int, val w: Int, val h: Int)
+
+private fun Modifier.at(r: Rect4) = offset(r.x.dp, r.y.dp).requiredSize(r.w.dp, r.h.dp)
+
 @Composable
 fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Unit) {
     var selected by remember { mutableStateOf(0) }
     val chosen = selected.coerceIn(0, (state.bench.size - 1).coerceAtLeast(0))
 
-    Box(Modifier.fillMaxSize().background(Palette.FurnMouth), contentAlignment = Alignment.Center) {
+    Box(Modifier.fillMaxSize().background(Color(0xFF1C120A)), contentAlignment = Alignment.Center) {
         BoxWithConstraints(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             val scale = minOf(maxWidth.value / STAGE_W, maxHeight.value / STAGE_H)
             Box(
                 Modifier
                     .requiredSize(STAGE_W.dp, STAGE_H.dp)
                     .graphicsLayer(scaleX = scale, scaleY = scale)
-                    .background(Palette.Wall)
             ) {
-                Wall()
-                Furn(state, params, onIn = { onAction(Action.IntoFurn) }, onOut = { onAction(Action.OutOfFurn) })
+                Image(
+                    painter = painterResource(R.drawable.station_bg),
+                    contentDescription = null,
+                    modifier = Modifier.requiredSize(STAGE_W.dp, STAGE_H.dp),
+                    contentScale = ContentScale.FillBounds,
+                )
+
+                FurnZone(state, params, onIn = { onAction(Action.IntoFurn) }, onOut = { onAction(Action.OutOfFurn) })
                 Queue(state, state.bench.getOrNull(chosen)?.khodra.orEmpty()) {
                     if (state.bench.isNotEmpty()) onAction(Action.Serve(chosen))
                 }
-                DayClock(state, params)
-                Purse(state)
-                Counter()
+                Drops(state) { onAction(Action.Collect(it)) }
 
-                Bin(x = 14, w = 56) {
-                    if (state.bench.isNotEmpty() && state.board == Board.Empty) onAction(Action.BinBaked(chosen))
-                    else onAction(Action.BinBoard)
-                }
-                Peel(state, params, x = 78, w = 104) { onAction(Action.IntoFurn) }
-                Bench(state, chosen, x = 190, w = 186) { selected = it }
-                KhodraBox(state, chosen, x = 384, w = 126) { onAction(Action.AddKhodra(chosen, it)) }
-                WorkBoard(state, x = 518, w = 118) {
+                PeelZone(state, params) { onAction(Action.IntoFurn) }
+                BoardZone(state) {
                     when (state.board) {
                         Board.Empty -> onAction(Action.TakeDough)
                         Board.Ball -> onAction(Action.Flatten)
@@ -104,11 +124,17 @@ fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Un
                         is Board.Topped -> onAction(Action.LoadPeel)
                     }
                 }
-                Tray(Topping.ZAATAR, x = 644, w = 56) { onAction(Action.Spread(Topping.ZAATAR)) }
-                Tray(Topping.JIBNEH, x = 706, w = 56) { onAction(Action.Spread(Topping.JIBNEH)) }
-                DoughBowl(x = 770, w = 60) { onAction(Action.TakeDough) }
+                BenchZone(state, chosen) { selected = it }
+                KhodraZone(state, chosen) { onAction(Action.AddKhodra(chosen, it)) }
+                Tap(TRAY_ZAATAR) { onAction(Action.Spread(Topping.ZAATAR)) }
+                Tap(TRAY_JIBNEH) { onAction(Action.Spread(Topping.JIBNEH)) }
+                Tap(DOUGH) { onAction(Action.TakeDough) }
+                Tap(BIN) {
+                    if (state.bench.isNotEmpty() && state.board == Board.Empty) onAction(Action.BinBaked(chosen))
+                    else onAction(Action.BinBoard)
+                }
 
-                Drops(state) { onAction(Action.Collect(it)) }
+                Hud(state)
                 Hint(state)
                 Curtain(state) { onAction(Action.OpenShop) }
             }
@@ -116,145 +142,59 @@ fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Un
     }
 }
 
-// ---------------------------------------------------------------- room
-
+/** An invisible hit target over a prop that is already painted in the background. */
 @Composable
-private fun Wall() {
-    Canvas(Modifier.requiredSize(STAGE_W.dp, STAGE_H.dp)) { drawWall() }
-}
-
-@Composable
-private fun Counter() {
-    Canvas(Modifier.requiredSize(STAGE_W.dp, STAGE_H.dp)) { drawCounter() }
+private fun Tap(r: Rect4, onTap: () -> Unit) {
+    Box(Modifier.at(r).noRippleClickable(onTap))
 }
 
 // ---------------------------------------------------------------- the furn
 
 @Composable
-private fun Furn(state: GameState, params: GameParams, onIn: () -> Unit, onOut: () -> Unit) {
-    val loaded = state.furn
-    Box(
-        Modifier
-            .offset(16.dp, 40.dp)
-            .requiredSize(208.dp, 208.dp)
-            .noRippleClickable { if (loaded == null) onIn() else onOut() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Canvas(Modifier.fillMaxSize()) { drawFurn(hot = loaded != null) }
-        if (loaded != null) {
-            BakeRings(loaded.items.distinct(), loaded.elapsed, params)
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-                Row(
-                    Modifier.offset(0.dp, (-34).dp),
-                    horizontalArrangement = Arrangement.spacedBy(3.dp),
-                ) {
-                    loaded.items.forEach {
-                        Manousheh(size = 38.dp, topping = it, doneness = params.donenessAt(it, loaded.elapsed))
+private fun FurnZone(state: GameState, params: GameParams, onIn: () -> Unit, onOut: () -> Unit) {
+    val load = state.furn
+    Box(Modifier.at(FURN).noRippleClickable { if (load == null) onIn() else onOut() }) {
+        // The plate is painted with the fire low. A load makes the furn work harder.
+        if (load != null) {
+            Canvas(Modifier.fillMaxSize()) {
+                val u = size.width / FURN.w
+                drawRect(
+                    Brush.radialGradient(
+                        listOf(Color(0x66FF9A3C), Color(0x00FF9A3C)),
+                        center = Offset(93f * u, 130f * u),
+                        radius = 120f * u,
+                    )
+                )
+                for (i in 0 until 8) {
+                    val x = 30f + i * 18f
+                    val h = 22f + (i % 3) * 6f
+                    val flame = Path().apply {
+                        moveTo(x * u, (140f - h) * u)
+                        cubicTo((x + 7f) * u, (140f - h * .5f) * u, (x + 5f) * u, 140f * u, x * u, 140f * u)
+                        cubicTo((x - 5f) * u, 140f * u, (x - 7f) * u, (140f - h * .5f) * u, x * u, (140f - h) * u)
+                        close()
+                    }
+                    drawPath(
+                        flame,
+                        Brush.verticalGradient(
+                            listOf(Palette.FlameHot, Palette.Flame, Color(0x00D2541E)),
+                            startY = (140f - h) * u, endY = 140f * u,
+                        ),
+                    )
+                }
+            }
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                BakeRings(load.items.distinct(), load.elapsed, params)
+            }
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Row(Modifier.offset(0.dp, 22.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                    load.items.forEach {
+                        Manousheh(size = 34.dp, topping = it, doneness = params.donenessAt(it, load.elapsed))
                     }
                 }
             }
         }
     }
-    Label("FURN", x = 16, y = 248, w = 208)
-}
-
-/**
- * A furn is a brick arch over a receding box, not a black hole with a flame on it.
- * The floor and side walls stay lit so you can read how deep it goes, and the fire
- * runs down both sides like a road in a tunnel — the shape the design asked for.
- */
-private fun DrawScope.drawFurn(hot: Boolean) {
-    val u = size.width / 208f
-    fun poly(vararg xy: Float) = Path().apply {
-        moveTo(xy[0] * u, xy[1] * u)
-        var i = 2
-        while (i < xy.size) {
-            lineTo(xy[i] * u, xy[i + 1] * u)
-            i += 2
-        }
-        close()
-    }
-
-    val arch = Path().apply {
-        moveTo(2f * u, 206f * u)
-        lineTo(2f * u, 92f * u)
-        arcTo(Rect(2f * u, 6f * u, 206f * u, 178f * u), 180f, 180f, false)
-        lineTo(206f * u, 206f * u)
-        close()
-    }
-    drawPath(arch, Brush.verticalGradient(listOf(Color(0xFFB08A63), Color(0xFF7E5D40))))
-    for (y in listOf(34, 58, 82, 106, 130, 154, 178)) {
-        drawLine(Color(0x33000000), Offset(10f * u, y * u), Offset(198f * u, y * u), strokeWidth = 1.6f * u)
-    }
-    drawPath(arch, Palette.Ink, style = Stroke(width = 5f * u))
-
-    val mouth = Path().apply {
-        moveTo(22f * u, 202f * u)
-        lineTo(22f * u, 96f * u)
-        arcTo(Rect(22f * u, 26f * u, 186f * u, 166f * u), 180f, 180f, false)
-        lineTo(186f * u, 202f * u)
-        close()
-    }
-    clipPath(mouth) {
-        drawRect(Color(0xFF2A150A))
-        drawPath(poly(80f, 112f, 128f, 112f, 128f, 150f, 80f, 150f), Color(0xFF3A1E0C))
-        drawPath(poly(22f, 96f, 186f, 96f, 128f, 112f, 80f, 112f), Color(0xFF34190A))
-        drawPath(poly(22f, 96f, 22f, 202f, 80f, 150f, 80f, 112f), Color(0xFF5E3418))
-        drawPath(poly(186f, 96f, 186f, 202f, 128f, 150f, 128f, 112f), Color(0xFF4A2812))
-        drawPath(poly(22f, 202f, 186f, 202f, 128f, 150f, 80f, 150f), Color(0xFF8A6236))
-        drawPath(
-            poly(22f, 202f, 186f, 202f, 128f, 150f, 80f, 150f),
-            Brush.verticalGradient(
-                listOf(Color(0x00FFC46A), Color(0x66FFC46A)),
-                startY = 150f * u,
-                endY = 202f * u,
-            ),
-        )
-
-        // A pipe down each side with flames standing out of its holes. They sit low
-        // on an empty furn and come up when there is something in there to bake.
-        val reach = if (hot) 1f else 0.55f
-        for (left in listOf(true, false)) {
-            for (i in 0 until 5) {
-                val t = i / 4f
-                val x = if (left) 30f + t * 46f else 178f - t * 46f
-                val y = 196f - t * 44f
-                val scale = 1f - t * 0.42f
-                drawCircle(Color(0xFF3A2413), radius = 3.2f * u * scale, center = Offset(x * u, y * u))
-                val h = 26f * scale * reach
-                val flame = Path().apply {
-                    moveTo(x * u, (y - h) * u)
-                    cubicTo(
-                        (x + 7f * scale) * u, (y - h * 0.5f) * u,
-                        (x + 5f * scale) * u, y * u,
-                        x * u, y * u,
-                    )
-                    cubicTo(
-                        (x - 5f * scale) * u, y * u,
-                        (x - 7f * scale) * u, (y - h * 0.5f) * u,
-                        x * u, (y - h) * u,
-                    )
-                    close()
-                }
-                drawPath(
-                    flame,
-                    Brush.verticalGradient(
-                        listOf(Palette.FlameHot, Palette.Flame, Color(0xCCD2541E)),
-                        startY = (y - h) * u,
-                        endY = y * u,
-                    ),
-                )
-            }
-        }
-        drawRect(
-            Brush.verticalGradient(
-                listOf(Color(0x00FF9A3C), Color(0x33FF9A3C)),
-                startY = 150f * u,
-                endY = 202f * u,
-            ),
-        )
-    }
-    drawPath(mouth, Palette.Ink, style = Stroke(width = 4f * u))
 }
 
 /**
@@ -264,238 +204,139 @@ private fun DrawScope.drawFurn(hot: Boolean) {
 @Composable
 private fun BakeRings(toppings: List<Topping>, elapsed: Double, params: GameParams) {
     val span = 12.0
-    Canvas(Modifier.requiredSize(160.dp)) {
+    Canvas(Modifier.requiredSize(132.dp)) {
         toppings.forEachIndexed { index, topping ->
             val recipe = params.recipe(topping)
-            val stroke = Stroke(width = 8.dp.toPx())
-            val inset = stroke.width / 2 + index * 13.dp.toPx()
+            val stroke = Stroke(width = 7.dp.toPx())
+            val inset = stroke.width / 2 + index * 11.dp.toPx()
             val arc = Size(size.width - inset * 2, size.height - inset * 2)
             val topLeft = Offset(inset, inset)
-
             fun band(from: Double, to: Double, colour: Color) {
-                val start = (from / span * 360.0).toFloat()
-                val sweep = ((to - from) / span * 360.0).toFloat()
-                drawArc(colour, -90f + start, sweep, false, topLeft, arc, style = stroke)
+                drawArc(
+                    colour, -90f + (from / span * 360.0).toFloat(), ((to - from) / span * 360.0).toFloat(),
+                    false, topLeft, arc, style = stroke,
+                )
             }
-
             val half = recipe.perfectWindow / 2
-            band(0.0, span, Color(0x40000000))
+            band(0.0, span, Color(0x59000000))
             band(recipe.bakeSeconds - half, recipe.bakeSeconds + half, Palette.Good)
             band(recipe.bakeSeconds + half, recipe.bakeSeconds + half + recipe.graceWindow, Palette.Coin)
-            band(0.0, elapsed.coerceAtMost(span), toppingInk(topping).copy(alpha = 0.95f))
+            band(0.0, elapsed.coerceAtMost(span), Color(0xF2FFF4DC))
         }
     }
 }
 
-// ---------------------------------------------------------------- counter
+// ---------------------------------------------------------------- the counter
 
 @Composable
-private fun Peel(state: GameState, params: GameParams, x: Int, w: Int, onSend: () -> Unit) {
-    val full = state.peel.size >= params.peelSlots
+private fun PeelZone(state: GameState, params: GameParams, onSend: () -> Unit) {
     Box(
-        Modifier
-            .offset(x.dp, 258.dp)
-            .requiredSize(w.dp, 100.dp)
-            .noRippleClickable { if (state.peel.isNotEmpty()) onSend() },
-        contentAlignment = Alignment.Center,
+        Modifier.at(PEEL).noRippleClickable { if (state.peel.isNotEmpty()) onSend() },
+        contentAlignment = Alignment.TopCenter,
     ) {
-        Canvas(Modifier.fillMaxSize()) {
-            drawPeel(params.peelSlots)
-            if (full) drawRect(Palette.Select, style = Stroke(width = 4.dp.toPx()))
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        Column(
+            Modifier.offset(0.dp, 6.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             repeat(params.peelSlots) { slot ->
                 val item = state.peel.getOrNull(slot)
-                if (item == null) {
-                    Box(
-                        Modifier.size(26.dp).clip(CircleShape)
-                            .border(2.dp, Color(0x552A1B12), CircleShape)
-                    )
-                } else {
-                    Manousheh(size = 28.dp, topping = item, doneness = null, topped = true)
-                }
+                if (item != null) Manousheh(size = 44.dp, topping = item, doneness = null, topped = true)
+                else Box(Modifier.size(44.dp).clip(CircleShape).border(2.dp, Color(0x44FFFFFF), CircleShape))
             }
         }
     }
-    Label(if (state.peel.isEmpty()) "PEEL" else "TAP: INTO THE FURN", x, 360, w)
+    Label(if (state.peel.isEmpty()) "PEEL" else "TAP: INTO THE FURN", PEEL.x - 12, 392, PEEL.w + 24)
 }
 
 @Composable
-private fun Bench(state: GameState, chosen: Int, x: Int, w: Int, onPick: (Int) -> Unit) {
-    Box(
-        Modifier
-            .offset(x.dp, 258.dp)
-            .requiredSize(w.dp, 100.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Canvas(Modifier.fillMaxSize()) { drawBench() }
-        if (state.bench.isEmpty()) {
-            BasicText(
-                "nothing baked",
-                style = TextStyle(color = Color(0xFFA89A80), fontSize = 11.sp),
-            )
-        } else {
-            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                state.bench.forEachIndexed { index, baked ->
-                    BenchItem(baked, picked = index == chosen) { onPick(index) }
-                }
-            }
-        }
-    }
-    Label("PICK ONE UP", x, 360, w)
-}
-
-@Composable
-private fun BenchItem(baked: Baked, picked: Boolean, onPick: () -> Unit) {
-    Box(
-        Modifier
-            .size(54.dp)
-            .then(if (picked) Modifier.border(3.dp, Palette.Select, CircleShape) else Modifier)
-            .noRippleClickable(onPick),
-        contentAlignment = Alignment.Center,
-    ) {
-        Manousheh(size = 46.dp, topping = baked.topping, doneness = baked.doneness)
-        // What is already on it, as beads round the rim — readable without a legend.
-        Row(
-            Modifier.offset(0.dp, 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(2.dp),
-        ) {
-            baked.khodra.forEach {
-                Box(Modifier.size(7.dp).clip(CircleShape).background(khodraInk(it)).border(1.dp, Palette.Ink, CircleShape))
-            }
-        }
-    }
-}
-
-@Composable
-private fun KhodraBox(state: GameState, chosen: Int, x: Int, w: Int, onAdd: (Khodra) -> Unit) {
-    val on = state.bench.getOrNull(chosen)?.khodra.orEmpty()
-    val wanted = state.front?.khodra.orEmpty()
-    Box(
-        Modifier
-            .offset(x.dp, 258.dp)
-            .requiredSize(w.dp, 100.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(Palette.Steel)
-            .border(3.dp, Palette.SteelDark, RoundedCornerShape(8.dp))
-            .padding(5.dp),
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Khodra.entries.chunked(3).forEach { row ->
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    row.forEach { k ->
-                        Box(
-                            Modifier
-                                .requiredSize(36.dp, 41.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .noRippleClickable { onAdd(k) },
-                            contentAlignment = Alignment.BottomCenter,
-                        ) {
-                            Canvas(Modifier.fillMaxSize()) {
-                                drawKhodraWell(khodraInk(k), wanted = k in wanted, on = k in on)
-                            }
-                            BasicText(
-                                k.arabic,
-                                style = TextStyle(color = Color(0xE6FFFFFF), fontSize = 8.sp, fontWeight = FontWeight.Bold),
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-    Label("KHODRA  +2 EACH", x, 360, w)
-}
-
-@Composable
-private fun WorkBoard(state: GameState, x: Int, w: Int, onTap: () -> Unit) {
-    Box(
-        Modifier
-            .offset(x.dp, 258.dp)
-            .requiredSize(w.dp, 100.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(Brush.verticalGradient(listOf(Color(0xFFC49A6A), Color(0xFF9A754A))))
-            .border(3.dp, Palette.Ink, RoundedCornerShape(10.dp))
-            .noRippleClickable(onTap),
-        contentAlignment = Alignment.Center,
-    ) {
+private fun BoardZone(state: GameState, onTap: () -> Unit) {
+    Box(Modifier.at(BOARD).noRippleClickable(onTap), contentAlignment = Alignment.Center) {
         when (state.board) {
             Board.Empty -> Unit
             Board.Ball -> Box(
                 Modifier.size(38.dp).clip(CircleShape).background(Palette.DoughPale)
                     .border(3.dp, Palette.Ink, CircleShape)
             )
-            Board.Flat -> Manousheh(size = 72.dp, topping = null, doneness = null)
+            Board.Flat -> Manousheh(size = 68.dp, topping = null, doneness = null)
             is Board.Topped -> Manousheh(
-                size = 72.dp,
-                topping = (state.board as Board.Topped).topping,
-                doneness = null,
-                topped = true,
+                size = 68.dp, topping = (state.board as Board.Topped).topping, doneness = null, topped = true,
             )
         }
     }
     Label(
         when (state.board) {
-            Board.Empty -> "BOARD"
+            Board.Empty -> "TAP FOR DOUGH"
             Board.Ball -> "TAP TO FLATTEN"
             Board.Flat -> "PICK A TOPPING"
             is Board.Topped -> "TAP: ONTO THE PEEL"
         },
-        x, 360, w,
+        BOARD.x, 384, BOARD.w,
     )
 }
 
+/**
+ * The baked ones wait on the clear stretch of counter at the right. The design's
+ * wrap bench only has room for one, and a peel-load is three.
+ */
 @Composable
-private fun Tray(topping: Topping, x: Int, w: Int, onTap: () -> Unit) {
-    Box(
-        Modifier
-            .offset(x.dp, 272.dp)
-            .requiredSize(w.dp, 72.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .noRippleClickable(onTap),
-    ) {
-        Canvas(Modifier.fillMaxSize()) {
-            drawTray(Brush.verticalGradient(listOf(toppingInk(topping), toppingShade(topping))), level = 0.72f)
-        }
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-            BasicText(
-                topping.arabic,
-                style = TextStyle(
-                    color = if (topping == Topping.JIBNEH) Palette.Ink else Color(0xE6FFFFFF),
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                ),
-            )
+private fun BenchZone(state: GameState, chosen: Int, onPick: (Int) -> Unit) {
+    Box(Modifier.at(BENCH), contentAlignment = Alignment.CenterStart) {
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            state.bench.forEachIndexed { index, baked -> BenchItem(baked, index == chosen) { onPick(index) } }
         }
     }
-    Label(topping.label.uppercase(), x, 348, w)
+    Label(if (state.bench.isEmpty()) "" else "PICK ONE UP", BENCH.x, 384, BENCH.w)
 }
 
 @Composable
-private fun DoughBowl(x: Int, w: Int, onTap: () -> Unit) {
+private fun BenchItem(baked: Baked, picked: Boolean, onPick: () -> Unit) {
     Box(
         Modifier
-            .offset(x.dp, 272.dp)
-            .requiredSize(w.dp, 72.dp)
-            .noRippleClickable(onTap),
+            .size(48.dp)
+            .then(if (picked) Modifier.border(3.dp, Palette.Select, CircleShape) else Modifier)
+            .noRippleClickable(onPick),
+        contentAlignment = Alignment.Center,
     ) {
-        Canvas(Modifier.fillMaxSize()) { drawDoughBowl(balls = 5) }
+        Manousheh(size = 42.dp, topping = baked.topping, doneness = baked.doneness)
+        Row(Modifier.offset(0.dp, 19.dp), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+            baked.khodra.forEach {
+                Box(
+                    Modifier.size(7.dp).clip(CircleShape).background(khodraInk(it))
+                        .border(1.dp, Palette.Ink, CircleShape)
+                )
+            }
+        }
     }
-    Label("DOUGH", x, 348, w)
 }
 
+/** Six compartments, already painted. This only marks what is asked for and what is on. */
 @Composable
-private fun Bin(x: Int, w: Int, onTap: () -> Unit) {
-    Box(
-        Modifier
-            .offset(x.dp, 272.dp)
-            .requiredSize(w.dp, 82.dp)
-            .clip(RoundedCornerShape(6.dp, 6.dp, 12.dp, 12.dp))
-            .background(Color(0xFF5A5F65))
-            .border(3.dp, Palette.Ink, RoundedCornerShape(6.dp, 6.dp, 12.dp, 12.dp))
-            .noRippleClickable(onTap)
-    )
-    Label("BIN", x, 358, w)
+private fun KhodraZone(state: GameState, chosen: Int, onAdd: (Khodra) -> Unit) {
+    val on = state.bench.getOrNull(chosen)?.khodra.orEmpty()
+    val wanted = state.front?.khodra.orEmpty()
+    Box(Modifier.at(KHODRA).padding(5.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Khodra.entries.chunked(3).forEach { row ->
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    row.forEach { k ->
+                        Box(
+                            Modifier
+                                .requiredSize(35.dp, 33.dp)
+                                .then(
+                                    when {
+                                        k in on -> Modifier.border(2.5.dp, Palette.Good, RoundedCornerShape(3.dp))
+                                        k in wanted -> Modifier.border(2.5.dp, Palette.Select, RoundedCornerShape(3.dp))
+                                        else -> Modifier
+                                    }
+                                )
+                                .noRippleClickable { onAdd(k) }
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 // ---------------------------------------------------------------- the queue
@@ -504,47 +345,67 @@ private fun Bin(x: Int, w: Int, onTap: () -> Unit) {
 private fun Queue(state: GameState, inHand: Set<Khodra>, onServe: () -> Unit) {
     state.queue.take(3).forEachIndexed { index, customer ->
         val front = index == 0
+        val slotX = CUSTOMER_X[index].toFloat()
+
+        // All of this comes off state the engine already holds, so the motion needs
+        // no clock of its own and cannot drift out of step with the game.
+        val since = (customer.max - customer.left).toFloat()
+        val walk = (since / 0.75f).coerceIn(0f, 1f)
+        val eased = 1f - (1f - walk) * (1f - walk)
+        val x = DOOR_X + (slotX - DOOR_X) * eased
+
+        val fretting = customer.patience < 0.35
+        val rate = if (fretting) 7.2f else 2.6f
+        val bob = sin(state.timeLeft * rate + index * 1.7).toFloat() * (if (fretting) 2.4f else 1.4f)
+        val lean = if (fretting) sin(state.timeLeft * 3.4 + index).toFloat() * 1.8f - 2.5f else 0f
+
         Box(
             Modifier
-                .offset((292 + index * 136).dp, (16 + index * 6).dp)
-                .requiredSize(132.dp, 234.dp)
-                .then(if (front) Modifier.noRippleClickable(onServe) else Modifier)
-                .graphicsLayer(alpha = if (front) 1f else 0.72f),
+                .offset(x.dp, (56f + bob).dp)
+                .requiredSize(118.dp, 162.dp)
+                .graphicsLayer(
+                    alpha = walk,
+                    rotationZ = lean,
+                    transformOrigin = TransformOrigin(0.5f, 1f),
+                )
+                .then(if (front) Modifier.noRippleClickable(onServe) else Modifier),
+            contentAlignment = Alignment.BottomCenter,
         ) {
-            Column(
-                Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom,
-            ) {
-                Ticket(customer, front, if (front) inHand else emptySet())
+            CustomerArt(customer, width = 84.dp)
+            Box(Modifier.offset(0.dp, (-46).dp), contentAlignment = Alignment.Center) {
                 Heart(customer.patience.toFloat())
-                CustomerArt(customer, width = if (front) 88.dp else 76.dp)
             }
+        }
+        // The ticket sits over their chest, the way the design has it.
+        Box(
+            Modifier
+                .offset((slotX + 6f).dp, 110.dp)
+                .requiredSize(106.dp, 66.dp)
+                .graphicsLayer(alpha = ((walk - 0.6f) / 0.4f).coerceIn(0f, 1f)),
+        ) {
+            Ticket(customer, front, if (front) inHand else emptySet())
         }
     }
 }
 
+/** They come in and go out through the door, so that is where a walk starts. */
+private const val DOOR_X = 716f
+
 /**
  * The regular, drawn once in the design canvas and converted straight to a vector
- * drawable — so the person on the phone is the person on the character sheet, with
- * no chance of the two drifting apart. Only the mouth is live, because it is the
- * one part that has to answer to how long they have been waiting.
+ * drawable — so the person on the phone is the person on the character sheet. Only
+ * the mouth is live, because it is the one part that answers to how long they have
+ * been waiting.
  */
 @Composable
 private fun CustomerArt(customer: Customer, width: Dp) {
     val art = CAST[customer.id.mod(CAST.size)]
-    val height = width * 200f / 110f
-    Box(Modifier.requiredSize(width, height)) {
-        Image(
-            painter = painterResource(art),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-        )
+    Box(Modifier.requiredSize(width, width * 200f / 110f)) {
+        Image(painterResource(art), contentDescription = null, modifier = Modifier.fillMaxSize())
         Canvas(Modifier.fillMaxSize()) {
             val k = size.width / 110f
-            val patient = customer.patience > 0.45
             val path = Path().apply {
-                if (patient) {
+                if (customer.patience > 0.45) {
                     moveTo(43f * k, 92f * k)
                     relativeCubicTo(5f * k, 8f * k, 19f * k, 8f * k, 24f * k, 0f)
                 } else {
@@ -563,45 +424,40 @@ private val CAST = intArrayOf(
     R.drawable.cust_i, R.drawable.cust_j, R.drawable.cust_k, R.drawable.cust_l,
 )
 
-/**
- * The order as a ticket rather than a row of swatches: what they want in words,
- * and the khodra block only when khodra was asked for.
- */
 @Composable
 private fun Ticket(customer: Customer, front: Boolean, onSelected: Set<Khodra>) {
     Box(
         Modifier
             .background(Palette.Paper, RoundedCornerShape(6.dp))
             .border(if (front) 2.5.dp else 1.5.dp, if (front) Color(0xFFC2593C) else Palette.Ink, RoundedCornerShape(6.dp))
-            .padding(6.dp, 4.dp),
+            .padding(5.dp, 3.dp),
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            BasicText(
+                if (front) "NOW" else "NEXT",
+                style = TextStyle(color = Color(0xFFC2593C), fontSize = 7.sp, fontWeight = FontWeight.ExtraBold),
+            )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Manousheh(size = 18.dp, topping = customer.wants, doneness = Doneness.PERFECT)
+                Manousheh(size = 16.dp, topping = customer.wants, doneness = Doneness.PERFECT)
                 BasicText(
                     "  ${customer.wants.label}",
-                    style = TextStyle(color = Palette.Ink, fontSize = 12.sp, fontWeight = FontWeight.ExtraBold),
+                    style = TextStyle(color = Palette.Ink, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold),
                 )
             }
-            if (customer.khodra.isNotEmpty()) {
-                Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                    customer.khodra.forEach { k ->
-                        val met = k in onSelected
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                Modifier.size(8.dp).clip(CircleShape).background(khodraInk(k))
-                                    .border(1.dp, if (met) Palette.Good else Palette.Ink, CircleShape)
-                            )
-                            BasicText(
-                                " ${k.label}",
-                                style = TextStyle(
-                                    color = if (met) Palette.Good else Color(0xFF7B6852),
-                                    fontSize = 8.sp,
-                                    fontWeight = FontWeight.Bold,
-                                ),
-                            )
-                        }
-                    }
+            customer.khodra.forEach { k ->
+                val met = k in onSelected
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        Modifier.size(7.dp).clip(CircleShape).background(khodraInk(k))
+                            .border(1.dp, if (met) Palette.Good else Palette.Ink, CircleShape)
+                    )
+                    BasicText(
+                        " ${k.label}",
+                        style = TextStyle(
+                            color = if (met) Palette.Good else Color(0xFF7B6852),
+                            fontSize = 7.5.sp, fontWeight = FontWeight.Bold,
+                        ),
+                    )
                 }
             }
         }
@@ -616,9 +472,9 @@ private fun Heart(patience: Float) {
         patience > 0.25f -> Palette.Coin
         else -> Palette.Warn
     }
-    Canvas(Modifier.requiredSize(26.dp, 24.dp).padding(bottom = 4.dp)) {
+    Canvas(Modifier.requiredSize(24.dp, 22.dp)) {
         val path = heartPath(size.width, size.height)
-        drawPath(path, Color(0x33000000))
+        drawPath(path, Color(0x40000000))
         clipRect(top = size.height * (1f - patience)) { drawPath(path, colour) }
         drawPath(path, Palette.Ink, style = Stroke(width = 2.5.dp.toPx()))
     }
@@ -633,40 +489,42 @@ private fun heartPath(w: Float, h: Float): Path = Path().apply {
 
 // ---------------------------------------------------------------- hud
 
+/** The calendar, the sign and the coin pill are painted. Only the numbers are live. */
 @Composable
-private fun DayClock(state: GameState, params: GameParams) {
-    val fraction = (state.timeLeft / params.dayLength).coerceIn(0.0, 1.0).toFloat()
-    val urgent = state.timeLeft <= 10.0 && state.phase == DayPhase.RUNNING
-    Box(
-        Modifier.offset(18.dp, 10.dp).requiredSize(200.dp, 26.dp)
-            .background(Palette.HintBg, RoundedCornerShape(13.dp)).padding(4.dp),
-    ) {
-        Box(
-            Modifier
-                .requiredSize((192 * fraction).dp.coerceAtLeast(0.dp), 18.dp)
-                .background(if (urgent) Palette.Warn else Palette.Good, RoundedCornerShape(9.dp))
+private fun Hud(state: GameState) {
+    Box(Modifier.at(CALENDAR).offset(0.dp, 22.dp), contentAlignment = Alignment.Center) {
+        BasicText(
+            "1",
+            style = TextStyle(color = Palette.Ink, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold),
         )
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    }
+    val urgent = state.timeLeft <= 10.0 && state.phase == DayPhase.RUNNING
+    Box(Modifier.at(TIMER), contentAlignment = Alignment.Center) {
+        Box(
+            Modifier.requiredSize(64.dp, 26.dp).background(Color(0xFF16120C), RoundedCornerShape(4.dp)),
+            contentAlignment = Alignment.Center,
+        ) {
+            val total = state.timeLeft.toInt().coerceAtLeast(0)
             BasicText(
-                "${state.timeLeft.toInt()}s",
-                style = TextStyle(color = Palette.HintInk, fontSize = 12.sp, fontWeight = FontWeight.Bold),
+                "%d:%02d".format(total / 60, total % 60),
+                style = TextStyle(
+                    color = if (urgent) Color(0xFFFF6B4A) else Color(0xFF8AECAE),
+                    fontSize = 19.sp, fontWeight = FontWeight.ExtraBold,
+                ),
             )
         }
     }
-}
-
-@Composable
-private fun Purse(state: GameState) {
-    Box(
-        Modifier.offset(650.dp, 10.dp).requiredSize(176.dp, 40.dp)
-            .background(Palette.HintBg, RoundedCornerShape(20.dp)),
-        contentAlignment = Alignment.Center,
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(18.dp).clip(CircleShape).background(Palette.Coin))
+    Box(Modifier.at(COINS), contentAlignment = Alignment.CenterStart) {
+        BasicText(
+            "${state.purse}",
+            style = TextStyle(color = Color(0xFFFDF6E4), fontSize = 24.sp, fontWeight = FontWeight.ExtraBold),
+        )
+    }
+    if (state.streak > 1) {
+        Box(Modifier.offset(712.dp, 42.dp)) {
             BasicText(
-                "  ${state.purse}   ·   ${state.served} served" + if (state.streak > 1) "   ·   x${state.streak}" else "",
-                style = TextStyle(color = Palette.HintInk, fontSize = 13.sp, fontWeight = FontWeight.Bold),
+                "x${state.streak} clean",
+                style = TextStyle(color = Palette.Coin, fontSize = 11.sp, fontWeight = FontWeight.Bold),
             )
         }
     }
@@ -679,20 +537,21 @@ private fun Drops(state: GameState, onCollect: (Int) -> Unit) {
         val fading = drop.left < 2.0
         Box(
             Modifier
-                .offset((292 + (drop.id % 4) * 62).dp, (248 + bob).dp)
-                .requiredSize(44.dp, 44.dp)
-                .graphicsLayer(alpha = if (fading) 0.45f + 0.55f * (drop.left / 2.0).toFloat() else 1f)
+                .offset((214 + (drop.id % 4) * 58).dp, (196 + bob).dp)
+                .requiredSize(46.dp, 46.dp)
+                .graphicsLayer(alpha = if (fading) 0.4f + 0.6f * (drop.left / 2.0).toFloat() else 1f)
                 .noRippleClickable { onCollect(drop.id) },
             contentAlignment = Alignment.Center,
         ) {
             Box(
-                Modifier.size(38.dp).clip(CircleShape).background(Palette.Coin)
-                    .border(3.dp, Palette.Ink, CircleShape),
+                Modifier.size(40.dp).clip(CircleShape)
+                    .background(Brush.verticalGradient(listOf(Color(0xFFF6D06A), Color(0xFFD9A02E))))
+                    .border(3.dp, Color(0xFFC2593C), CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 BasicText(
                     "${drop.amount}",
-                    style = TextStyle(color = Palette.Ink, fontSize = 14.sp, fontWeight = FontWeight.ExtraBold),
+                    style = TextStyle(color = Color(0xFF6B4A18), fontSize = 15.sp, fontWeight = FontWeight.ExtraBold),
                 )
             }
         }
@@ -702,13 +561,13 @@ private fun Drops(state: GameState, onCollect: (Int) -> Unit) {
 @Composable
 private fun Hint(state: GameState) {
     Box(
-        Modifier.offset(0.dp, 372.dp).requiredSize(STAGE_W.dp, 18.dp),
+        Modifier.offset(0.dp, 366.dp).requiredSize(STAGE_W.dp, 20.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Box(Modifier.background(Palette.HintBg, RoundedCornerShape(9.dp)).padding(12.dp, 2.dp)) {
+        Box(Modifier.background(Color(0xCC1C120A), RoundedCornerShape(10.dp)).padding(12.dp, 3.dp)) {
             BasicText(
                 state.note,
-                style = TextStyle(color = Palette.HintInk, fontSize = 12.sp, fontWeight = FontWeight.Bold),
+                style = TextStyle(color = Color(0xFFF4EDDD), fontSize = 12.sp, fontWeight = FontWeight.Bold),
             )
         }
     }
@@ -730,7 +589,7 @@ private fun Curtain(state: GameState, onOpen: () -> Unit) {
                 )
                 BasicText(
                     "Ninety seconds. Tap to open the shop.",
-                    style = TextStyle(color = Palette.HintInk, fontSize = 15.sp),
+                    style = TextStyle(color = Color(0xFFF4EDDD), fontSize = 15.sp),
                 )
             } else {
                 BasicText(
@@ -752,7 +611,7 @@ private fun Curtain(state: GameState, onOpen: () -> Unit) {
                 Box(Modifier.requiredSize(1.dp, 18.dp))
                 BasicText(
                     "Tap for another day",
-                    style = TextStyle(color = Palette.HintInk, fontSize = 15.sp, fontWeight = FontWeight.Bold),
+                    style = TextStyle(color = Color(0xFFF4EDDD), fontSize = 15.sp, fontWeight = FontWeight.Bold),
                 )
             }
         }
@@ -778,9 +637,6 @@ private fun Tally(label: String, value: String, warn: Boolean = false, big: Bool
 
 private fun toppingInk(topping: Topping): Color =
     if (topping == Topping.JIBNEH) Palette.Jibneh else Palette.Zaatar
-
-private fun toppingShade(topping: Topping): Color =
-    if (topping == Topping.JIBNEH) Palette.JibnehDark else Palette.ZaatarDark
 
 private fun khodraInk(khodra: Khodra): Color = when (khodra) {
     Khodra.TOMATO -> Color(0xFFC33B26)
@@ -826,12 +682,13 @@ private fun DrawScope.sesame(radius: Float) {
 
 @Composable
 private fun Label(text: String, x: Int, y: Int, w: Int) {
-    Box(Modifier.offset(x.dp, y.dp).requiredSize(w.dp, 13.dp), contentAlignment = Alignment.Center) {
+    if (text.isEmpty()) return
+    Box(Modifier.offset(x.dp, y.dp).requiredSize(w.dp, 12.dp), contentAlignment = Alignment.Center) {
         BasicText(
             text,
             style = TextStyle(
-                color = Palette.Ink,
-                fontSize = 8.5.sp,
+                color = Color(0xFFF4EDDD),
+                fontSize = 8.sp,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center,
             ),
