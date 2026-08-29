@@ -346,6 +346,15 @@ into the bin. A ghost of what you are carrying follows your finger and the
 target you are over lights up **green when the drop is legal and red when it is
 not**, so the rules are learned by moving rather than by being told.
 
+**The ghost is the thing, not a token for it.** Whatever you pick up, what
+follows your finger is that object drawn properly — and for the peel that means
+the peel: the steel blade, the wooden shaft and grip, and the load still sitting
+on it. You hold it by the **handle**, so the grip sits under your finger and the
+blade reaches out ahead of it toward the furn mouth, hanging a little tilted out
+on the counter and swinging level as you bring it in. The peel left on the
+counter fades while you are carrying it, because it is in your hand. A grey
+puck standing in for a metre-long paddle reads as a bug, not as shorthand.
+
 Tapping still works for everything, and should keep working: it is the
 accessible path, and the faster one once you know the layout. Drag is what makes
 it feel like cooking; tap is what makes it playable one-handed on a bus.

@@ -464,7 +464,7 @@
   <div class="spill" style="position: absolute; left: 0; top: 210px; width: 300px; height: 180px; background: radial-gradient(58% 70% at 22% 30%, rgba(255,170,70,.3) 0%, rgba(0,0,0,0) 74%); pointer-events: none;"></div>
 
   <!-- ===== THE PEEL — stood on end at the far left ===== -->
-  <div onClick="{{onPeel}}" onPointerDown="{{onPeelDown}}" class="peel {{peelAnim}}" style="position: absolute; left: 78px; top: 212px; width: 62px; height: 178px; cursor: pointer; z-index: {{peelZ}};">
+  <div onClick="{{onPeel}}" onPointerDown="{{onPeelDown}}" class="peel {{peelAnim}}" style="position: absolute; left: 78px; top: 212px; width: 62px; height: 178px; cursor: pointer; z-index: {{peelZ}}; opacity: {{peelBodyOp}};">
     <div style="position: absolute; left: 24px; top: 148px; width: 14px; height: 30px; border-radius: 3px; background: linear-gradient(90deg, #C08E5C, #8A6242 48%, #5E4028); border: 3px solid #2A1B12;"></div>
     <div style="position: absolute; left: 18px; top: 166px; width: 26px; height: 14px; border-radius: 5px; background: linear-gradient(180deg, #A9754E, #6F4A2E); border: 3px solid #2A1B12;"></div>
     <div style="position: absolute; left: 0; top: 0; width: 62px; height: 156px; border-radius: 9px 9px 5px 5px; background: linear-gradient(90deg, #DCE0E4 0%, #B4B9BF 34%, #90959B 72%, #6E747A 100%); border: 3px solid #4E5359; box-shadow: {{peelGlow}};"></div>
@@ -677,10 +677,28 @@
     </div>
   </sc-for>
 
-  <sc-if value="{{dragging}}" hint-placeholder-val="{{true}}">
+  <sc-if value="{{dragRound}}" hint-placeholder-val="{{true}}">
     <div style="position: absolute; left: {{drag.hx}}; top: {{drag.hy}}; width: {{drag.w}}; height: {{drag.w}}; border-radius: 50%; clip-path: {{drag.clip}}; background: {{drag.bread}}; border: 3px solid #2A1B12; box-shadow: 0 8px 14px rgba(0,0,0,.45); pointer-events: none; opacity: .92; z-index: 40;">
       <div style="position: absolute; inset: 14%; border-radius: 50%; clip-path: {{drag.clip}}; background: {{drag.surface}};"></div>
     </div>
+  </sc-if>
+
+  <!-- dragging the peel carries the peel, held by its handle, not a disc -->
+  <sc-if value="{{dragIsPeel}}" hint-placeholder-val="{{true}}">
+    <div style="position: absolute; left: {{drag.px}}; top: {{drag.py}}; width: 44px; height: 120px; pointer-events: none; z-index: 40; opacity: .96; filter: drop-shadow(0 9px 12px rgba(0,0,0,.45)); transform: rotate({{drag.ptilt}}); transform-origin: 50% 94%;">
+      <div style="position: absolute; left: 16px; top: 94px; width: 12px; height: 20px; border-radius: 3px; background: linear-gradient(90deg, #C08E5C, #8A6242 48%, #5E4028); border: 2.5px solid #2A1B12;"></div>
+      <div style="position: absolute; left: 11px; top: 108px; width: 22px; height: 12px; border-radius: 4px; background: linear-gradient(180deg, #A9754E, #6F4A2E); border: 2.5px solid #2A1B12;"></div>
+      <div style="position: absolute; left: 0; top: 0; width: 44px; height: 100px; border-radius: 7px 7px 4px 4px; background: linear-gradient(90deg, #E4E8EC 0%, #BCC1C7 34%, #969BA1 72%, #737980 100%); border: 2.5px solid #4E5359; box-shadow: inset 0 2px 0 rgba(255,255,255,.55), inset 0 -3px 6px rgba(0,0,0,.25);"></div>
+      <div style="position: absolute; left: 6px; top: 4px; width: 5px; height: 92px; border-radius: 3px; background: rgba(255,255,255,.28);"></div>
+      <sc-for list="{{peelGhost}}" as="pg" hint-placeholder-count="3">
+        <div style="position: absolute; left: {{pg.left}}; top: {{pg.top}}; width: {{pg.size}}; height: {{pg.size}}; border-radius: 50%; clip-path: {{pg.clip}}; background: {{pg.fill}}; border: {{pg.border}}; box-shadow: {{pg.shadow}};">
+          <div style="position: absolute; inset: 14%; border-radius: 50%; clip-path: {{pg.clip}}; background: {{pg.surface}}; box-shadow: {{pg.inner}};"></div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{dragging}}" hint-placeholder-val="{{true}}">
     <div style="position: absolute; left: {{drop.x}}; top: {{drop.y}}; width: {{drop.w}}; height: {{drop.h}}; border-radius: 12px; border: 3px dashed {{drop.color}}; background: {{drop.glow}}; pointer-events: none; z-index: 30;"></div>
   </sc-if>
 
@@ -1352,6 +1370,30 @@ class Component extends DCLogic {
         shadow: it ? '0 2px 3px rgba(0,0,0,.3)' : 'none'
       });
     }
+    // the same load, drawn small enough to carry on the finger
+    const gN = Math.max(1, s.peel.length);
+    const gSize = Math.min(34, Math.floor((92 - 4 * (gN - 1)) / gN));
+    const gTop = 4 + Math.round((92 - (gSize * gN + 4 * (gN - 1))) / 2);
+    const gLeft = Math.round((44 - gSize) / 2);
+    const peelGhost = s.peel.map((it, i) => {
+      const bf = it.q ? (it.q === 'raw' ? 0.45 : it.q === 'perfect' ? 0.9 : it.q === 'done' ? 0.98 : 1.05) : 0.05;
+      return {
+        left: gLeft + 'px',
+        top: gTop + i * (gSize + 4) + 'px',
+        size: gSize + 'px',
+        clip: this.recipes[it.topping].clip,
+        fill: this.breadBg(bf),
+        surface: this.toppingBg(it.topping, bf),
+        inner: 'inset 0 2px 4px rgba(0,0,0,.28)',
+        border: '2.5px solid #2A1B12',
+        shadow: '0 2px 3px rgba(0,0,0,.3)'
+      };
+    });
+    // it swings level as you carry it to the furn mouth, the way a baker turns it in
+    const peelTilt = s.drag && s.drag.kind === 'peel' && s.drag.x > -100
+      ? Math.max(-14, Math.min(14, (s.drag.x - 117) * 0.09)) + 'deg'
+      : '0deg';
+
     const canLoad = s.prep && s.prep.stage === 'topped' && s.peel.length < n;
     const peelLabel = s.peelAnim === 'anim-out' ? 'COMING OUT'
       : s.peelAnim === 'anim-in' ? 'GOING IN'
@@ -1573,7 +1615,11 @@ class Component extends DCLogic {
       radioNotes: s.radioOn ? '1' : '0',
       onRadio: () => this.toggleRadio(),
       dragging: !!s.drag,
-      drag: s.drag ? { hx: (s.drag.x - parseInt(s.drag.w, 10) / 2) + 'px', hy: (s.drag.y - parseInt(s.drag.w, 10) / 2) + 'px', w: s.drag.w, bread: s.drag.bread, surface: s.drag.surface, clip: s.drag.clip } : { hx: '0px', hy: '0px', w: '0px', bread: 'none', surface: 'none', clip: 'none' },
+      dragIsPeel: !!s.drag && s.drag.kind === 'peel',
+      dragRound: !!s.drag && s.drag.kind !== 'peel',
+      peelGhost: peelGhost,
+      drag: s.drag ? { hx: (s.drag.x - parseInt(s.drag.w, 10) / 2) + 'px', hy: (s.drag.y - parseInt(s.drag.w, 10) / 2) + 'px', w: s.drag.w, bread: s.drag.bread, surface: s.drag.surface, clip: s.drag.clip, px: (s.drag.x - 22) + 'px', py: (s.drag.y - 114) + 'px', ptilt: peelTilt } : { hx: '0px', hy: '0px', w: '0px', bread: 'none', surface: 'none', clip: 'none', px: '0px', py: '0px', ptilt: '0deg' },
+      peelBodyOp: s.drag && s.drag.kind === 'peel' ? '0.3' : '1',
       drop: dropZone,
       setCluster: setCluster,
       spillA: heat === 2 ? '.66' : heat === 1 ? '.54' : '.22',
