@@ -1,6 +1,7 @@
 package com.foronbeirut.manakich
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -27,14 +28,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -139,44 +144,126 @@ private fun Furn(state: GameState, params: GameParams, onIn: () -> Unit, onOut: 
     val loaded = state.furn
     Box(
         Modifier
-            .offset(20.dp, 44.dp)
-            .requiredSize(200.dp, 200.dp)
-            .noRippleClickable { if (loaded == null) onIn() else onOut() }
+            .offset(16.dp, 40.dp)
+            .requiredSize(208.dp, 208.dp)
+            .noRippleClickable { if (loaded == null) onIn() else onOut() },
+        contentAlignment = Alignment.Center,
     ) {
-        Box(
-            Modifier.fillMaxSize().clip(RoundedCornerShape(14.dp)).background(Palette.SteelDark).padding(10.dp)
-        ) {
-            Box(
-                Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)).background(Palette.FurnMouth),
-                contentAlignment = Alignment.Center,
-            ) {
-                Flames(hot = loaded != null)
-                if (loaded != null) {
-                    BakeRings(loaded.items.distinct(), loaded.elapsed, params)
-                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                        loaded.items.forEach {
-                            Manousheh(size = 40.dp, topping = it, doneness = params.donenessAt(it, loaded.elapsed))
-                        }
+        Canvas(Modifier.fillMaxSize()) { drawFurn(hot = loaded != null) }
+        if (loaded != null) {
+            BakeRings(loaded.items.distinct(), loaded.elapsed, params)
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+                Row(
+                    Modifier.offset(0.dp, (-34).dp),
+                    horizontalArrangement = Arrangement.spacedBy(3.dp),
+                ) {
+                    loaded.items.forEach {
+                        Manousheh(size = 38.dp, topping = it, doneness = params.donenessAt(it, loaded.elapsed))
                     }
                 }
             }
         }
     }
-    Label("FURN", x = 20, y = 246, w = 200)
+    Label("FURN", x = 16, y = 248, w = 208)
 }
 
-@Composable
-private fun Flames(hot: Boolean) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-        Box(
-            Modifier
-                .requiredSize(150.dp, if (hot) 34.dp else 18.dp)
-                .background(
-                    Brush.verticalGradient(listOf(Color.Transparent, Palette.Flame, Palette.FlameHot)),
-                    RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
+/**
+ * A furn is a brick arch over a receding box, not a black hole with a flame on it.
+ * The floor and side walls stay lit so you can read how deep it goes, and the fire
+ * runs down both sides like a road in a tunnel — the shape the design asked for.
+ */
+private fun DrawScope.drawFurn(hot: Boolean) {
+    val u = size.width / 208f
+    fun poly(vararg xy: Float) = Path().apply {
+        moveTo(xy[0] * u, xy[1] * u)
+        var i = 2
+        while (i < xy.size) {
+            lineTo(xy[i] * u, xy[i + 1] * u)
+            i += 2
+        }
+        close()
+    }
+
+    val arch = Path().apply {
+        moveTo(2f * u, 206f * u)
+        lineTo(2f * u, 92f * u)
+        arcTo(Rect(2f * u, 6f * u, 206f * u, 178f * u), 180f, 180f, false)
+        lineTo(206f * u, 206f * u)
+        close()
+    }
+    drawPath(arch, Brush.verticalGradient(listOf(Color(0xFFB08A63), Color(0xFF7E5D40))))
+    for (y in listOf(34, 58, 82, 106, 130, 154, 178)) {
+        drawLine(Color(0x33000000), Offset(10f * u, y * u), Offset(198f * u, y * u), strokeWidth = 1.6f * u)
+    }
+    drawPath(arch, Palette.Ink, style = Stroke(width = 5f * u))
+
+    val mouth = Path().apply {
+        moveTo(22f * u, 202f * u)
+        lineTo(22f * u, 96f * u)
+        arcTo(Rect(22f * u, 26f * u, 186f * u, 166f * u), 180f, 180f, false)
+        lineTo(186f * u, 202f * u)
+        close()
+    }
+    clipPath(mouth) {
+        drawRect(Color(0xFF2A150A))
+        drawPath(poly(80f, 112f, 128f, 112f, 128f, 150f, 80f, 150f), Color(0xFF3A1E0C))
+        drawPath(poly(22f, 96f, 186f, 96f, 128f, 112f, 80f, 112f), Color(0xFF34190A))
+        drawPath(poly(22f, 96f, 22f, 202f, 80f, 150f, 80f, 112f), Color(0xFF5E3418))
+        drawPath(poly(186f, 96f, 186f, 202f, 128f, 150f, 128f, 112f), Color(0xFF4A2812))
+        drawPath(poly(22f, 202f, 186f, 202f, 128f, 150f, 80f, 150f), Color(0xFF8A6236))
+        drawPath(
+            poly(22f, 202f, 186f, 202f, 128f, 150f, 80f, 150f),
+            Brush.verticalGradient(
+                listOf(Color(0x00FFC46A), Color(0x66FFC46A)),
+                startY = 150f * u,
+                endY = 202f * u,
+            ),
+        )
+
+        // A pipe down each side with flames standing out of its holes. They sit low
+        // on an empty furn and come up when there is something in there to bake.
+        val reach = if (hot) 1f else 0.55f
+        for (left in listOf(true, false)) {
+            for (i in 0 until 5) {
+                val t = i / 4f
+                val x = if (left) 30f + t * 46f else 178f - t * 46f
+                val y = 196f - t * 44f
+                val scale = 1f - t * 0.42f
+                drawCircle(Color(0xFF3A2413), radius = 3.2f * u * scale, center = Offset(x * u, y * u))
+                val h = 26f * scale * reach
+                val flame = Path().apply {
+                    moveTo(x * u, (y - h) * u)
+                    cubicTo(
+                        (x + 7f * scale) * u, (y - h * 0.5f) * u,
+                        (x + 5f * scale) * u, y * u,
+                        x * u, y * u,
+                    )
+                    cubicTo(
+                        (x - 5f * scale) * u, y * u,
+                        (x - 7f * scale) * u, (y - h * 0.5f) * u,
+                        x * u, (y - h) * u,
+                    )
+                    close()
+                }
+                drawPath(
+                    flame,
+                    Brush.verticalGradient(
+                        listOf(Palette.FlameHot, Palette.Flame, Color(0xCCD2541E)),
+                        startY = (y - h) * u,
+                        endY = y * u,
+                    ),
                 )
+            }
+        }
+        drawRect(
+            Brush.verticalGradient(
+                listOf(Color(0x00FF9A3C), Color(0x33FF9A3C)),
+                startY = 150f * u,
+                endY = 202f * u,
+            ),
         )
     }
+    drawPath(mouth, Palette.Ink, style = Stroke(width = 4f * u))
 }
 
 /**
@@ -449,10 +536,10 @@ private fun Queue(state: GameState, inHand: Set<Khodra>, onServe: () -> Unit) {
         val front = index == 0
         Box(
             Modifier
-                .offset((296 + index * 134).dp, (34 + index * 6).dp)
-                .requiredSize(128.dp, 214.dp)
+                .offset((292 + index * 136).dp, (16 + index * 6).dp)
+                .requiredSize(132.dp, 234.dp)
                 .then(if (front) Modifier.noRippleClickable(onServe) else Modifier)
-                .graphicsLayer(alpha = if (front) 1f else 0.7f),
+                .graphicsLayer(alpha = if (front) 1f else 0.72f),
         ) {
             Column(
                 Modifier.fillMaxSize(),
@@ -461,20 +548,50 @@ private fun Queue(state: GameState, inHand: Set<Khodra>, onServe: () -> Unit) {
             ) {
                 Ticket(customer, front, if (front) inHand else emptySet())
                 Heart(customer.patience.toFloat())
-                Box(
-                    Modifier.size(if (front) 50.dp else 44.dp).clip(CircleShape)
-                        .background(Color(0xFFC89A6E)).border(3.dp, Palette.Ink, CircleShape)
-                )
-                Box(
-                    Modifier
-                        .requiredSize(if (front) 88.dp else 76.dp, if (front) 66.dp else 58.dp)
-                        .background(Color(0xFF6FA3C4), RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
-                        .border(3.dp, Palette.Ink, RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
-                )
+                CustomerArt(customer, width = if (front) 88.dp else 76.dp)
             }
         }
     }
 }
+
+/**
+ * The regular, drawn once in the design canvas and converted straight to a vector
+ * drawable — so the person on the phone is the person on the character sheet, with
+ * no chance of the two drifting apart. Only the mouth is live, because it is the
+ * one part that has to answer to how long they have been waiting.
+ */
+@Composable
+private fun CustomerArt(customer: Customer, width: Dp) {
+    val art = CAST[customer.id.mod(CAST.size)]
+    val height = width * 200f / 110f
+    Box(Modifier.requiredSize(width, height)) {
+        Image(
+            painter = painterResource(art),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+        )
+        Canvas(Modifier.fillMaxSize()) {
+            val k = size.width / 110f
+            val patient = customer.patience > 0.45
+            val path = Path().apply {
+                if (patient) {
+                    moveTo(43f * k, 92f * k)
+                    relativeCubicTo(5f * k, 8f * k, 19f * k, 8f * k, 24f * k, 0f)
+                } else {
+                    moveTo(43f * k, 99f * k)
+                    relativeCubicTo(5f * k, -8f * k, 19f * k, -8f * k, 24f * k, 0f)
+                }
+            }
+            drawPath(path, Palette.Ink, style = Stroke(width = 4.2f * k, cap = StrokeCap.Round))
+        }
+    }
+}
+
+private val CAST = intArrayOf(
+    R.drawable.cust_a, R.drawable.cust_b, R.drawable.cust_c, R.drawable.cust_d,
+    R.drawable.cust_e, R.drawable.cust_f, R.drawable.cust_g, R.drawable.cust_h,
+    R.drawable.cust_i, R.drawable.cust_j, R.drawable.cust_k, R.drawable.cust_l,
+)
 
 /**
  * The order as a ticket rather than a row of swatches: what they want in words,

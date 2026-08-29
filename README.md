@@ -44,6 +44,20 @@ it** (tap khodra), **hand it over** (tap the customer).
 
 Still no upgrades, no fatayer, no mini pizza. That is phase 4.
 
+### On the art
+
+The twelve regulars in the app are **not redrawn** — they are the same drawings as
+the design canvas, converted from its inline SVG straight into Android vector
+drawables (`app/src/main/res/drawable/cust_*.xml`). Path data, gradients, groups
+and transforms all carry over, so the person on the phone cannot drift from the
+person on the character sheet. Only the mouth is drawn live in Compose, because
+it is the one part that has to answer to how long they have been waiting.
+
+The scene around them — the furn, the counter, the props — is drawn in Compose
+against the canvas's own 844 x 390 coordinates, so `ART_BRIEF.md` positions drop
+in without being re-measured. Regenerate the cast with
+`tools/svg2vd.py` if the canvas art ever changes.
+
 ## Layout
 
 ```
