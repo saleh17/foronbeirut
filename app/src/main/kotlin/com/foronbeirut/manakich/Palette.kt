@@ -22,6 +22,8 @@ object Palette {
     val DoughShade = Color(0xFFDCC291)
 
     val Zaatar = Color(0xFF5A5229)
+    val Jibneh = Color(0xFFF0DFA8)
+    val JibnehDark = Color(0xFFD2B063)
     val ZaatarDark = Color(0xFF3E381B)
     val Sesame = Color(0xFFF3E8C7)
 
@@ -31,6 +33,8 @@ object Palette {
     val BreadBurnt = Color(0xFF4A3418)
 
     val Good = Color(0xFF4A7038)
+    val Warn = Color(0xFFC4432B)
+    val Select = Color(0xFFE0A339)
     val Coin = Color(0xFFEBBB4E)
     val Paper = Color(0xFFF7F1E2)
     val HintInk = Color(0xFFF4EDDD)

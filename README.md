@@ -18,23 +18,31 @@ that makes the same seven taps steadily easier.
 
 ## Where it is
 
-**Phases 1 and 2 are in.** The loop — take dough, flatten, spread, into the
-furn, pull it on the green band, hand it over — now runs inside a **ninety-second
-day**, with a queue of up to three, a **heart per customer** that drains while
-they wait, **coins that land on the counter and are gone in six seconds** if you
-do not pick them up, and an end-of-day board.
+**Phases 1 to 3 are in.** A ninety-second day, a queue of three with a heart
+each, coins that land on the counter and are gone in six seconds, and now the
+depth: **jibneh alongside zaatar**, the **peel carrying three under one shared
+clock**, and **khodra as add-ons**.
 
-Two things that turn a loop into a shift and are easy to get wrong:
+Four rules in there are the game, rather than features on it:
 
-- **Collecting is a move you spend.** Coins are earned and collected separately,
-  and the day report shows both, so leaving them on the counter is a visible
-  mistake rather than a silent one. This is exactly the cost the tip-jar upgrade
-  will later sell you out of.
-- **Speed is a tip, not the wage.** The bake alone spends six of a customer's
-  twenty-four seconds, so a full tip is unreachable by construction — being fast
-  is a bonus on top of a fair price, never the price itself.
+- **One clock, two windows.** Zaatar wants 6.0s, jibneh 7.5s, and their perfect
+  windows never overlap — there is a test that asserts exactly that. A whole peel
+  bakes on a single timer, so a mixed load has no right moment: pull for the
+  zaatar and the jibneh is raw, wait for the jibneh and the zaatar has gone dark.
+  Loading the peel is the decision; the furn just charges you for it.
+- **Difficulty is a longer order, not a faster clock.** Khodra pays +2 a piece
+  and each one you were asked for and missed takes 22% off the lot. Khodra
+  nobody asked for is free and harmless.
+- **Collecting is a move you spend.** Serving drops coins on the counter; picking
+  them up is a separate action. Earned and collected are reported apart.
+- **Speed is a tip, not the wage.** And the bake puts a ceiling on it — nobody
+  can be served faster than their manousheh bakes, so the top coin is unreachable
+  by construction.
 
-Still no upgrades, no cheese, no khodra, no menu. That is phase 3.
+The tap grammar on the counter: **pick one up** (tap it on the bench), **dress
+it** (tap khodra), **hand it over** (tap the customer).
+
+Still no upgrades, no fatayer, no mini pizza. That is phase 4.
 
 ## Layout
 
@@ -81,6 +89,6 @@ including engine-only ones. Each module declares its own plugins from
 
 ## Next
 
-Phase 3 is depth: cheese and its longer bake window, the peel carrying three at
-once under one shared timer, and khodra as add-ons. Phases are listed in
-[GAME_DESIGN.md](GAME_DESIGN.md#4-phases).
+Phase 4 is the economy: the upgrade tree, save and load, and day progression —
+the point where the coins the player has been collecting start buying the taps
+back. Phases are listed in [GAME_DESIGN.md](GAME_DESIGN.md#4-phases).

@@ -3,10 +3,10 @@ package com.foronbeirut.manakich.engine
 /**
  * The whole game, as one pure function: `(state, params, dt, actions) -> state`.
  *
- * Nothing in here touches a clock, a framework or the screen. The caller owns the
- * frame loop and hands in how much time passed; the engine only decides what that
- * means. That is what lets the rules be tested in milliseconds and lets the same
- * code back a phone, a desktop preview or a headless balance sweep.
+ * Nothing in here touches a clock, a framework, a random or the screen. The caller
+ * owns the frame loop and hands in how much time passed; the engine only decides
+ * what that means. That is what lets the rules be tested in milliseconds and lets
+ * the same code back a phone, a desktop preview or a headless balance sweep.
  */
 public fun step(
     state: GameState,
@@ -63,15 +63,33 @@ private fun spawn(state: GameState, params: GameParams, dt: Double): GameState {
     // A full queue holds the door rather than banking arrivals, so a bad patch
     // never turns into a wave the player could not have prevented.
     if (state.queue.size >= params.queueMax) return state.copy(spawnIn = 0.0)
+
+    var seed = state.seed
+    fun roll(): Double {
+        seed = seed * 6364136223846793005L + 1442695040888963407L
+        return ((seed ushr 11).toDouble() / (1L shl 53).toDouble()).let { if (it < 0) it + 1.0 else it }
+    }
+
+    val wants = if (roll() < params.jibnehShare) Topping.JIBNEH else Topping.ZAATAR
+    // Difficulty comes from a longer order, not a faster clock: about a third ask
+    // for one vegetable and a few ask for two.
+    val extras = roll().let { if (it < 0.30) 1 else if (it < 0.42) 2 else 0 }
+    val khodra = if (extras == 0) emptySet() else {
+        val all = Khodra.entries
+        buildSet { while (size < extras) add(all[(roll() * all.size).toInt().coerceIn(0, all.size - 1)]) }
+    }
+
     return state.copy(
         queue = state.queue + Customer(
             id = state.nextCustomerId,
-            wants = Topping.ZAATAR,
+            wants = wants,
+            khodra = khodra,
             left = params.patienceSeconds,
             max = params.patienceSeconds,
         ),
         nextCustomerId = state.nextCustomerId + 1,
         spawnIn = params.spawnEvery,
+        seed = seed,
     )
 }
 
@@ -98,6 +116,7 @@ private fun apply(state: GameState, params: GameParams, action: Action): GameSta
             phase = DayPhase.RUNNING,
             timeLeft = params.dayLength,
             spawnIn = params.firstCustomerAfter,
+            seed = state.seed + 1,
             note = "Doors open",
         )
     }
@@ -113,57 +132,79 @@ private fun apply(state: GameState, params: GameParams, action: Action): GameSta
         }
 
         Action.Flatten -> when (state.board) {
-            Board.Ball -> state.copy(board = Board.Flat, note = "Spread the zaatar")
+            Board.Ball -> state.copy(board = Board.Flat, note = "Zaatar or jibneh?")
             Board.Empty -> state.nag("Nothing to flatten — take a ball of dough")
             else -> state.nag("That one is already flat")
         }
 
         is Action.Spread -> when (state.board) {
-            Board.Flat -> state.copy(board = Board.Topped(action.topping), note = "Into the furn")
+            Board.Flat -> state.copy(board = Board.Topped(action.topping), note = "Onto the peel")
             Board.Ball -> state.nag("Press it flat first")
             Board.Empty -> state.nag("Nothing to spread it on")
-            is Board.Topped -> state.nag("It already has zaatar on it")
+            is Board.Topped -> state.nag("That one is already topped")
         }
 
-        Action.IntoFurn -> when {
-            state.board !is Board.Topped -> state.nag("Nothing ready for the furn")
-            state.furn != null -> state.nag("The furn is full — pull that one out first")
-            else -> state.copy(
-                board = Board.Empty,
-                furn = Bake((state.board as Board.Topped).topping, elapsed = 0.0),
-                note = "Watch it — pull it on the green",
-            )
-        }
-
-        Action.OutOfFurn -> when {
-            state.furn == null -> state.nag("The furn is empty")
-            state.bench != null -> state.nag("Clear the bench first")
+        Action.LoadPeel -> when {
+            state.board !is Board.Topped -> state.nag("Nothing topped to load")
+            state.peel.size >= params.peelSlots -> state.nag("The peel is full — send it in")
             else -> {
-                val doneness = params.donenessAt(state.furn.elapsed)
+                val peel = state.peel + (state.board as Board.Topped).topping
                 state.copy(
-                    furn = null,
-                    bench = Baked(state.furn.topping, doneness),
-                    note = when (doneness) {
-                        Doneness.RAW -> "Too early — that one is still dough"
-                        Doneness.PERFECT -> "Perfect. Hand it over"
-                        Doneness.DONE -> "A touch dark, but sellable"
-                        Doneness.BURNT -> "Burnt. Straight in the bin"
-                    },
+                    board = Board.Empty,
+                    peel = peel,
+                    note = if (peel.size == params.peelSlots) "Full peel — into the furn" else
+                        "${peel.size}/${params.peelSlots} on the peel",
                 )
             }
         }
 
-        Action.Serve -> serve(state, params)
+        Action.IntoFurn -> when {
+            state.peel.isEmpty() -> state.nag("Load the peel first")
+            state.furn != null -> state.nag("The furn is full — pull that load out first")
+            else -> state.copy(
+                peel = emptyList(),
+                furn = Bake(items = state.peel, elapsed = 0.0),
+                note = if (state.peel.distinct().size > 1)
+                    "A mixed load — one clock, two windows" else "Watch it — pull on the green",
+            )
+        }
 
-        Action.Bin -> when {
-            state.bench != null -> state.copy(bench = null, binned = state.binned + 1, note = "Gone. Start another")
-            state.board != Board.Empty -> state.copy(board = Board.Empty, binned = state.binned + 1, note = "Gone. Start another")
+        Action.OutOfFurn -> outOfFurn(state, params)
+
+        is Action.AddKhodra -> {
+            val item = state.bench.getOrNull(action.benchIndex)
+                ?: return state.nag("Nothing there to put it on")
+            if (action.khodra in item.khodra) return state.nag("${action.khodra.label} is already on it")
+            state.copy(
+                bench = state.bench.replaceAt(
+                    action.benchIndex,
+                    item.copy(khodra = item.khodra + action.khodra),
+                ),
+                note = "${action.khodra.label} on",
+            )
+        }
+
+        is Action.Serve -> serve(state, params, action.benchIndex)
+
+        is Action.BinBaked -> {
+            state.bench.getOrNull(action.benchIndex) ?: return state.nag("Nothing there to throw away")
+            state.copy(
+                bench = state.bench.filterIndexed { i, _ -> i != action.benchIndex },
+                binned = state.binned + 1,
+                note = "Gone. Start another",
+            )
+        }
+
+        Action.BinBoard -> when {
+            state.board != Board.Empty ->
+                state.copy(board = Board.Empty, binned = state.binned + 1, note = "Gone. Start another")
+            state.peel.isNotEmpty() ->
+                state.copy(peel = emptyList(), binned = state.binned + state.peel.size, note = "Peel cleared")
             else -> state.nag("Nothing to throw away")
         }
 
         is Action.Collect -> {
-            val drop = state.drops.firstOrNull { it.id == action.dropId }
-                ?: return state
+            val drop = state.drops.firstOrNull { it.id == action.dropId } ?: return state
             state.copy(
                 drops = state.drops.filterNot { it.id == drop.id },
                 purse = state.purse + drop.amount,
@@ -172,8 +213,30 @@ private fun apply(state: GameState, params: GameParams, action: Action): GameSta
     }
 }
 
-private fun serve(state: GameState, params: GameParams): GameState {
-    val baked = state.bench ?: return state.nag("Nothing on the bench to hand over")
+private fun outOfFurn(state: GameState, params: GameParams): GameState {
+    val bake = state.furn ?: return state.nag("The furn is empty")
+    if (state.bench.size + bake.items.size > params.peelSlots) {
+        return state.nag("No room on the bench — hand some over first")
+    }
+    var id = state.nextBakedId
+    val out = bake.items.map { topping ->
+        Baked(id = id++, topping = topping, doneness = params.donenessAt(topping, bake.elapsed))
+    }
+    val perfect = out.count { it.doneness == Doneness.PERFECT }
+    return state.copy(
+        furn = null,
+        bench = state.bench + out,
+        nextBakedId = id,
+        note = when {
+            out.any { it.doneness == Doneness.BURNT } -> "Burnt ones straight in the bin"
+            perfect == out.size -> if (out.size == 1) "Perfect" else "All ${out.size} perfect"
+            else -> "$perfect of ${out.size} caught the window"
+        },
+    )
+}
+
+private fun serve(state: GameState, params: GameParams, index: Int): GameState {
+    val baked = state.bench.getOrNull(index) ?: return state.nag("Nothing there to hand over")
     val customer = state.front ?: return state.nag("Nobody at the counter")
     // Wrong item is refused outright rather than sold cheap: anything that clears
     // the queue is worth more than the coins, so a discount would be an exploit.
@@ -182,10 +245,19 @@ private fun serve(state: GameState, params: GameParams): GameState {
         return state.nag("They will not take that one — bin it")
     }
 
-    val paid = params.payoutFor(baked.doneness) + params.tipFor(customer.patience)
-    val streak = if (baked.doneness == Doneness.PERFECT) state.streak + 1 else 0
+    val paid = params.settle(
+        topping = baked.topping,
+        doneness = baked.doneness,
+        wanted = customer.khodra,
+        given = baked.khodra,
+        patience = customer.patience,
+    )
+    val missed = (customer.khodra - baked.khodra).size
+    // A clean one is the right item, caught in the window, with everything they asked for.
+    val clean = baked.doneness == Doneness.PERFECT && missed == 0
+    val streak = if (clean) state.streak + 1 else 0
     return state.copy(
-        bench = null,
+        bench = state.bench.filterIndexed { i, _ -> i != index },
         queue = state.queue.drop(1),
         drops = state.drops + CoinDrop(state.nextDropId, paid, params.coinLife),
         nextDropId = state.nextDropId + 1,
@@ -193,8 +265,15 @@ private fun serve(state: GameState, params: GameParams): GameState {
         served = state.served + 1,
         streak = streak,
         bestStreak = maxOf(state.bestStreak, streak),
-        note = "+$paid on the counter — pick it up",
+        note = when {
+            missed == 1 -> "+$paid — they wanted khodra on that"
+            missed > 1 -> "+$paid — $missed things missing"
+            else -> "+$paid on the counter — pick it up"
+        },
     )
 }
+
+private fun <T> List<T>.replaceAt(index: Int, value: T): List<T> =
+    mapIndexed { i, existing -> if (i == index) value else existing }
 
 private fun GameState.nag(message: String): GameState = copy(note = message)

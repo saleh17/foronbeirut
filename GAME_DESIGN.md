@@ -641,8 +641,12 @@ budget real time for it.
    drains and breaks the streak when it empties; coins land on the counter and
    expire after six seconds, with earned and collected reported separately;
    speed pays as a tip on top of the doneness wage rather than as the wage.
-3. **Depth.** Cheese and half-and-half with distinct bake windows, extras,
-   multi-touch batching, 2 -> 4 saj slots.
+3. **Depth.** ~~Cheese and half-and-half with distinct bake windows, extras,
+   multi-touch batching, 2 -> 4 saj slots.~~ **Built** — jibneh at 7.5s against
+   zaatar's 6.0s, with a test asserting the two perfect windows never overlap;
+   the peel carries three under one shared clock, so a mixed load is a real
+   choice; khodra pays +2 each and every requested one missed takes 22% off.
+   Half-and-half and the saj-slot upgrades wait for the economy in phase 4.
 4. **Economy.** Upgrade tree, save/load, day progression.
 5. **Polish + iOS.** Move the UI into `composeApp`, and the iOS target pays off.
 
