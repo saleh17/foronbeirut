@@ -20,7 +20,7 @@ const DCLogic = `class DCLogic {
 }`;
 const vals = await (async () => {
   const over = process.env.STATE ? JSON.parse(process.env.STATE) : {};
-  const mod = `${DCLogic}\n${script}\nexport const mk = (o) => { const c = new Component(${JSON.stringify(defaults)}); Object.assign(c.state, o); return c.renderVals(); };`;
+  const mod = `${DCLogic}\n${script}\nexport const mk = (o) => { const c = new Component(${JSON.stringify(defaults)}); Object.assign(c.state, o); return typeof c.renderVals === 'function' ? c.renderVals() : {}; };`;
   return (await import('data:text/javascript;base64,' + Buffer.from(mod).toString('base64'))).mk(over);
 })();
 const _unused = (async () => {

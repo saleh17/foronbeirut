@@ -18,7 +18,7 @@ that makes the same seven taps steadily easier.
 
 ## Where it is
 
-**Phases 1 to 4 are in.** The loop runs inside a ninety-second day with a queue,
+**All five phases are in, Android only.** The loop runs inside a ninety-second day with a queue,
 patience, expiring coins and a shop between days. Jibneh alongside zaatar, a peel
 carrying a shared-clock load, khodra as add-ons, six upgrades, and a save.
 
@@ -37,8 +37,17 @@ Rules that are the game rather than features on it:
   and collected are reported apart, and the tip jar that removes the chore is the
   most expensive thing in the shop for that reason.
 
+- **Feedback confirms, never delays.** The effects layer is *observed*: the UI
+  diffs one engine state against the next and draws what that change deserves.
+  The engine has no idea animations exist, and an effect can never hold up a tap.
+
 Priced by simulation, not arithmetic: a headless bot plays whole days at three
 skill levels, and the tree is set against what it actually earns.
+
+Not done: sound. The music the game wants is Fairuz, the Rahbani catalogue is
+actively administered, and the answer is commissioning original music in that
+idiom rather than shipping a licence problem — so there is nothing to wire an
+audio path to yet. See §3 of the design spec.
 
 ### On the art
 

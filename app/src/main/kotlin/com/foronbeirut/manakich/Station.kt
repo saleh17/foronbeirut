@@ -91,7 +91,7 @@ private data class Rect4(val x: Int, val y: Int, val w: Int, val h: Int)
 private fun Modifier.at(r: Rect4) = offset(r.x.dp, r.y.dp).requiredSize(r.w.dp, r.h.dp)
 
 @Composable
-fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Unit) {
+fun StationScreen(state: GameState, params: GameParams, fx: Effects, onAction: (Action) -> Unit) {
     var selected by remember { mutableStateOf(0) }
     val chosen = selected.coerceIn(0, (state.bench.size - 1).coerceAtLeast(0))
 
@@ -136,6 +136,7 @@ fun StationScreen(state: GameState, params: GameParams, onAction: (Action) -> Un
                 }
 
                 Hud(state)
+                FxLayer(fx)
                 Hint(state)
                 Curtain(state, onAction)
             }
@@ -559,6 +560,97 @@ private fun Drops(state: GameState, onCollect: (Int) -> Unit) {
     }
 }
 
+/**
+ * Draws whatever feedback is currently in flight. Everything here is read-only:
+ * it can never swallow a tap or hold up the next action.
+ */
+@Composable
+private fun FxLayer(fx: Effects) {
+    val now = fx.clock
+    fx.all.forEach { e ->
+        val t = e.progress(now)
+        when (e.kind) {
+            FxKind.COIN -> {
+                val ease = t * t
+                val x = e.x + (e.toX - e.x) * ease
+                val y = e.y + (e.toY - e.y) * ease - 40f * t * (1f - t)
+                Box(
+                    Modifier
+                        .offset(x.dp, y.dp)
+                        .requiredSize(40.dp)
+                        .graphicsLayer(alpha = 1f - t * t, scaleX = 1f - 0.6f * t, scaleY = 1f - 0.6f * t),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Box(
+                        Modifier.size(34.dp).clip(CircleShape)
+                            .background(Brush.verticalGradient(listOf(Color(0xFFF6D06A), Color(0xFFD9A02E))))
+                            .border(3.dp, Color(0xFFC2593C), CircleShape),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        BasicText(
+                            "+${e.amount}",
+                            style = TextStyle(color = Color(0xFF6B4A18), fontSize = 13.sp, fontWeight = FontWeight.ExtraBold),
+                        )
+                    }
+                }
+            }
+
+            FxKind.POP -> {
+                val ring = 1f + t * 0.9f
+                Box(
+                    Modifier
+                        .offset((BENCH.x + BENCH.w / 2 - 30).dp, (BENCH.y + 12).dp)
+                        .requiredSize(60.dp)
+                        .graphicsLayer(alpha = (1f - t) * 0.8f, scaleX = ring, scaleY = ring)
+                        .border(3.dp, Palette.Paper, CircleShape)
+                )
+            }
+
+            FxKind.PEEL_IN -> {
+                // The peel travelling up into the mouth. The design wants this pause
+                // visible — it is the one animation allowed to read as deliberate.
+                val ease = 1f - (1f - t) * (1f - t)
+                val x = PEEL.x + (FURN.x + FURN.w / 2f - PEEL.w / 2f - PEEL.x) * ease
+                val y = PEEL.y + (FURN.y + 96f - PEEL.y) * ease
+                Box(
+                    Modifier
+                        .offset(x.dp, y.dp)
+                        .requiredSize(PEEL.w.dp, 96.dp)
+                        .graphicsLayer(alpha = (1f - t).coerceAtMost(0.85f), rotationZ = -6f * ease),
+                ) {
+                    Canvas(Modifier.fillMaxSize()) {
+                        drawRoundRect(
+                            Brush.horizontalGradient(listOf(Color(0xFFE4E8EC), Color(0xFF8E939A))),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(6.dp.toPx()),
+                        )
+                    }
+                }
+            }
+
+            FxKind.LEAVE -> {
+                val ease = 1f - (1f - t) * (1f - t)
+                val x = e.x + (e.toX - e.x) * ease
+                Box(
+                    Modifier
+                        .offset(x.dp, (e.y + sin(t * 18.0).toFloat() * 2f).dp)
+                        .requiredSize(84.dp, 153.dp)
+                        .graphicsLayer(
+                            alpha = 1f - ease * ease,
+                            rotationZ = if (e.happy) 0f else 4f,
+                            transformOrigin = TransformOrigin(0.5f, 1f),
+                        ),
+                ) {
+                    Image(
+                        painterResource(CAST[e.art.coerceIn(0, CAST.size - 1)]),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+            }
+        }
+    }
+}
+
 @Composable
 private fun Hint(state: GameState) {
     Box(
@@ -588,14 +680,24 @@ private fun Curtain(state: GameState, onAction: (Action) -> Unit) {
         contentAlignment = Alignment.Center,
     ) {
         if (report == null) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            // The front of the shop, straight off the design canvas. Only the two
+            // numbers on it are live.
+            Image(
+                painter = painterResource(R.drawable.home_bg),
+                contentDescription = null,
+                modifier = Modifier.requiredSize(STAGE_W.dp, STAGE_H.dp),
+                contentScale = ContentScale.FillBounds,
+            )
+            Box(Modifier.offset(46.dp, 24.dp)) {
                 BasicText(
-                    "Sabah el kheir",
-                    style = TextStyle(color = Palette.Paper, fontSize = 34.sp, fontWeight = FontWeight.ExtraBold),
+                    "${state.purse}",
+                    style = TextStyle(color = Color(0xFFFDF6E4), fontSize = 20.sp, fontWeight = FontWeight.ExtraBold),
                 )
+            }
+            Box(Modifier.offset(778.dp, 25.dp)) {
                 BasicText(
-                    if (state.day > 1) "Day ${state.day}. Tap to open the shop." else "Ninety seconds. Tap to open the shop.",
-                    style = TextStyle(color = Color(0xFFF4EDDD), fontSize = 15.sp),
+                    "${state.day}",
+                    style = TextStyle(color = Color(0xFFFDF6E4), fontSize = 15.sp, fontWeight = FontWeight.ExtraBold),
                 )
             }
             return@Box

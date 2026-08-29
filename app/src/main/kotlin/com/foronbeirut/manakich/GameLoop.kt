@@ -45,9 +45,13 @@ class Game(private val save: Save?, start: GameState) {
 
     val params: GameParams get() = state.params()
 
+    /** Feedback lives here, not in the engine, and never blocks an action. */
+    val fx = Effects()
+
     private var best = save?.load()?.bestDay ?: 0
 
     fun advance(dtSeconds: Double) {
+        fx.tick(dtSeconds)
         apply(step(state, params, dtSeconds))
     }
 
@@ -59,6 +63,7 @@ class Game(private val save: Save?, start: GameState) {
     private fun apply(next: GameState) {
         val was = state
         state = next
+        fx.observe(was, next, dropAt = ::dropPosition, slotAt = ::slotPosition)
         val worth = next.day != was.day ||
             next.purse != was.purse ||
             next.upgrades != was.upgrades ||
@@ -69,6 +74,12 @@ class Game(private val save: Save?, start: GameState) {
         }
     }
 }
+
+/** Where the coin was sitting when it was picked up — kept in step with Station.kt. */
+private fun dropPosition(id: Int): Pair<Float, Float> = (214f + (id % 4) * 58f) to 196f
+
+/** Where a customer in that queue slot is standing. */
+private fun slotPosition(index: Int): Float = listOf(218f, 336f, 454f)[index.coerceIn(0, 2)]
 
 @Composable
 fun rememberGame(save: Save?): Game {

@@ -656,7 +656,18 @@ budget real time for it.
    the day, so difficulty comes from longer tickets rather than a faster clock.
    Patience is the one number the bot could not price, and it is still a guess:
    see `WhatTheBotCannotSee` in the engine tests.
-5. **Polish + iOS.** Move the UI into `composeApp`, and the iOS target pays off.
+5. **Polish + iOS.** ~~Move the UI into `composeApp`, and the iOS target pays
+   off.~~ **Started, Android only.** The splash is the design canvas's own Home
+   artboard, rendered by the same pipeline as the station. Feedback is an
+   observed effects layer rather than engine state: coins fly to the till,
+   the bench flashes as a load lands, the peel visibly travels into the mouth,
+   and customers walk out to the door — served ones upright, fed-up ones tilted.
+   Nothing takes longer than 0.6s and nothing can delay the next tap.
+
+   Still open here: sound (the Fairuz problem in §3 — original music has to be
+   commissioned, and there is no point wiring an audio path to nothing), the
+   serve and wrap animations, and the iOS target, which is a module move rather
+   than a rewrite whenever it is wanted.
 
 Two tuning notes from the start: keep the perfect window generous (~1.2s on a 4s
 bake) until phase 3, and make the day timer the only pressure source early —

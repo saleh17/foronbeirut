@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val save = remember { Save(applicationContext) }
             val game = rememberGame(save)
-            StationScreen(state = game.state, params = game.params, onAction = game::send)
+            StationScreen(state = game.state, params = game.params, fx = game.fx, onAction = game::send)
         }
     }
 }
