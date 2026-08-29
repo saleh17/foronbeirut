@@ -58,8 +58,11 @@ class Effects {
             live += Fx(FxKind.POP, clock, 0.3)
         }
         // The peel went in. The one place the design wants a visible pause.
-        if (was.furn == null && now.furn != null) {
-            live += Fx(FxKind.PEEL_IN, clock, 0.5, amount = now.furn.items.size)
+        // Bound to a local first: a public property from another module cannot be
+        // smart-cast, and the engine is another module by design.
+        val lit = now.furn
+        if (was.furn == null && lit != null) {
+            live += Fx(FxKind.PEEL_IN, clock, 0.5, amount = lit.items.size)
         }
         // Someone left — served or fed up, and they leave differently.
         val left = was.queue.filter { c -> now.queue.none { it.id == c.id } }
