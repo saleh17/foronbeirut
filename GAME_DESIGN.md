@@ -217,7 +217,7 @@ test:
 | **Abou Elias** | the service driver | moustache, sunglasses pushed up on his head, cigarette behind the ear |
 | **Yara** | on her way to school | high ponytail with a red scrunchie, backpack straps, freckles |
 | **Im Georges** | the teta from the building | headscarf tied under the chin, round glasses, cardigan |
-| **Ziad** | the delivery rider | open-face helmet, hi-vis vest, chin strap |
+| **Ziad** | the delivery rider | the big square thermal box on his back, open-face helmet, visor flipped up, phone in hand |
 | **Karim** | gym before work | gelled quiff, sunglasses on, gold chain, one earbud |
 | **Nour** | late for the office | hair in a bun, blazer over a white shirt, hoops |
 | **Hanna** | the painter | cap on backwards, paint-spattered whites, pencil behind the ear |

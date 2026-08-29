@@ -329,7 +329,7 @@ is the point.
 | 1 | **Abou Elias** — service driver | Sunglasses pushed up on his head, thick grey moustache, cigarette behind the ear, open collar with a gold chain, blue **masbaha** in his hand | sky-blue shirt, olive skin |
 | 2 | **Yara** — on her way to school | High ponytail with a red scrunchie, backpack straps, freckles, **cedar badge** on the pinafore | navy uniform, white collar |
 | 3 | **Im Georges** — the teta | Headscarf tied under the chin, round glasses, cardigan, thin gold chain, smile lines | cream scarf, mauve cardigan |
-| 4 | **Ziad** — delivery rider | Open-face helmet with the visor up, chin strap, hi-vis vest | white helmet, lime vest, dark tee |
+| 4 | **Ziad** — delivery rider | The **big square thermal box** on his back, rising above the shoulders and wider than he is — read him by that alone. Open-face helmet with the visor flipped up onto the crown, chin strap and buckle, padded shoulder straps with reflective buckles, phone in hand | teal jacket and box, off-white helmet, black yoke |
 | 5 | **Karim** — gym before work | Gelled quiff, sunglasses on, gold chain, one earbud | black fitted tee |
 | 6 | **Nour** — late for the office | Hair in a bun, blazer over a white shirt, hoop earrings, lanyard | navy blazer, deeper skin tone |
 | 7 | **Hanna** — the painter | Cap on backwards, paint-spattered whites, pencil behind the ear, **keffiyeh** at the neck | off-white overalls |
@@ -350,6 +350,17 @@ is the point.
 the counter crops them at the waist. Almond eyes with a lid line and a highlight;
 brows carry the expression. Ears. Hair with volume and one highlight. A cel
 shadow down the side away from the furn. Vary ages, skin tones and body shapes.
+
+**Draw for 56 units, not for the sheet.** On the phone a face is about 26 units
+tall, so anything under ~3 units disappears into a smudge. Two rules follow.
+First, **three torso widths**, not one: broad (Abou Elias, Hajj Abou Ali,
+Hussein, Ziad), medium (Karim, Nour, Hanna, Zeinab), narrow (Yara, Im Georges,
+Rita, Fatmeh) — twelve people cannot share one outline and still be told apart.
+Second, **fewer, larger features**: one iris with one highlight beats four
+stacked shading layers, brows sit clear of the lids rather than crowding them,
+and the outer contour carries more weight than any line inside the figure.
+Anything that only reads on the character sheet is decoration you are paying
+for twice.
 
 **Warm, never caricature.** Draw each one the way you would draw a neighbour.
 No exaggerated ethnic features, no costume-shop "Middle East" — the specifics
