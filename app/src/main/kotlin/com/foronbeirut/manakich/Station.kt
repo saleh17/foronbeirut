@@ -91,6 +91,17 @@ val COINS = Rect4(712, 8, 118, 32)
 
 data class Rect4(val x: Int, val y: Int, val w: Int, val h: Int)
 
+/** Where one baked manousheh sits inside the bench, centred as a row of [count]. */
+fun benchSlotRect(count: Int, index: Int): Rect4 {
+    val row = count * 34 + (count - 1).coerceAtLeast(0) * 2
+    val inset = ((BENCH.w - row) / 2).coerceAtLeast(0)
+    return Rect4(BENCH.x + inset + index * 36, BENCH.y + (BENCH.h - 34) / 2, 34, 34)
+}
+
+/** Where one compartment sits inside the khodra insert. */
+fun khodraCellRect(ordinal: Int): Rect4 =
+    Rect4(KHODRA.x + 5 + (ordinal % 3) * 39, KHODRA.y + 5 + (ordinal / 3) * 37, 35, 33)
+
 private fun Modifier.at(r: Rect4) = offset(r.x.dp, r.y.dp).requiredSize(r.w.dp, r.h.dp)
 
 /**
@@ -360,7 +371,11 @@ private fun BenchZone(state: GameState, chosen: Int, host: DragHost, drop: (Carr
     Box(Modifier.at(BENCH), contentAlignment = Alignment.Center) {
         Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             state.bench.forEachIndexed { index, baked ->
-                BenchItem(baked, index == chosen, Modifier.dragSource(BENCH, host, { Carry.BakedItem(index) }, drop)) { onPick(index) }
+                BenchItem(
+                    baked,
+                    index == chosen,
+                    Modifier.dragSource(benchSlotRect(state.bench.size, index), host, { Carry.BakedItem(index) }, drop),
+                ) { onPick(index) }
             }
         }
     }
@@ -410,7 +425,7 @@ private fun KhodraZone(state: GameState, chosen: Int, host: DragHost, drop: (Car
                                     }
                                 )
                                 .noRippleClickable { onAdd(k) }
-                                .dragSource(KHODRA, host, { Carry.Veg(k) }, drop)
+                                .dragSource(khodraCellRect(k.ordinal), host, { Carry.Veg(k) }, drop)
                         )
                     }
                 }
