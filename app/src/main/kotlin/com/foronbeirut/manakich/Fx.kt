@@ -62,13 +62,16 @@ class Effects {
 
         // ---- the peel and the furn
         if (now.peel.size > was.peel.size) say(SfxId.TAP)
-        val lit = now.furn
-        if (was.furn == null && lit != null) {
-            live += Fx(FxKind.PEEL_IN, clock, 0.5, amount = lit.items.size)
+        // Both sides bound once: a public property from another module cannot be
+        // smart-cast, and the engine is another module by design.
+        val before = was.furn
+        val after = now.furn
+        if (before == null && after != null) {
+            live += Fx(FxKind.PEEL_IN, clock, 0.5, amount = after.items.size)
             say(SfxId.SIZZLE)
         }
-        if (was.furn != null && now.furn == null) {
-            live += Fx(FxKind.PEEL_OUT, clock, 0.5, amount = was.furn.items.size)
+        if (before != null && after == null) {
+            live += Fx(FxKind.PEEL_OUT, clock, 0.5, amount = before.items.size)
             say(SfxId.TAP)
         }
 
