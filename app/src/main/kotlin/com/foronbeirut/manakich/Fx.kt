@@ -1,19 +1,20 @@
 package com.foronbeirut.manakich
 
 import androidx.compose.runtime.mutableStateListOf
+import com.foronbeirut.manakich.engine.Board
+import com.foronbeirut.manakich.engine.DayPhase
 import com.foronbeirut.manakich.engine.GameState
 
 /**
  * The half-second of feedback that tells you a tap registered.
  *
  * These live entirely on this side of the engine, and they are *observed* rather
- * than requested: the UI diffs one state against the next and spawns what that
- * change deserves. Nothing in the engine has to know an animation exists, and
- * nothing here can delay the next action — an effect is a thing being drawn, not
- * a thing being waited for. That is the rule from the design spec, and it is the
- * difference between a cooking game and a series of buttons.
+ * than requested: the UI diffs one state against the next and stages what that
+ * change deserves. Nothing in the engine knows an animation exists, and nothing
+ * here can delay the next action — an effect is a thing being drawn, not a thing
+ * being waited for.
  */
-enum class FxKind { COIN, POP, PEEL_IN, LEAVE }
+enum class FxKind { COIN, POP, PEEL_IN, PEEL_OUT, LEAVE, FLATTEN, WRAP }
 
 data class Fx(
     val kind: FxKind,
@@ -35,6 +36,9 @@ class Effects {
     private val live = mutableStateListOf<Fx>()
     val all: List<Fx> get() = live
 
+    /** Set by the host so the same observed change can make a noise as well as a picture. */
+    var onSound: ((SfxId) -> Unit)? = null
+
     var clock: Double = 0.0
         private set
 
@@ -43,40 +47,65 @@ class Effects {
         if (live.isNotEmpty()) live.removeAll { clock - it.born >= it.life }
     }
 
+    private fun say(id: SfxId) = onSound?.invoke(id)
+
     /** Reads what changed between two states and stages the feedback for it. */
     fun observe(was: GameState, now: GameState, dropAt: (Int) -> Pair<Float, Float>, slotAt: (Int) -> Float) {
-        // A coin that was on the counter and is now in the purse flew there.
-        if (now.purse > was.purse) {
-            val gone = was.drops.filter { d -> now.drops.none { it.id == d.id } }
-            gone.forEach { d ->
-                val (x, y) = dropAt(d.id)
-                live += Fx(FxKind.COIN, clock, 0.45, x, y, PURSE_X, PURSE_Y, amount = d.amount)
-            }
+
+        // ---- the board
+        if (was.board == Board.Empty && now.board == Board.Ball) say(SfxId.DOUGH)
+        if (was.board == Board.Ball && now.board == Board.Flat) {
+            live += Fx(FxKind.FLATTEN, clock, 0.42)
+            say(SfxId.DOUGH)
         }
-        // Something landed on the bench.
-        if (now.bench.size > was.bench.size) {
-            live += Fx(FxKind.POP, clock, 0.3)
-        }
-        // The peel went in. The one place the design wants a visible pause.
-        // Bound to a local first: a public property from another module cannot be
-        // smart-cast, and the engine is another module by design.
+        if (was.board == Board.Flat && now.board is Board.Topped) say(SfxId.TAP)
+
+        // ---- the peel and the furn
+        if (now.peel.size > was.peel.size) say(SfxId.TAP)
         val lit = now.furn
         if (was.furn == null && lit != null) {
             live += Fx(FxKind.PEEL_IN, clock, 0.5, amount = lit.items.size)
+            say(SfxId.SIZZLE)
         }
-        // Someone left — served or fed up, and they leave differently.
-        val left = was.queue.filter { c -> now.queue.none { it.id == c.id } }
-        left.forEach { c ->
+        if (was.furn != null && now.furn == null) {
+            live += Fx(FxKind.PEEL_OUT, clock, 0.5, amount = was.furn.items.size)
+            say(SfxId.TAP)
+        }
+
+        // ---- the counter
+        if (now.bench.size > was.bench.size) live += Fx(FxKind.POP, clock, 0.3)
+
+        // ---- handing it over: paper first, then the coins
+        if (now.served > was.served) {
+            live += Fx(FxKind.WRAP, clock, 0.55, x = BENCH.x + 24f, y = BENCH.y.toFloat(), toX = slotAt(0), toY = 120f)
+            say(SfxId.PAPER)
+            say(SfxId.SERVE)
+        }
+
+        if (now.purse > was.purse) {
+            was.drops.filter { d -> now.drops.none { it.id == d.id } }.forEach { d ->
+                val (x, y) = dropAt(d.id)
+                live += Fx(FxKind.COIN, clock, 0.45, x, y, PURSE_X, PURSE_Y, amount = d.amount)
+            }
+            say(SfxId.COIN)
+        }
+
+        // ---- someone left, served or fed up, and they leave differently
+        was.queue.filter { c -> now.queue.none { it.id == c.id } }.forEach { c ->
             val index = was.queue.indexOfFirst { it.id == c.id }.coerceAtLeast(0)
             live += Fx(
                 FxKind.LEAVE, clock, 0.6,
-                x = slotAt(index), y = 56f,
-                toX = DOOR, toY = 56f,
-                art = c.id.mod(12),
-                happy = now.served > was.served,
+                x = slotAt(index), y = 56f, toX = DOOR, toY = 56f,
+                art = c.id.mod(12), happy = now.served > was.served,
             )
         }
+
+        // ---- the closing bell
+        if (was.phase == DayPhase.RUNNING && now.phase == DayPhase.OVER) say(SfxId.BELL)
     }
+
+    /** An action the engine refused: it only moved the hint line. */
+    fun refused() = say(SfxId.NOPE)
 
     private companion object {
         const val PURSE_X = 740f

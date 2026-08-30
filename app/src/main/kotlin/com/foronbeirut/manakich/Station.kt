@@ -83,7 +83,7 @@ val KHODRA = Rect4(410, 300, 126, 82)
 val DOUGH = Rect4(554, 300, 124, 82)
 val TRAY_ZAATAR = Rect4(648, 234, 96, 50)
 val TRAY_JIBNEH = Rect4(748, 234, 96, 50)
-val BENCH = Rect4(688, 298, 152, 84)
+val BENCH = Rect4(150, 292, 112, 92)
 val CUSTOMER_X = listOf(218, 336, 454)
 val CALENDAR = Rect4(252, 4, 58, 64)
 val TIMER = Rect4(318, 6, 80, 44)
@@ -145,7 +145,14 @@ private fun Modifier.dragSource(origin: Rect4, host: DragHost, pick: () -> Carry
 }
 
 @Composable
-fun StationScreen(state: GameState, params: GameParams, fx: Effects, onAction: (Action) -> Unit) {
+fun StationScreen(
+    state: GameState,
+    params: GameParams,
+    fx: Effects,
+    muted: Boolean = false,
+    onToggleSound: () -> Unit = {},
+    onAction: (Action) -> Unit,
+) {
     var selected by remember { mutableStateOf(0) }
     val chosen = selected.coerceIn(0, (state.bench.size - 1).coerceAtLeast(0))
     val host = remember { DragHost() }
@@ -197,7 +204,7 @@ fun StationScreen(state: GameState, params: GameParams, fx: Effects, onAction: (
                 DragLayer(host, state)
                 FxLayer(fx)
                 Hint(state)
-                Curtain(state, onAction)
+                Curtain(state, muted, onToggleSound, onAction)
             }
         }
     }
@@ -350,31 +357,31 @@ private fun BoardZone(state: GameState, host: DragHost, drop: (Carry, Float, Flo
  */
 @Composable
 private fun BenchZone(state: GameState, chosen: Int, host: DragHost, drop: (Carry, Float, Float) -> Unit, onPick: (Int) -> Unit) {
-    Box(Modifier.at(BENCH), contentAlignment = Alignment.CenterStart) {
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+    Box(Modifier.at(BENCH), contentAlignment = Alignment.Center) {
+        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             state.bench.forEachIndexed { index, baked ->
                 BenchItem(baked, index == chosen, Modifier.dragSource(BENCH, host, { Carry.BakedItem(index) }, drop)) { onPick(index) }
             }
         }
     }
-    Label(if (state.bench.isEmpty()) "" else "PICK ONE UP", BENCH.x, 384, BENCH.w)
+    Label(if (state.bench.isEmpty()) "" else "PICK ONE UP", BENCH.x - 10, 386, BENCH.w + 20)
 }
 
 @Composable
 private fun BenchItem(baked: Baked, picked: Boolean, extra: Modifier, onPick: () -> Unit) {
     Box(
         Modifier
-            .size(48.dp)
-            .then(if (picked) Modifier.border(3.dp, Palette.Select, CircleShape) else Modifier)
+            .size(34.dp)
+            .then(if (picked) Modifier.border(2.5.dp, Palette.Select, CircleShape) else Modifier)
             .noRippleClickable(onPick)
             .then(extra),
         contentAlignment = Alignment.Center,
     ) {
-        Manousheh(size = 42.dp, topping = baked.topping, doneness = baked.doneness)
-        Row(Modifier.offset(0.dp, 19.dp), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+        Manousheh(size = 30.dp, topping = baked.topping, doneness = baked.doneness)
+        Row(Modifier.offset(0.dp, 14.dp), horizontalArrangement = Arrangement.spacedBy(1.5.dp)) {
             baked.khodra.forEach {
                 Box(
-                    Modifier.size(7.dp).clip(CircleShape).background(khodraInk(it))
+                    Modifier.size(5.5.dp).clip(CircleShape).background(khodraInk(it))
                         .border(1.dp, Palette.Ink, CircleShape)
                 )
             }
@@ -565,10 +572,14 @@ private fun heartPath(w: Float, h: Float): Path = Path().apply {
 /** The calendar, the sign and the coin pill are painted. Only the numbers are live. */
 @Composable
 private fun Hud(state: GameState) {
-    Box(Modifier.at(CALENDAR).offset(0.dp, 22.dp), contentAlignment = Alignment.Center) {
+    // The pad clears the red header so the number centres in the white leaf below it.
+    Box(
+        Modifier.at(CALENDAR).padding(top = 20.dp, bottom = 4.dp),
+        contentAlignment = Alignment.Center,
+    ) {
         BasicText(
             "${state.day}",
-            style = TextStyle(color = Palette.Ink, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold),
+            style = TextStyle(color = Palette.Ink, fontSize = 24.sp, fontWeight = FontWeight.ExtraBold),
         )
     }
     val urgent = state.timeLeft <= 10.0 && state.phase == DayPhase.RUNNING
@@ -775,22 +786,103 @@ private fun FxLayer(fx: Effects) {
                 )
             }
 
-            FxKind.PEEL_IN -> {
-                // The peel travelling up into the mouth. The design wants this pause
-                // visible — it is the one animation allowed to read as deliberate.
+            FxKind.PEEL_IN, FxKind.PEEL_OUT -> {
+                // Straight up into the mouth and straight back down — the peel sits
+                // inside the furn's own width, so the travel is vertical by geometry
+                // rather than by fudge. This is the one animation the design wants to
+                // read as deliberate.
+                val going = e.kind == FxKind.PEEL_IN
                 val ease = 1f - (1f - t) * (1f - t)
-                val x = PEEL.x + (FURN.x + FURN.w / 2f - PEEL.w / 2f - PEEL.x) * ease
-                val y = PEEL.y + (FURN.y + 96f - PEEL.y) * ease
+                val k = if (going) ease else 1f - ease
+                val y = PEEL.y + (FURN.y + 88f - PEEL.y) * k
+                Box(
+                    Modifier
+                        .offset(PEEL.x.dp, y.dp)
+                        .requiredSize(PEEL.w.dp, 104.dp)
+                        .graphicsLayer(alpha = if (going) 1f - t * t else t),
+                ) {
+                    Canvas(Modifier.fillMaxSize()) {
+                        val u = size.width / PEEL.w
+                        drawRoundRect(
+                            Brush.horizontalGradient(listOf(Color(0xFFE4E8EC), Color(0xFF8E939A))),
+                            size = Size(size.width, 84f * u),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f * u),
+                        )
+                        drawRoundRect(
+                            Brush.verticalGradient(listOf(Color(0xFFC08E5C), Color(0xFF6F4A2E))),
+                            topLeft = Offset(size.width / 2 - 6f * u, 80f * u),
+                            size = Size(12f * u, 24f * u),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(3f * u),
+                        )
+                    }
+                }
+            }
+
+            FxKind.FLATTEN -> {
+                // The pin sweeps once across the board and the disc spreads under it.
+                val sweep = BOARD.x - 26f + (BOARD.w + 40f) * t
+                Box(
+                    Modifier.at(BOARD),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Box(
+                        Modifier
+                            .requiredSize((68f * (0.55f + 0.45f * t)).dp, (68f * (1f - 0.28f * t)).dp)
+                            .clip(CircleShape)
+                            .background(Palette.DoughPale)
+                            .border(2.5.dp, Palette.Ink, CircleShape)
+                    )
+                }
+                Box(Modifier.offset(sweep.dp, (BOARD.y + 14).dp).requiredSize(52.dp, 26.dp)) {
+                    Canvas(Modifier.fillMaxSize()) {
+                        val u = size.height / 26f
+                        drawRoundRect(
+                            Brush.verticalGradient(listOf(Color(0xFFD9A96E), Color(0xFF8A5E32))),
+                            topLeft = Offset(8f * u, 4f * u),
+                            size = Size(36f * u, 18f * u),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(9f * u),
+                        )
+                        listOf(0f, 44f).forEach { hx ->
+                            drawRoundRect(
+                                Color(0xFF6F4A2E),
+                                topLeft = Offset(hx * u, 9f * u),
+                                size = Size(8f * u, 8f * u),
+                                cornerRadius = androidx.compose.ui.geometry.CornerRadius(4f * u),
+                            )
+                        }
+                    }
+                }
+            }
+
+            FxKind.WRAP -> {
+                // Paper closes round it, then the roll goes over the counter. Two beats
+                // in one effect so the wrap reads as wrapping rather than shrinking.
+                val close = (t / 0.45f).coerceIn(0f, 1f)
+                val travel = ((t - 0.45f) / 0.55f).coerceIn(0f, 1f)
+                val x = e.x + (e.toX - e.x) * travel
+                val y = e.y + (e.toY - e.y) * travel - 26f * travel * (1f - travel)
                 Box(
                     Modifier
                         .offset(x.dp, y.dp)
-                        .requiredSize(PEEL.w.dp, 96.dp)
-                        .graphicsLayer(alpha = (1f - t).coerceAtMost(0.85f), rotationZ = -6f * ease),
+                        .requiredSize(52.dp, 40.dp)
+                        .graphicsLayer(alpha = 1f - travel * travel, rotationZ = -10f * close + 24f * travel),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Canvas(Modifier.fillMaxSize()) {
+                        val u = size.height / 40f
+                        // the sheet curling in from both edges
+                        val w = 52f - 22f * close
                         drawRoundRect(
-                            Brush.horizontalGradient(listOf(Color(0xFFE4E8EC), Color(0xFF8E939A))),
-                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(6.dp.toPx()),
+                            Color(0xFFFAF6EA),
+                            topLeft = Offset((26f - w / 2f) * u, 6f * u),
+                            size = Size(w * u, 28f * u),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(if (close > 0.7f) 12f * u else 4f * u),
+                        )
+                        drawRoundRect(
+                            Color(0x33000000),
+                            topLeft = Offset((26f - w / 2f + 3f) * u, 9f * u),
+                            size = Size((w - 6f) * u, 6f * u),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(3f * u),
                         )
                     }
                 }
@@ -836,7 +928,7 @@ private fun Hint(state: GameState) {
 }
 
 @Composable
-private fun Curtain(state: GameState, onAction: (Action) -> Unit) {
+private fun Curtain(state: GameState, muted: Boolean, onToggleSound: () -> Unit, onAction: (Action) -> Unit) {
     if (state.phase == DayPhase.RUNNING) return
     val report = state.report
     Box(
@@ -869,6 +961,21 @@ private fun Curtain(state: GameState, onAction: (Action) -> Unit) {
                     style = TextStyle(color = Color(0xFFFDF6E4), fontSize = 15.sp, fontWeight = FontWeight.ExtraBold),
                 )
             }
+            // The button was painted on and inert, which reads as broken.
+            Box(
+                Modifier.offset(692.dp, 316.dp).requiredSize(66.dp, 58.dp).noRippleClickable(onToggleSound),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                if (muted) {
+                    Box(
+                        Modifier.offset(0.dp, 26.dp).requiredSize(40.dp, 3.dp)
+                            .background(Palette.Warn, RoundedCornerShape(2.dp))
+                            .graphicsLayer(rotationZ = -20f)
+                    )
+                }
+            }
+            Box(Modifier.offset(282.dp, 311.dp).requiredSize(280.dp, 64.dp)
+                .noRippleClickable { onAction(Action.OpenShop) })
             return@Box
         }
 

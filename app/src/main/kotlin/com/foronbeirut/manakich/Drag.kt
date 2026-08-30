@@ -35,7 +35,7 @@ fun hitTest(x: Float, y: Float, benchCount: Int): DropTarget {
     if (inside(BOARD)) return DropTarget(Zone.BOARD)
     if (inside(BENCH)) {
         // Which of the three you are actually over, so khodra lands on the right one.
-        val slot = ((x - BENCH.x) / 52f).toInt().coerceIn(0, (benchCount - 1).coerceAtLeast(0))
+        val slot = ((x - BENCH.x) / 36f).toInt().coerceIn(0, (benchCount - 1).coerceAtLeast(0))
         return DropTarget(Zone.BENCH, if (benchCount == 0) -1 else slot)
     }
     CUSTOMER_X.forEachIndexed { i, cx ->

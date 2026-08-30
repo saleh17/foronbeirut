@@ -39,14 +39,14 @@ class Save(context: Context) {
  * day, so buying something takes effect without anything having to remember to
  * rebuild it.
  */
-class Game(private val save: Save?, start: GameState) {
+class Game(private val save: Save?, private val sfx: Sfx?, start: GameState) {
     var state: GameState by mutableStateOf(start)
         private set
 
     val params: GameParams get() = state.params()
 
     /** Feedback lives here, not in the engine, and never blocks an action. */
-    val fx = Effects()
+    val fx = Effects().apply { onSound = { id -> sfx?.play(id) } }
 
     private var best = save?.load()?.bestDay ?: 0
 
@@ -56,7 +56,10 @@ class Game(private val save: Save?, start: GameState) {
     }
 
     fun send(action: Action) {
+        val before = state
         apply(step(state, params, dt = 0.0, actions = listOf(action)))
+        // Only the hint moved, so the engine turned the action down. Say so.
+        if (state.copy(note = before.note) == before && state.note != before.note) fx.refused()
     }
 
     /** Write only when something that outlives the day has actually moved. */
@@ -82,8 +85,8 @@ private fun dropPosition(id: Int): Pair<Float, Float> = (214f + (id % 4) * 58f) 
 private fun slotPosition(index: Int): Float = listOf(218f, 336f, 454f)[index.coerceIn(0, 2)]
 
 @Composable
-fun rememberGame(save: Save?): Game {
-    val game = remember(save) { Game(save, (save?.load() ?: Profile()).toState()) }
+fun rememberGame(save: Save?, sfx: Sfx? = null): Game {
+    val game = remember(save, sfx) { Game(save, sfx, (save?.load() ?: Profile()).toState()) }
     LaunchedEffect(game) {
         var previous = withFrameNanos { it }
         while (true) {
