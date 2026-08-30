@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,8 +39,10 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -135,23 +138,76 @@ class DragHost {
  * Makes a prop something you can pick up. Sits alongside the tap handler rather
  * than replacing it: a press that never moves is still a tap.
  */
+/**
+ * One detector that owns both a tap and a drag on the same prop.
+ *
+ * Two separate gesture detectors on one node — a clickable and a drag — leave the
+ * outcome depending on modifier order, which is not something to rely on. This
+ * decides it explicitly: below the touch slop it is a tap, above it the prop is
+ * picked up, and there is no arrangement in which they fight.
+ */
 @Composable
-private fun Modifier.dragSource(origin: Rect4, host: DragHost, pick: () -> Carry?, onDrop: (Carry, Float, Float) -> Unit): Modifier {
+private fun Modifier.tapOrDrag(
+    origin: Rect4,
+    host: DragHost,
+    pick: () -> Carry?,
+    onDrop: (Carry, Float, Float) -> Unit,
+    onTap: () -> Unit,
+): Modifier {
     val density = LocalDensity.current.density
+    // The gesture block is created once and never restarted, so anything it closes
+    // over has to be kept current — otherwise it acts on the first frame's state
+    // forever, and nothing with contents can ever be picked up.
+    val pickNow by rememberUpdatedState(pick)
+    val dropNow by rememberUpdatedState(onDrop)
+    val tapNow by rememberUpdatedState(onTap)
+
     return this.pointerInput(origin, host) {
-        detectDragGestures(
-            onDragStart = { at ->
-                pick()?.let { host.begin(it, origin.x + at.x / density, origin.y + at.y / density) }
-            },
-            onDrag = { change, _ ->
-                if (host.carry != null) {
+        val slop = viewConfiguration.touchSlop
+        awaitEachGesture {
+            val down = awaitFirstDown(requireUnconsumed = false)
+            var travelled = 0f
+            var carrying = false
+            var refused = false
+
+            while (true) {
+                val event = awaitPointerEvent()
+                val change = event.changes.firstOrNull { it.id == down.id } ?: break
+
+                if (!change.pressed) {
+                    when {
+                        carrying -> host.release()?.let { dropNow(it, host.x, host.y) }
+                        // A drag that had nothing to pick up is not a tap either.
+                        !refused -> tapNow()
+                    }
                     change.consume()
-                    host.moveTo(origin.x + change.position.x / density, origin.y + change.position.y / density)
+                    break
                 }
-            },
-            onDragEnd = { host.release()?.let { onDrop(it, host.x, host.y) } },
-            onDragCancel = { host.release() },
-        )
+
+                travelled += change.positionChange().getDistance()
+                if (!carrying && !refused && travelled > slop) {
+                    val what = pickNow()
+                    if (what != null) {
+                        carrying = true
+                        host.begin(
+                            what,
+                            origin.x + change.position.x / density,
+                            origin.y + change.position.y / density,
+                        )
+                    } else {
+                        refused = true
+                    }
+                }
+                if (carrying) {
+                    host.moveTo(
+                        origin.x + change.position.x / density,
+                        origin.y + change.position.y / density,
+                    )
+                    change.consume()
+                }
+            }
+            if (carrying) host.release()
+        }
     }
 }
 
@@ -203,9 +259,9 @@ fun StationScreen(
                 }
                 BenchZone(state, chosen, host, drop) { selected = it }
                 KhodraZone(state, chosen, host, drop) { onAction(Action.AddKhodra(chosen, it)) }
-                Tap(TRAY_ZAATAR, Modifier.dragSource(TRAY_ZAATAR, host, { Carry.Topping(Topping.ZAATAR) }, drop)) { onAction(Action.Spread(Topping.ZAATAR)) }
-                Tap(TRAY_JIBNEH, Modifier.dragSource(TRAY_JIBNEH, host, { Carry.Topping(Topping.JIBNEH) }, drop)) { onAction(Action.Spread(Topping.JIBNEH)) }
-                Tap(DOUGH, Modifier.dragSource(DOUGH, host, { Carry.Dough }, drop)) { onAction(Action.TakeDough) }
+                Prop(TRAY_ZAATAR, host, { Carry.Topping(Topping.ZAATAR) }, drop) { onAction(Action.Spread(Topping.ZAATAR)) }
+                Prop(TRAY_JIBNEH, host, { Carry.Topping(Topping.JIBNEH) }, drop) { onAction(Action.Spread(Topping.JIBNEH)) }
+                Prop(DOUGH, host, { Carry.Dough }, drop) { onAction(Action.TakeDough) }
                 Tap(BIN) {
                     if (state.bench.isNotEmpty() && state.board == Board.Empty) onAction(Action.BinBaked(chosen))
                     else onAction(Action.BinBoard)
@@ -223,8 +279,20 @@ fun StationScreen(
 
 /** An invisible hit target over a prop that is already painted in the background. */
 @Composable
-private fun Tap(r: Rect4, extra: Modifier = Modifier, onTap: () -> Unit) {
-    Box(Modifier.at(r).noRippleClickable(onTap).then(extra))
+private fun Tap(r: Rect4, onTap: () -> Unit) {
+    Box(Modifier.at(r).noRippleClickable(onTap))
+}
+
+/** A prop you can either tap or pick up. */
+@Composable
+private fun Prop(
+    r: Rect4,
+    host: DragHost,
+    pick: () -> Carry?,
+    drop: (Carry, Float, Float) -> Unit,
+    onTap: () -> Unit,
+) {
+    Box(Modifier.at(r).tapOrDrag(r, host, pick, drop, onTap))
 }
 
 // ---------------------------------------------------------------- the furn
@@ -233,8 +301,9 @@ private fun Tap(r: Rect4, extra: Modifier = Modifier, onTap: () -> Unit) {
 private fun FurnZone(state: GameState, params: GameParams, host: DragHost, drop: (Carry, Float, Float) -> Unit, onIn: () -> Unit, onOut: () -> Unit) {
     val load = state.furn
     Box(
-        Modifier.at(FURN).noRippleClickable { if (load == null) onIn() else onOut() }
-            .dragSource(FURN, host, { carryFrom(Zone.FURN, state) }, drop)
+        Modifier.at(FURN).tapOrDrag(FURN, host, { carryFrom(Zone.FURN, state) }, drop) {
+            if (load == null) onIn() else onOut()
+        }
     ) {
         // The plate is painted with the fire low. A load makes the furn work harder.
         if (load != null) {
@@ -313,8 +382,9 @@ private fun BakeRings(toppings: List<Topping>, elapsed: Double, params: GamePara
 @Composable
 private fun PeelZone(state: GameState, params: GameParams, host: DragHost, drop: (Carry, Float, Float) -> Unit, onSend: () -> Unit) {
     Box(
-        Modifier.at(PEEL).noRippleClickable { if (state.peel.isNotEmpty()) onSend() }
-            .dragSource(PEEL, host, { carryFrom(Zone.PEEL, state) }, drop),
+        Modifier.at(PEEL).tapOrDrag(PEEL, host, { carryFrom(Zone.PEEL, state) }, drop) {
+            if (state.peel.isNotEmpty()) onSend()
+        },
         contentAlignment = Alignment.TopCenter,
     ) {
         Column(
@@ -335,8 +405,7 @@ private fun PeelZone(state: GameState, params: GameParams, host: DragHost, drop:
 @Composable
 private fun BoardZone(state: GameState, host: DragHost, drop: (Carry, Float, Float) -> Unit, onTap: () -> Unit) {
     Box(
-        Modifier.at(BOARD).noRippleClickable(onTap)
-            .dragSource(BOARD, host, { carryFrom(Zone.BOARD, state) }, drop),
+        Modifier.at(BOARD).tapOrDrag(BOARD, host, { carryFrom(Zone.BOARD, state) }, drop, onTap),
         contentAlignment = Alignment.Center,
     ) {
         when (state.board) {
@@ -373,8 +442,11 @@ private fun BenchZone(state: GameState, chosen: Int, host: DragHost, drop: (Carr
             state.bench.forEachIndexed { index, baked ->
                 BenchItem(
                     baked,
+                    index,
                     index == chosen,
-                    Modifier.dragSource(benchSlotRect(state.bench.size, index), host, { Carry.BakedItem(index) }, drop),
+                    benchSlotRect(state.bench.size, index),
+                    host,
+                    drop,
                 ) { onPick(index) }
             }
         }
@@ -383,13 +455,20 @@ private fun BenchZone(state: GameState, chosen: Int, host: DragHost, drop: (Carr
 }
 
 @Composable
-private fun BenchItem(baked: Baked, picked: Boolean, extra: Modifier, onPick: () -> Unit) {
+private fun BenchItem(
+    baked: Baked,
+    index: Int,
+    picked: Boolean,
+    slot: Rect4,
+    host: DragHost,
+    drop: (Carry, Float, Float) -> Unit,
+    onPick: () -> Unit,
+) {
     Box(
         Modifier
             .size(34.dp)
             .then(if (picked) Modifier.border(2.5.dp, Palette.Select, CircleShape) else Modifier)
-            .noRippleClickable(onPick)
-            .then(extra),
+            .tapOrDrag(slot, host, { Carry.BakedItem(index) }, drop, onPick),
         contentAlignment = Alignment.Center,
     ) {
         Manousheh(size = 30.dp, topping = baked.topping, doneness = baked.doneness)
@@ -424,8 +503,7 @@ private fun KhodraZone(state: GameState, chosen: Int, host: DragHost, drop: (Car
                                         else -> Modifier
                                     }
                                 )
-                                .noRippleClickable { onAdd(k) }
-                                .dragSource(khodraCellRect(k.ordinal), host, { Carry.Veg(k) }, drop)
+                                .tapOrDrag(khodraCellRect(k.ordinal), host, { Carry.Veg(k) }, drop) { onAdd(k) }
                         )
                     }
                 }
